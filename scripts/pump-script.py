@@ -2,12 +2,11 @@ import RPi.GPIO as GPIO
 import time
 import sys
 
-argument = sys.argv[1]
-
+millimeters = sys.argv[1]
 
 #Calculating the number of seconds
 
-seconds = float(argument) / 30
+seconds = float(millimeters) / 30
 
 #Starting the pump and letting out the water
 
@@ -20,3 +19,5 @@ print("[+] The pump will be running for {} seconds...".format(seconds))
 time.sleep(seconds)
 GPIO.output(RELAIS_1_GPIO, GPIO.HIGH)
 print("[-] the pump has been shutdown.")
+#Closing the GPIO cleanly
+GPIO.cleanup()  
