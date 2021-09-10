@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Tableau tblTest</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,23 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
+                    <h3>Tableau de la Table tblTest</h3>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>DATA</th>
+                        </tr>
+                    @foreach($data as $datas)
+                        <tr>
+                            <th>{{ $datas->id }}</th>
+                            <th>{{ $datas->value }}</th>
+                        </tr>
+                    @endforeach
+                    </table> 
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
                 </div>
 
             </div>
