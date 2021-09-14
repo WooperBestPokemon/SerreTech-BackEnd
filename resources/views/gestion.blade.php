@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Tableau tblTest</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,31 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
-                        
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
+                    <h1> GESTION </h1>
+
+                    <div style='border:1px solid black;'>
+                        <h3>Ajout</h3>
+                        <form action='/addGreenhouse'>
+                            <input type=submit value='Ajouter serre'>
                         </form>
+                        <form action='/addZone'>
+                            <input type=submit value='Ajouter zone'>
+                        </form>
+                        <form action='/addSensor'>
+                            <input type=submit value='Ajouter capteur'>
+                        </form>
+
+                        <h3>Consultation</h3>
+                        <form action='/adminView'>
+                            <input type=submit value='Consulter les données'>
+                        </form>
+
                     </div>
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>

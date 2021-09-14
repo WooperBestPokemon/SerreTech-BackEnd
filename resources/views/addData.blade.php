@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Ajouter data tblTest</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,26 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
-                        
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
-                        </form>
-                    </div>
+                    <h3>Tableau de la Table tblTest</h3>
+                    <form action = "/create" method = "post">
+                        <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                        <table>
+                            <tr>
+                            <td>Name</td>
+                            <td><input type='text' name='value' /></td>
+                            </tr>
+                            <tr>
+                            <td colspan = '2'>
+                                <input type = 'submit' value = "Add data"/>
+                            </td>
+                            </tr>
+                        </table>
+                    </form> 
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Tableau tblTest</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,30 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
-                        
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
-                        </form>
-                    </div>
+                    <h3>Tableau de la Table tblTest</h3>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>DATA</th>
+                            <th>TYPE DATA</th>
+                            <th>DATE</th>
+                            <th>ID CAPTEUR</th>
+                        </tr>
+                    @foreach($data as $datas)
+                        <tr>
+                            <th>{{ $datas->id }}</th>
+                            <th>{{ $datas->data }}</th>
+                            <th>{{ $datas->typeData }}</th>
+                            <th>{{ $datas->date }}</th>
+                            <th>{{ $datas->idSensor }}</th>
+                        </tr>
+                    @endforeach
+                    </table> 
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>
