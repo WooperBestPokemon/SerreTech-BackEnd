@@ -51,11 +51,17 @@
                         <tr style="font-weight: bold;">
                             <th>ID</th>
                             <th>DATA</th>
+                            <th>TYPE DATA</th>
+                            <th>DATE</th>
+                            <th>ID CAPTEUR</th>
                         </tr>
                     @foreach($data as $datas)
                         <tr>
                             <th>{{ $datas->id }}</th>
-                            <th>{{ $datas->value }}</th>
+                            <th>{{ $datas->data }}</th>
+                            <th>{{ $datas->typeData }}</th>
+                            <th>{{ $datas->date }}</th>
+                            <th>{{ $datas->idSensor }}</th>
                         </tr>
                     @endforeach
                     </table> 

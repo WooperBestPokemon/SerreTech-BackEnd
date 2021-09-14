@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Ajouter data tblTest</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,32 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
+                    <h3>Insertion de zone</h3>
+                    <form action = "/createZone" method = "post">
+                        <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                        <label>Nom : </label>
+                        <input required type="text" maxlength='200' id="name" name="name"><br>
                         
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
-                        </form>
-                    </div>
+                        <label>Description : </label>
+                        <input type="text" maxlength='200' id="description" name="description"><br>
+                        
+                        <label>Type de plantation : </label>
+                        <input type="text" maxlength='200' id="typeFood" name="typeFood"><br>
+
+                        <label>Choisir la serre :</label>
+                            <select required name="idGreenhouse" id="idGreenhouse">
+                                <option value="" disabled selected>Serres</option>
+                                @foreach($greenhouse as $greenhouses)
+                                <option value='{{ $greenhouses->idGreenhouse }}'>{{ $greenhouses->name }} - {{ $greenhouses->description }}</option>
+                                @endforeach
+                            </select><br>
+                        <input type = 'submit' value = "Add zone"/>
+                    </form> 
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>
