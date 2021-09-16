@@ -17,7 +17,8 @@ class addZoneController extends Controller
         $description = $request->input('description');
         $typeFood = $request->input('typeFood');
         $idGreenhouse = $request->input('idGreenhouse');
-        DB::insert('insert into tblZone (name, description, typeFood, idGreenhouse) values(?, ?, ?, ?)',[$name, $description, $typeFood, $idGreenhouse]);
+        $img = $request->input('img');
+        DB::insert('insert into tblZone (name, description, typeFood, idGreenhouse, img) values(?, ?, ?, ?, ?)',[$name, $description, $typeFood, $idGreenhouse, $img]);
 
         return redirect('/admin');
     }

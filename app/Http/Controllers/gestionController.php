@@ -15,8 +15,15 @@ class gestionController extends Controller
     public function __invoke(){
 
         $greenhouses = DB::select('select * from tblGreenhouse');
-        $zones = DB::select('select * from tblZone');
-        $sensors = DB::select('select * from tblSensor');
+
+        $zones = DB::select('SELECT g.*, z.name AS nameGreenhouse
+        FROM tblZone AS g
+        JOIN tblGreenhouse AS z ON g.idGreenhouse = z.idGreenhouse');
+
+        $sensors = DB::select('SELECT g.*, z.name AS nameZone
+        FROM tblSensor AS g
+        JOIN tblZone AS z ON g.idZone = z.idZone;');
+
         return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
     }
 }

@@ -7,6 +7,11 @@ use App\Http\Controllers\addGreenhouseController;
 use App\Http\Controllers\addZoneController;
 use App\Http\Controllers\addSensorController;
 use App\Http\Controllers\gestionController;
+use App\Http\Controllers\viewZoneController;
+use App\Http\Controllers\viewGreenhouseController;
+use App\Http\Controllers\editGreenhouseController;
+use App\Http\Controllers\editZoneController;
+use App\Http\Controllers\editSensorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +30,11 @@ Route::get('/', function () {
 
 Route::get('/viewData', [viewDataController::class, '__invoke']);
 
+//vue des zones en details
+Route::get('/zone/{idZone}', [viewZoneController::class, '__invoke']);
+
+//vue des serres en details
+Route::get('/serre/{idGreenhouse}', [viewGreenhouseController::class, '__invoke']);
 
 
 //Vue gestion /admin
@@ -46,3 +56,15 @@ Route::post('createZone','addZoneController@insert');
 //Creer des capteur tblSensor
 Route::get('addSensor','addSensorController@__invoke');
 Route::post('createSensor','addSensorController@insert');
+
+//Edit serre
+Route::get('/serre/edit/{idGreenhouse}', [editGreenhouseController::class, '__invoke']);
+Route::post('/serre/edit/{idGreenhouse}/send', [editGreenhouseController::class, 'update']);
+
+//Edit zone
+Route::get('/zone/edit/{idZone}', [editZoneController::class, '__invoke']);
+Route::post('/zone/edit/{idZone}/send', [editZoneController::class, 'update']);
+
+//Edit sensor
+Route::get('/sensor/edit/{idSensor}', [editSensorController::class, '__invoke']);
+Route::post('/sensor/edit/{idSensor}/send', [editSensorController::class, 'update']);
