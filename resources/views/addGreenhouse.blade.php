@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Ajouter serre</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,31 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
+                <h3>Insertion de serres</h3>
+                    <form action = "/createGreenhouse" method = "post">
+                        <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                        <label>Nom : </label>
+                        <input required maxlength='200' type="text" id="name" name="name"><br>
                         
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
-                        </form>
-                    </div>
+                        <label>Description : </label>
+                        <input type="text" maxlength='200' id="description" name="description"><br>
+                        
+                        <label>Choisir la compagnie :</label>
+                            <select required name="idCompany" id="idCompany">
+                                <option value="" disabled selected>Compagnies</option>
+                                @foreach($company as $companys)
+                                <option value='{{ $companys->idCompany }}'>{{ $companys->name }}</option>
+                                @endforeach
+                            </select><br>
+                            <input href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
+                            <br>
+                        <input type = 'submit' value = "Add greenhouse"/>
+                    </form> 
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>

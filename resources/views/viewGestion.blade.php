@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Consulter</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,94 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
-                        
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
+                    <h1> GESTION </h1>
+
+                    <div style='border:1px solid black;'>
+                        <h3>Consulter</h3>
+                        <h5>Tableau des serres</h5>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    @foreach($greenhouse as $greenhouses)
+                        <tr>
+                            <th>{{ $greenhouses->idGreenhouse }}</th>
+                            <th>{{ $greenhouses->name }}</th>
+                            <th>{{ $greenhouses->description }}</th>
+                            <th><form action='/serre/{{ $greenhouses->idGreenhouse }}'>
+                            <input type=submit value='Détails'></th>
                         </form>
+                            <th><form action='/serre/edit/{{ $greenhouses->idGreenhouse }}'>
+                            <input type=submit value='Modifier'></th>
+                        </form>
+                        </tr>
+                    @endforeach
+                    </table>
+
+                    <h5>Tableau des zones</h5>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th>type de plante</th>
+                            <th>Nom serre</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    @foreach($zone as $zones)
+                        <tr>
+                            <th>{{ $zones->idZone }}</th>
+                            <th>{{ $zones->name }}</th>
+                            <th>{{ $zones->description }}</th>
+                            <th>{{ $zones->typeFood }}</th>
+                            <th>{{ $zones->nameGreenhouse }}</th>
+                            <th><form action='/zone/{{ $zones->idZone }}'>
+                            <input type=submit value='Détails'></th>
+                        </form>
+                            <th><form action='/zone/edit/{{ $zones->idZone }}'>
+                            <input type=submit value='Modifier'></th>
+                        </form>
+                        </tr>
+                    @endforeach
+                    </table>
+
+                    <h5>Tableau des capteurs</h5>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th>type de données</th>
+                            <th>Nom zone</th>
+                            <th></th>
+                        </tr>
+                    @foreach($sensor as $sensors)
+                        <tr>
+                            <th>{{ $sensors->idSensor }}</th>
+                            <th>{{ $sensors->name }}</th>
+                            <th>{{ $sensors->description }}</th>
+                            <th>{{ $sensors->typeData }}</th>
+                            <th>{{ $sensors->nameZone }}</th>
+                            <th><form action='/sensor/edit/{{ $sensors->idSensor }}'>
+                            <input type=submit value='Modifier'></th>
+                        </form>
+                        </tr>
+                    @endforeach
+                    </table>
+                        
+                        
+
                     </div>
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>

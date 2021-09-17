@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Modifier serre</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,35 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
+                <h3>Modification de serre</h3>
+                    @foreach($greenhouse as $greenhouses)
+                    <form action = "/serre/edit/{{ $greenhouses->idGreenhouse }}/send" method = "post">
+                        <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                        <input type = "hidden" name = "idGreenhouse" value = "{{ $greenhouses->idGreenhouse }}">
+                        <label>Nom : </label>
+                        <input required maxlength='200' type="text" id="name" value='{{ $greenhouses->name }}' name="name"><br>
                         
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
-                        </form>
-                    </div>
+                        <label>Description : </label>
+                        <input type="text" maxlength='200' id="description" value='{{ $greenhouses->description }}' name="description"><br>
+                        
+                        <label>Choisir la compagnie :</label>
+                            <select required name="idCompany" id="idCompany">
+                                <option value="{{ $greenhouses->idGreenhouse }}" selected>Compagnies</option>
+                                @foreach($company as $companys)
+                                <option value='{{ $companys->idCompany }}'>{{ $companys->name }}</option>
+                                @endforeach
+                            </select><br>
+                            <input value='{{ $greenhouses->img }}' name="img" type="url" placeholder="Url du produit" maxlength='999'>
+                            <br>
+                            <img src="{{ $greenhouses->img }}">
+                            <br>
+                        <input type = 'submit' value = "Modifier greenhouse"/>
+                    </form> @endforeach
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>

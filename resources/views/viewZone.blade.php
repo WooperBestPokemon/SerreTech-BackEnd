@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Zone</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,49 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
-                        
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
+                <h5>Tableau des zones</h5>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th>type de plante</th>
+                            <th>image</th>
+                        </tr>
+                    @foreach($zone as $zones)
+                        <tr>
+                            <th>{{ $zones->idZone }}</th>
+                            <th>{{ $zones->name }}</th>
+                            <th>{{ $zones->description }}</th>
+                            <th>{{ $zones->typeFood }}</th>
+                            <th><img src="{{ $zones->img }}"></th>
                         </form>
-                    </div>
+                        </tr>
+                    @endforeach
+                    </table>
+
+                    <h5>Tableau des capteurs présent dans la zone</h5>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th>type de données</th>
+                        </tr>
+                    @foreach($sensor as $sensors)
+                        <tr>
+                            <th>{{ $sensors->idSensor }}</th>
+                            <th>{{ $sensors->name }}</th>
+                            <th>{{ $sensors->description }}</th>
+                            <th>{{ $sensors->typeData }}</th>
+                        </tr>
+                    @endforeach
+                    </table>
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>

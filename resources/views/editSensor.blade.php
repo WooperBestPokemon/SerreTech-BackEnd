@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Front-End ez</title>
+        <title>Modifier capteur</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,12 +46,35 @@
                 </div>
 
                 <div>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
+                <h3>Modification de capteur</h3>
+                    @foreach($sensor as $sensors)
+                    <form action = "/sensor/edit/{{ $sensors->idSensor }}/send" method = "post">
+                        <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                        <input type = "hidden" name = "idSensor" value = "{{ $sensors->idSensor }}">
+                        <label>Nom : </label>
+                        <input required maxlength='200' type="text" id="name" value='{{ $sensors->name }}' name="name"><br>
                         
-                        <form action='/admin'>
-                            <input type=submit value='Admin'>
-                        </form>
-                    </div>
+                        <label>Description : </label>
+                        <input type="text" maxlength='200' id="description" value='{{ $sensors->description }}' name="description"><br>
+                        
+                        <label>Type de données : </label>
+                        <input type="text" required maxlength='200' id="typeData" name="typeData"><br>
+
+                        <label>Choisir la zone :</label>
+                            <select required name="idZone" id="idZone">
+                                <option value="{{ $sensors->idZone }}" selected>Zones</option>
+                                @foreach($zone as $zones)
+                                <option value='{{ $zones->idZone }}'>{{ $zones->name }}</option>
+                                @endforeach
+                            </select>
+                            <br>
+                        <input type = 'submit' value = "Modifier capteur"/>
+                    </form> @endforeach
+                </div>
+
+                <div>
+                        <a style="text-decoration: underline;" href="https://pcst.xyz">Acceuil</a>
+                </div>
 
             </div>
         </div>
