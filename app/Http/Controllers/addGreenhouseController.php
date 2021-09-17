@@ -16,7 +16,8 @@ class addGreenhouseController extends Controller
         $name = $request->input('name');
         $description = $request->input('description');
         $idCompany = $request->input('idCompany');
-        DB::insert('insert into tblGreenhouse (name, description, idCompany) values(?, ?, ?)',[$name, $description, $idCompany]);
+        $img = $request->input('img');
+        DB::insert('insert into tblGreenhouse (name, description, img, idCompany) values(?, ?, ?, ?)',[$name, $description, $img, $idCompany]);
 
         return redirect('/admin');
      }

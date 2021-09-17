@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Ajouter data tblTest</title>
+        <title>Ajouter zone</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -65,6 +65,8 @@
                                 <option value='{{ $greenhouses->idGreenhouse }}'>{{ $greenhouses->name }} - {{ $greenhouses->description }}</option>
                                 @endforeach
                             </select><br>
+                            <input href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
+                            <br>
                         <input type = 'submit' value = "Add zone"/>
                     </form> 
                 </div>

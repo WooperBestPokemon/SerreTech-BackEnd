@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Ajouter capteur</title>
+        <title>Modifier zone</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,27 +46,33 @@
                 </div>
 
                 <div>
-                    <h3>Insertion de capteurs</h3>
-                    <form action = "/createSensor" method = "post">
+                <h3>Modification de zone</h3>
+                    @foreach($zone as $zones)
+                    <form action = "/zone/edit/{{ $zones->idZone }}/send" method = "post">
                         <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
+                        <input type = "hidden" name = "idZone" value = "{{ $zones->idZone }}">
                         <label>Nom : </label>
-                        <input required maxlength='200' type="text" id="name" name="name"><br>
+                        <input required maxlength='200' type="text" id="name" value='{{ $zones->name }}' name="name"><br>
                         
                         <label>Description : </label>
-                        <input type="text" maxlength='200' id="description" name="description"><br>
+                        <input type="text" maxlength='200' id="description" value='{{ $zones->description }}' name="description"><br>
                         
-                        <label>Type de données : </label>
-                        <input type="text" required maxlength='200' id="typeData" name="typeData"><br>
+                        <label>Type de plantation : </label>
+                        <input type="text" maxlength='200' id="typeFood" name="typeFood"><br>
 
-                        <label>Choisir la zone :</label>
-                            <select required name="idZone" id="idZone">
-                                <option value="" disabled selected>Zones</option>
-                                @foreach($zone as $zones)
-                                <option value='{{ $zones->idZone }}'>{{ $zones->name }} - {{ $zones->description }}</option>
+                        <label>Choisir la serre :</label>
+                            <select required name="idGreenhouse" id="idGreenhouse">
+                                <option value="{{ $zones->idGreenhouse }}" selected>Serres</option>
+                                @foreach($greenhouse as $greenhouses)
+                                <option value='{{ $greenhouses->idGreenhouse }}'>{{ $greenhouses->name }}</option>
                                 @endforeach
                             </select><br>
-                        <input type = 'submit' value = "Add sensor"/>
-                    </form> 
+                            <input value='{{ $zones->img }}' name="img" type="url" placeholder="Url du produit" maxlength='999'>
+                            <br>
+                            <img src="{{ $zones->img }}">
+                            <br>
+                        <input type = 'submit' value = "Modifier zone"/>
+                    </form> @endforeach
                 </div>
 
                 <div>

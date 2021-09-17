@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Tableau tblTest</title>
+        <title>Consulter</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -56,12 +56,20 @@
                             <th>ID</th>
                             <th>NOM</th>
                             <th>description</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     @foreach($greenhouse as $greenhouses)
                         <tr>
                             <th>{{ $greenhouses->idGreenhouse }}</th>
                             <th>{{ $greenhouses->name }}</th>
                             <th>{{ $greenhouses->description }}</th>
+                            <th><form action='/serre/{{ $greenhouses->idGreenhouse }}'>
+                            <input type=submit value='Détails'></th>
+                        </form>
+                            <th><form action='/serre/edit/{{ $greenhouses->idGreenhouse }}'>
+                            <input type=submit value='Modifier'></th>
+                        </form>
                         </tr>
                     @endforeach
                     </table>
@@ -73,7 +81,9 @@
                             <th>NOM</th>
                             <th>description</th>
                             <th>type de plante</th>
-                            <th>Id serre</th>
+                            <th>Nom serre</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     @foreach($zone as $zones)
                         <tr>
@@ -81,7 +91,13 @@
                             <th>{{ $zones->name }}</th>
                             <th>{{ $zones->description }}</th>
                             <th>{{ $zones->typeFood }}</th>
-                            <th>{{ $zones->idGreenhouse }}</th>
+                            <th>{{ $zones->nameGreenhouse }}</th>
+                            <th><form action='/zone/{{ $zones->idZone }}'>
+                            <input type=submit value='Détails'></th>
+                        </form>
+                            <th><form action='/zone/edit/{{ $zones->idZone }}'>
+                            <input type=submit value='Modifier'></th>
+                        </form>
                         </tr>
                     @endforeach
                     </table>
@@ -93,7 +109,8 @@
                             <th>NOM</th>
                             <th>description</th>
                             <th>type de données</th>
-                            <th>Id zone</th>
+                            <th>Nom zone</th>
+                            <th></th>
                         </tr>
                     @foreach($sensor as $sensors)
                         <tr>
@@ -101,7 +118,10 @@
                             <th>{{ $sensors->name }}</th>
                             <th>{{ $sensors->description }}</th>
                             <th>{{ $sensors->typeData }}</th>
-                            <th>{{ $sensors->idZone }}</th>
+                            <th>{{ $sensors->nameZone }}</th>
+                            <th><form action='/sensor/edit/{{ $sensors->idSensor }}'>
+                            <input type=submit value='Modifier'></th>
+                        </form>
                         </tr>
                     @endforeach
                     </table>

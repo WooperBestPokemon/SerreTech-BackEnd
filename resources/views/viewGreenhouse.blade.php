@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Ajouter capteur</title>
+        <title>Serre</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -46,27 +46,45 @@
                 </div>
 
                 <div>
-                    <h3>Insertion de capteurs</h3>
-                    <form action = "/createSensor" method = "post">
-                        <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
-                        <label>Nom : </label>
-                        <input required maxlength='200' type="text" id="name" name="name"><br>
-                        
-                        <label>Description : </label>
-                        <input type="text" maxlength='200' id="description" name="description"><br>
-                        
-                        <label>Type de données : </label>
-                        <input type="text" required maxlength='200' id="typeData" name="typeData"><br>
+                <h5>Tableau de la serre</h5>
+                <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th>image</th>
+                        </tr>
+                    @foreach($greenhouse as $greenhouses)
+                        <tr>
+                            <th>{{ $greenhouses->idGreenhouse }}</th>
+                            <th>{{ $greenhouses->name }}</th>
+                            <th>{{ $greenhouses->description }}</th>
+                            <th><img src="{{ $greenhouses->img }}"></th>
+                        </tr>
+                    @endforeach
+                    </table>
 
-                        <label>Choisir la zone :</label>
-                            <select required name="idZone" id="idZone">
-                                <option value="" disabled selected>Zones</option>
-                                @foreach($zone as $zones)
-                                <option value='{{ $zones->idZone }}'>{{ $zones->name }} - {{ $zones->description }}</option>
-                                @endforeach
-                            </select><br>
-                        <input type = 'submit' value = "Add sensor"/>
-                    </form> 
+                    <h5>Tableau des zones présentes dans la serre</h5>
+                    <table style='border:1px solid black;'>
+                        <tr style="font-weight: bold;">
+                            <th>ID</th>
+                            <th>NOM</th>
+                            <th>description</th>
+                            <th>type de plante</th>
+                            <th>Détails</th>
+                        </tr>
+                    @foreach($zone as $zones)
+                        <tr>
+                            <th>{{ $zones->idZone }}</th>
+                            <th>{{ $zones->name }}</th>
+                            <th>{{ $zones->description }}</th>
+                            <th>{{ $zones->typeFood }}</th>
+                            <th><form action='/zone/{{ $zones->idZone }}'>
+                            <input type=submit value='Détails'></th>
+                        </form>
+                        </tr>
+                    @endforeach
+                    </table>
                 </div>
 
                 <div>
