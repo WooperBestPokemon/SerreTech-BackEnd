@@ -1,18 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\viewDataController;
-use App\Http\Controllers\addDataController;
-use App\Http\Controllers\addGreenhouseController;
-use App\Http\Controllers\addZoneController;
-use App\Http\Controllers\addSensorController;
+use App\Http\Controllers\GreenHouse\{addGreenhouseController, editGreenhouseController};
+use App\Http\Controllers\Sensor\{addSensorController, editSensorController};
+use App\Http\Controllers\Zone\{addZoneController,editZoneController};
 use App\Http\Controllers\gestionController;
-use App\Http\Controllers\viewZoneController;
-use App\Http\Controllers\viewGreenhouseController;
-use App\Http\Controllers\editGreenhouseController;
-use App\Http\Controllers\editZoneController;
-use App\Http\Controllers\editSensorController;
-
+use App\Http\Controllers\viewDataController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,47 +17,64 @@ use App\Http\Controllers\editSensorController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () {return view('welcome');})->name("home");
 
-Route::get('/viewData', [viewDataController::class, '__invoke']);
+Route::get('/greenhouse', function (){return redirect("home");});
 
-//vue des zones en details
-Route::get('/zone/{idZone}', [viewZoneController::class, '__invoke']);
+Route::get('/greenhouse/{idGreenhouse}')->name("dtlGreenHouse");
 
-//vue des serres en details
-Route::get('/serre/{idGreenhouse}', [viewGreenhouseController::class, '__invoke']);
+Route::get("/zone/{idZone}")->name("dtlZones");
 
+Route::get("/greenhouse/{idGreenhouse}/listsensor")->name("listsensor");
 
-//Vue gestion /admin
-Route::get('/admin', [gestionController::class, 'index']);
-Route::get('/adminView', [gestionController::class, '__invoke']);
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+*/
 
-//Creer des datas tblTest
-Route::get('addDataJerome','addDataController@index');
-Route::post('createData','addDataController@insert');
+Route::get("/admin",[gestionController::class, 'index'])->name("admin");
 
-//Creer des greenhouse tblGreenhouse
-Route::get('addGreenhouse','addGreenhouseController@__invoke');
-Route::post('createGreenhouse','addGreenhouseController@insert');
+Route::get("/admin/gestion",gestionController::class)->name("adminGestion");
+/*
+|--------------------------------------------------------------------------
+| Admin Greenhouse
+|--------------------------------------------------------------------------
+*/
 
-//Creer des zone tblZone
-Route::get('addZone','addZoneController@__invoke');
-Route::post('createZone','addZoneController@insert');
+Route::get("/admin/greenhouse/add", addGreenhouseController::class)->name("addgreenhouse");
 
-//Creer des capteur tblSensor
-Route::get('addSensor','addSensorController@__invoke');
-Route::post('createSensor','addSensorController@insert');
+Route::post("/admin/greenhouse/add",[addGreenhouseController::class,'insert'])->name("addgreenhousePost");
 
-//Edit serre
-Route::get('/serre/edit/{idGreenhouse}', [editGreenhouseController::class, '__invoke']);
-Route::post('/serre/edit/{idGreenhouse}/send', [editGreenhouseController::class, 'update']);
+Route::get('/admin/greenhouse/{idGreenhouse}/edit',editGreenhouseController::class)->name("editgreenhouse");
 
-//Edit zone
-Route::get('/zone/edit/{idZone}', [editZoneController::class, '__invoke']);
-Route::post('/zone/edit/{idZone}/send', [editZoneController::class, 'update']);
+Route::put('/admin/greenhouse/{idGreenhouse}/edit',[editGreenhouseController::class,'update'])->name("editgreenhousePut");
 
-//Edit sensor
-Route::get('/sensor/edit/{idSensor}', [editSensorController::class, '__invoke']);
-Route::post('/sensor/edit/{idSensor}/send', [editSensorController::class, 'update']);
+/*
+|--------------------------------------------------------------------------
+| Admin Zone
+|--------------------------------------------------------------------------
+*/
+
+Route::get("/admin/zone/add",addZoneController::class)->name("addzone");
+
+Route::post("/admin/zone/add",[addZoneController::class,'insert'])->name("addzonePost");
+
+Route::get('/admin/zone/{idZone}/edit' , editZoneController::class)->name("editzone");
+
+Route::put('/admin/zone/{idZone}/edit',[editZoneController::class,'update'])->name("editzonePut");
+
+/*
+|--------------------------------------------------------------------------
+| Admin Sensors
+|--------------------------------------------------------------------------
+*/
+
+Route::get("/admin/sensor/add",addSensorController::class)->name("addsensor");
+
+Route::post("/admin/sensor/add",[addSensorController::class,'insert'])->name("addsensorPost");
+
+Route::get('/admin/sensor/{idSensor}/edit' , editSensorController::class)->name("editsensor");
+
+Route::put('/admin/sensor/{idSensor}/edit' ,[editSensorController::class,'update'])->name("editsensorPut");
+
