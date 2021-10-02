@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GreenHouse\{addGreenhouseController, editGreenhouseController};
-use App\Http\Controllers\Sensor\{addSensorController, editSensorController};
-use App\Http\Controllers\Zone\{addZoneController,editZoneController};
+use App\Http\Controllers\GreenHouse\{AddGreenhouseController, EditGreenhouseController};
+use App\Http\Controllers\Sensor\{AddSensorController, EditSensorController};
+use App\Http\Controllers\Zone\{AddZoneController,EditZoneController};
 use App\Http\Controllers\gestionController;
 use App\Http\Controllers\viewDataController;
 /*
@@ -32,23 +32,22 @@ Route::get("/greenhouse/{idGreenhouse}/listsensor")->name("listsensor");
 | Admin
 |--------------------------------------------------------------------------
 */
+Route::get("/admin",[GestionController::class, 'index'])->name("admin");
 
-Route::get("/admin",[gestionController::class, 'index'])->name("admin");
-
-Route::get("/admin/gestion",gestionController::class)->name("adminGestion");
+Route::get("/admin/gestion",GestionController::class)->name("adminGestion");
 /*
 |--------------------------------------------------------------------------
 | Admin Greenhouse
 |--------------------------------------------------------------------------
 */
 
-Route::get("/admin/greenhouse/add", addGreenhouseController::class)->name("addgreenhouse");
+Route::get("/admin/greenhouse/add", AddGreenhouseController::class)->name("addgreenhouse");
 
-Route::post("/admin/greenhouse/add",[addGreenhouseController::class,'insert'])->name("addgreenhousePost");
+Route::post("/admin/greenhouse/add",[AddGreenhouseController::class,'insert'])->name("addgreenhousePost");
 
-Route::get('/admin/greenhouse/{idGreenhouse}/edit',editGreenhouseController::class)->name("editgreenhouse");
+Route::get('/admin/greenhouse/{idGreenhouse}/edit',EditGreenhouseController::class)->name("editgreenhouse");
 
-Route::put('/admin/greenhouse/{idGreenhouse}/edit',[editGreenhouseController::class,'update'])->name("editgreenhousePut");
+Route::put('/admin/greenhouse/{idGreenhouse}/edit',[EditGreenhouseController::class,'update'])->name("editgreenhousePut");
 
 /*
 |--------------------------------------------------------------------------
@@ -56,13 +55,13 @@ Route::put('/admin/greenhouse/{idGreenhouse}/edit',[editGreenhouseController::cl
 |--------------------------------------------------------------------------
 */
 
-Route::get("/admin/zone/add",addZoneController::class)->name("addzone");
+Route::get("/admin/zone/add",AddZoneController::class)->name("addzone");
 
-Route::post("/admin/zone/add",[addZoneController::class,'insert'])->name("addzonePost");
+Route::post("/admin/zone/add",[AddZoneController::class,'insert'])->name("addzonePost");
 
-Route::get('/admin/zone/{idZone}/edit' , editZoneController::class)->name("editzone");
+Route::get('/admin/zone/{idZone}/edit' , EditZoneController::class)->name("editzone");
 
-Route::put('/admin/zone/{idZone}/edit',[editZoneController::class,'update'])->name("editzonePut");
+Route::put('/admin/zone/{idZone}/edit',[EditZoneController::class,'update'])->name("editzonePut");
 
 /*
 |--------------------------------------------------------------------------
@@ -70,11 +69,11 @@ Route::put('/admin/zone/{idZone}/edit',[editZoneController::class,'update'])->na
 |--------------------------------------------------------------------------
 */
 
-Route::get("/admin/sensor/add",addSensorController::class)->name("addsensor");
+Route::get("/admin/sensor/add",AddSensorController::class)->name("addsensor");
 
-Route::post("/admin/sensor/add",[addSensorController::class,'insert'])->name("addsensorPost");
+Route::post("/admin/sensor/add",[AddSensorController::class,'insert'])->name("addsensorPost");
 
-Route::get('/admin/sensor/{idSensor}/edit' , editSensorController::class)->name("editsensor");
+Route::get('/admin/sensor/{idSensor}/edit' , EditSensorController::class)->name("editsensor");
 
-Route::put('/admin/sensor/{idSensor}/edit' ,[editSensorController::class,'update'])->name("editsensorPut");
+Route::put('/admin/sensor/{idSensor}/edit' ,[EditSensorController::class,'update'])->name("editsensorPut");
 
