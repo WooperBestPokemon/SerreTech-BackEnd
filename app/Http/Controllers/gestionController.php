@@ -18,33 +18,33 @@ class gestionController extends Controller
     public function __invoke(){
 
         $greenhouses = [] ;
-        foreach(GreenHouse::all() as $data) {
+        foreach(GreenHouse::all() as $greenhouse) {
             array_push($greenhouses, [
-                "idGreenHouse" => $data->getAttributes()["idGreenHouse"],
-                "name" => $data->getAttributes()["name"],
-                "description" => $data->getAttributes()["description"],
-                "img" => $data->getAttributes()["img"],
+                "idGreenHouse" => $greenhouse->getAttributes()["idGreenHouse"],
+                "name" => $greenhouse->getAttributes()["name"],
+                "description" => $greenhouse->getAttributes()["description"],
+                "img" => $greenhouse->getAttributes()["img"],
             ]);
         }
             $zones = [] ;
-        foreach(Zone::all() as $data2) {
+        foreach(Zone::all() as $zone) {
             array_push($zones, [
-                "idZone"=> $data2->getAttributes()["idZone"],
-                "name" => $data2->getAttributes()["name"],
-                "description" => $data2->getAttributes()["description"],
-                "img" => $data2->getAttributes()["img"],
-                "typeFood" => $data2->getAttributes()["typeFood"],
-                "idGreenHouse" => $data2->getAttributes()["idGreenhouse"]
+                "idZone"=> $zone->getAttributes()["idZone"],
+                "name" => $zone->getAttributes()["name"],
+                "description" => $zone->getAttributes()["description"],
+                "img" => $zone->getAttributes()["img"],
+                "typeFood" => $zone->getAttributes()["typeFood"],
+                "idGreenHouse" => $zone->getAttributes()["idGreenhouse"]
             ]);
         }
         $sensors = [] ;
-        foreach(Sensor::all() as $data3) {
+        foreach(Sensor::all() as $sensor) {
             array_push($sensors, [
-                "idSensor" =>$data3->getAttributes()["idSensor"],
-                "name" => $data3->getAttributes()["name"],
-                "description" => $data3->getAttributes()["description"],
-                "typeData" => $data3->getAttributes()["typeData"],
-                "idZone" => $data3->getAttributes()["idZone"]
+                "idSensor" =>$sensor->getAttributes()["idSensor"],
+                "name" => $sensor->getAttributes()["name"],
+                "description" => $sensor->getAttributes()["description"],
+                "typeData" => $sensor->getAttributes()["typeData"],
+                "idZone" => $sensor->getAttributes()["idZone"]
             ]);
         }
 
