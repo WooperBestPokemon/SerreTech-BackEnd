@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\GreenHouse;
+use App\Models\Sensor;
+use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,15 +17,38 @@ class gestionController extends Controller
 
     public function __invoke(){
 
-        $greenhouses = DB::select('select * from tblGreenhouse');
+        $greenhouses = [] ;
+        foreach(GreenHouse::all() as $greenhouse) {
+            array_push($greenhouses, [
+                "idGreenHouse" => $greenhouse->getAttributes()["idGreenHouse"],
+                "name" => $greenhouse->getAttributes()["name"],
+                "description" => $greenhouse->getAttributes()["description"],
+                "img" => $greenhouse->getAttributes()["img"],
+            ]);
+        }
+            $zones = [] ;
+        foreach(Zone::all() as $zone) {
+            array_push($zones, [
+                "idZone"=> $zone->getAttributes()["idZone"],
+                "name" => $zone->getAttributes()["name"],
+                "description" => $zone->getAttributes()["description"],
+                "img" => $zone->getAttributes()["img"],
+                "typeFood" => $zone->getAttributes()["typeFood"],
+                "idGreenHouse" => $zone->getAttributes()["idGreenhouse"]
+            ]);
+        }
+        $sensors = [] ;
+        foreach(Sensor::all() as $sensor) {
+            array_push($sensors, [
+                "idSensor" =>$sensor->getAttributes()["idSensor"],
+                "name" => $sensor->getAttributes()["name"],
+                "description" => $sensor->getAttributes()["description"],
+                "typeData" => $sensor->getAttributes()["typeData"],
+                "idZone" => $sensor->getAttributes()["idZone"]
+            ]);
+        }
 
-        $zones = DB::select('SELECT g.*, z.name AS nameGreenhouse
-        FROM tblZone AS g
-        JOIN tblGreenhouse AS z ON g.idGreenhouse = z.idGreenhouse');
 
-        $sensors = DB::select('SELECT g.*, z.name AS nameZone
-        FROM tblSensor AS g
-        JOIN tblZone AS z ON g.idZone = z.idZone;');
 
         return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
     }
