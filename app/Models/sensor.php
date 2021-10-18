@@ -11,7 +11,7 @@ class Sensor extends Model
     protected $table = 'tblSensor';
     protected $primaryKey = 'idSensor';
     protected $fillable = [
-        'idZone','name','description','typeData','created_at','updated_at'
+        'idZone','name','description','typeData','actif','created_at','updated_at'
     ];
 
 }

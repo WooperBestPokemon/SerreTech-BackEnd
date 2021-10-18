@@ -25,7 +25,7 @@ class addSensorController extends Controller
             'idZone'=> 1,
             'description'=> $request->input('description'),
             'typeData'=> $request->input('typeData'),
-
+            actif => 0
         ]);
 
         return redirect('/admin');

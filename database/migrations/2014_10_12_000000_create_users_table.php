@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->string('role');
+            $table->string('role')->default("user");
             $table->foreignId('idCompany');
         });
     }

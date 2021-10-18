@@ -21,6 +21,7 @@ class editSensorController extends Controller
         $data->description = $request->input('description')??$data->description;
         $data->typeData = $request->input('typeData')??$data->typeData;
         $data->idZone = $request->input('idZone')??$data->idZone;
+        $data->actif = 0;
         $data->save();
         return redirect('/admin');
      }
