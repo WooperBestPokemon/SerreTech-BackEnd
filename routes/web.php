@@ -88,11 +88,8 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 //
-// Route::get('/register', function (){return redirect("home");});
 
-Route::get("/login",function (){
-    return view('auth.login');
-})->middleware('auth')->name('login');
+Auth::routes(['register' => false]);
 
 //Route::get('/home', function (){return redirect("admin");})->name('home2');
 
