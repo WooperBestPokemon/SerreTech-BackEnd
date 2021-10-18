@@ -43,6 +43,7 @@ class CreateDatabaseTable extends Migration
             $table->string('name');
             $table->string('description');
             $table->string('typeData');
+            $table->boolean('actif');
             $table->timestamps();
             $table->foreignId('idZone');
             $table->foreign('idZone')->references('idZone')->on('tblZone')->onDelete('cascade');
