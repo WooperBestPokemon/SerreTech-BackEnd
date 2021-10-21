@@ -16,9 +16,9 @@ use App\Http\Controllers\Auth\VerificationController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::middleware('auth')->group(function () {
-
-
 
     Route::get('/', function () {return view('welcome');})->name("home");
 

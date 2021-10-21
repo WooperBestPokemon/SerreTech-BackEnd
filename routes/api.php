@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\apiController;
+use App\Http\Controllers\API\apiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,14 +14,16 @@ use App\Http\Controllers\apiController;
 |
 */
 Route::fallback(function (){
-    abort(404, 'API resource not found');
+    abort(response()->json('API resource not found',404));
 });
 
-Route::post('login', [apiController::class, 'login']);
+Route::post('/login', [apiController::class, 'login']);
 
+Route::get('/greenHouse',[apiController::class, 'ViewGreenHouse']);
 Route::middleware('auth:api')->group(function () {
 
 });
+Route::get('/zone/{id}',[apiController::class,'ViewZone']);
 
 Route::get("/test", function () {
     return "test";
