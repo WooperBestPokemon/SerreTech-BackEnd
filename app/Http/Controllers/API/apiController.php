@@ -87,37 +87,16 @@ class apiController extends Controller
     }
     //Posting data in database
     public function postData(Request $request){
+        $data = new Data;
 
-        $user = $request->user();
-        $zone = $request['zone'];
-        $greenhouse = $request['greenhouse'];
+        $data->data = $request['data'];
+        $data->idSensor = $request['sensor'];
 
-        $company = DB::table('tblcompany')
-            ->select('tblcompany.id')->where('tblcompany.id', $user->idCompany)
-            ->get();
+        $data->save();
 
-        //If everything is okey, it will execute the query
+        $response = 'Accepted';
 
-
-        if(true){
-
-            $data = new Data;
-
-            $data->data = $request['data'];
-            $data->idSensor = $request['sensor'];
-
-            $data->save();
-
-            $response = 'Accepted';
-
-            return response($response, 201);
-        }
-        else{
-            $response = 'Refused';
-
-            return response($response, 401);
-        }
-
+        return response($response, 201);
     }
     //Returning if you need to water the plant or not
     public function getWater(Request $request){
