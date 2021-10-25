@@ -87,16 +87,41 @@ class apiController extends Controller
     }
     //Posting data in database
     public function postData(Request $request){
-        $data = new Data;
 
-        $data->data = $request['data'];
-        $data->idSensor = $request['sensor'];
+        $user = $request->user();
 
-        $data->save();
 
-        $response = 'Accepted';
 
-        return response($response, 201);
+        try {
+            $company = DB::table('tblsensor')
+                ->join('tblzone','tblsensor.idZone','=','tblzone.idZone')
+                ->join('tblgreenhouse','tblzone.idGreenHouse','=','tblgreenhouse.idGreenHouse')
+                ->select('tblgreenhouse.idCompany')
+                ->pluck('idCompany');
+
+            $company = $company[0];
+
+            if($company == $user['idCompany']){
+                //If everything is okey, it will execute the query
+                $data = new Data;
+
+                $data->data = $request['data'];
+                $data->idSensor = $request['sensor'];
+
+                $data->save();
+
+                $response = 'Accepted';
+                return response($response, 201);
+            }
+            else{
+                $response = 'Refused';
+                return response($response, 401);
+            }
+
+        } catch(\Illuminate\Database\QueryException $ex){
+            $response = 'Invalid Sensor';
+            return response($response, 400);
+        }
     }
     //Returning if you need to water the plant or not
     public function getWater(Request $request){
