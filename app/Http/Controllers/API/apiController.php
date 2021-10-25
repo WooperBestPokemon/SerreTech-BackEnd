@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Data;
 use App\Models\GreenHouse;
+use App\Models\User;
 use App\Models\Zone;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Psy\Util\Json;
 
 class apiController extends Controller
@@ -58,6 +63,77 @@ class apiController extends Controller
         }
         return Controller::sendResponse($zones, 'Donnée Recuperer');
 
+    }
+    // Creating a User (WIP)
+    public function registerUser(Request $request){
+        $user = new User;
+
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = Hash::make($request['password']);
+        $user->role = 1;
+        $user->idCompany = 1;
+
+        $user->save();
+
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+    //Posting data in database
+    public function postData(Request $request){
+
+        $user = $request->user();
+        $zone = $request['zone'];
+        $greenhouse = $request['greenhouse'];
+
+        $company = DB::table('tblcompany')
+            ->select('tblcompany.id')->where('tblcompany.id', $user->idCompany)
+            ->get();
+
+        //If everything is okey, it will execute the query
+
+
+        if(true){
+
+            $data = new Data;
+
+            $data->data = $request['data'];
+            $data->idSensor = $request['sensor'];
+
+            $data->save();
+
+            $response = 'Accepted';
+
+            return response($response, 201);
+        }
+        else{
+            $response = 'Refused';
+
+            return response($response, 401);
+        }
+
+    }
+    //Returning if you need to water the plant or not
+    public function getWater(Request $request){
+        $zone = $request['zone'];
+
+        $response = [
+            'water' => true,
+            'quantity' => 100
+        ];
+
+        return response($response, 201);
+    }
+    public function testo(Request $request){
+        $user = $request->user();
+
+        return $user;
     }
 }
 
