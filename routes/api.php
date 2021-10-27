@@ -18,6 +18,7 @@ use App\Http\Controllers\API\apiController;
 //Protected Route
 Route::group(['middleware' => ['auth:sanctum']],function () {
     Route::post("/data", [apiController::class, "postData"]);
+    Route::get("/banane", [apiController::class, "testo"]);
 });
 //Unprotected Route
 Route::post('/login', [apiController::class, 'login']);
