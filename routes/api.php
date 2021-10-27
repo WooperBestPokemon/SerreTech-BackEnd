@@ -15,16 +15,13 @@ use App\Http\Controllers\API\apiController;
 |
 */
 
-//Protected Route
-Route::group(['middleware' => ['auth:sanctum']],function () {
-    Route::post("/data", [apiController::class, "postData"]);
-    Route::get("/banane", [apiController::class, "testo"]);
-});
+
 //Unprotected Route
 Route::post('/login', [apiController::class, 'login']);
 Route::get('/greenHouse',[apiController::class, 'ViewGreenHouse']);
 Route::get('/zone/{id}',[apiController::class,'ViewZone']);
-Route::post('/register',[apiController::class,'registerUser']);
+Route::post("/data", [apiController::class, "postData"]);
+Route::post("/water", [apiController::class, "postData"]);
 
 Route::fallback(function (){
     abort(response()->json('API resource not found',404));
