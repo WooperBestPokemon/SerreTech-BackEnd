@@ -21,7 +21,7 @@ Route::post('/login', [apiController::class, 'login']);
 Route::get('/greenHouse',[apiController::class, 'ViewGreenHouse']);
 Route::get('/zone/{id}',[apiController::class,'ViewZone']);
 Route::post("/data", [apiController::class, "postData"]);
-Route::post("/water", [apiController::class, "postData"]);
+Route::get("/water", [apiController::class, "getWater"]);
 
 Route::fallback(function (){
     abort(response()->json('API resource not found',404));
