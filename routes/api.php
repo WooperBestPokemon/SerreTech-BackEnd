@@ -36,7 +36,7 @@ Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
 
 /*
 |--------------------------------------------------------------------------
-| Procedure stockkées
+| Procedure stockées
 |--------------------------------------------------------------------------
 */
 
@@ -54,13 +54,22 @@ Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::cla
 Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
 
 
-// code jacob 
+/*
+|--------------------------------------------------------------------------
+| Route pour les scripts
+|--------------------------------------------------------------------------
+*/
 
 Route::post("/data", [apiController::class, "postData"]);
+
 Route::get("/water", [apiController::class, "getWater"]);
 
+/*
+|--------------------------------------------------------------------------
+| Autre
+|--------------------------------------------------------------------------
+*/
 
-//Unprotected Route
 Route::post('/login', [apiController::class, 'login']);
 
 Route::fallback(function (){
