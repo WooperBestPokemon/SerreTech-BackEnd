@@ -25,7 +25,7 @@ class addSensorController extends Controller
             'idZone'=> 1,
             'description'=> $request->input('description'),
             'typeData'=> $request->input('typeData'),
-            actif => 0
+            'actif' => 0
         ]);
 
         return redirect('/admin');
@@ -41,7 +41,7 @@ class addSensorController extends Controller
                 "description" => $data2->getAttributes()["description"],
                 "img" => $data2->getAttributes()["img"],
                 "typeFood" => $data2->getAttributes()["typeFood"],
-                "idGreenHouse" => $data2->getAttributes()["idGreenhouse"]
+                "idGreenHouse" => $data2->getAttributes()["idGreenHouse"]
             ]);
         }
         return view('addSensor',['zone' => $zones]);
