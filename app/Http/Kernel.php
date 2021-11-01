@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\JsonResponse;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Psy\Util\Json;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
 class Kernel extends HttpKernel
 {
@@ -46,6 +47,8 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             JsonResponse::class,
+            EnsureFrontendRequestsAreStateful::class,
+            'throttle:60,1',
         ],
     ];
 
