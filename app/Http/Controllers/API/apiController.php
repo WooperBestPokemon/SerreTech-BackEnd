@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Data;
 use App\Models\GreenHouse;
 use App\Models\Zone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Psy\Util\Json;
 
 class apiController extends Controller
@@ -59,5 +61,30 @@ class apiController extends Controller
         return Controller::sendResponse($zones, 'Donnée Recuperer');
 
     }
-}
+    //Posting data in database
+    public function postData(Request $request){
+        $data = new Data;
 
+        $data->data = $request['data'];
+        $data->idSensor = $request['sensor'];
+
+        $data->save();
+
+        $response = 'Accepted';
+        return response($response, 201);
+    }
+    //Returning if you need to water the plant or not
+    public function getWater(Request $request){
+        $idZone = $request['zone'];
+        $zone = Zone::find($idZone);
+
+        //todo - Api call to check how much water the zone need
+
+        $response = [
+            'water' => $zone->water,
+            'quantity' => 100
+        ];
+
+        return response($response, 201);
+    }
+}
