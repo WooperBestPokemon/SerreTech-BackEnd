@@ -6,7 +6,7 @@ use App\Http\Controllers\GreenHouse\{addGreenHouseController, editGreenhouseCont
 use App\Http\Controllers\Sensor\{addSensorController, editSensorController};
 use App\Http\Controllers\Zone\{addZoneController,editZoneController};
 use App\Http\Controllers\gestionController;
-
+//use App\Http\Controllers\Auth\VerificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +19,7 @@ use App\Http\Controllers\gestionController;
 */
 
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth')->group(function () {
 
     Route::get('/', function () {return view('welcome');})->name("home");
 
@@ -74,7 +74,6 @@ Route::middleware('auth:web')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-
     Route::get("/admin/sensor/add",addSensorController::class)->name("addsensor");
 
     Route::post("/admin/sensor/add",[addSensorController::class,'insert'])->name("addsensorPost");
@@ -91,7 +90,7 @@ Route::middleware('auth:web')->group(function () {
 */
 //
 
-Auth::routes(['register' => false]);
-//Auth::routes();
+Auth::routes();
+
 //Route::get('/home', function (){return redirect("admin");})->name('home2');
 

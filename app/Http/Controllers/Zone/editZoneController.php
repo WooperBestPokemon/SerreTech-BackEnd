@@ -38,7 +38,7 @@ class editZoneController extends Controller
              ]);
          }
         $zones = Zone::find($idZone);
-         $url = 'http://api.pcst.xyz/api/searchAll/plant ';
+         $url = 'http://apipcst.xyz/api/searchAll/plant ';
 
 
          $response = file_get_contents($url);

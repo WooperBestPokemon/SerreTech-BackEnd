@@ -16,9 +16,8 @@ class addGreenhouseController extends Controller
     public function insert(Request $request) {
     $request->validate([
         'name'=>'required|string',
-        'img'=>'required',
         'description'=>'required|string'
-    ]);
+        ]);
 
 
         GreenHouse::create([
@@ -28,7 +27,7 @@ class addGreenhouseController extends Controller
             'img'=> $request->input('img'),
 
         ]);
-        return redirect('/');
+        return redirect('/admin');
 
      }
 

@@ -17,8 +17,7 @@ class addZoneController extends Controller
         $request->validate([
             'name'=>'required|string',
             'description'=>'required|string',
-            'typeFood'=>'required|string',
-            'img'=>'required'
+            'typeFood'=>'required|string'
         ]);
 
         Zone::create([
@@ -36,7 +35,7 @@ class addZoneController extends Controller
 
     public function __invoke(){
 
-        $url = 'http://api.pcst.xyz/api/searchAll/plant ';
+        $url = 'http://apipcst.xyz/api/searchAll/plant ';
         $response = file_get_contents($url);
         $newsData = json_decode($response);
         return view('addZone',['allPlant' => $newsData]);

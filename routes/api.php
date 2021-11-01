@@ -14,20 +14,51 @@ use App\Http\Controllers\API\apiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::fallback(function (){
     abort(response()->json('API resource not found',404));
 });
 
 Route::post('/login', [apiController::class, 'login']);
 
-
 Route::middleware('auth:api')->group(function () {
-    Route::get('/GetGreenHouse',[apiController::class, 'ViewGreenHouses']);
+    Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
+    Route::post("/data", [apiController::class, "postData"]);
 });
-Route::get('/zone/{id}',[apiController::class,'ViewZones']);
 
-Route::get('/sensor/{id}',[apiController::class,'ViewSensors']);
-Route::get("/test", function () {
-    return "test";
-});
+
+Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
+
+Route::get('/GetSensor/{id}',[apiController::class,'ViewSensor']);
+
+Route::get('/SearchGreenhouse/{id}',[apiController::class,'SearchGreenhouse']);
+
+Route::get('/SearchZone/{id}',[apiController::class,'SearchZone']);
+
+Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
+
+
+/*
+|--------------------------------------------------------------------------
+| Procedure stockkées
+|--------------------------------------------------------------------------
+*/
+
+
+Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
+
+Route::get('/GetDataLastWeek/{idSensor}',[apiController::class,'GetDataLastWeek']);
+
+Route::get('/GetDataLastMonth/{idSensor}',[apiController::class,'GetDataLastMonth']);
+
+Route::get('/GetDataLastYear/{idSensor}',[apiController::class,'GetDataLastYear']);
+
+Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::class,'GetAvgDataGreenhouse']);
+
+Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
+
+
+// code jacob 
+
+Route::post("/data", [apiController::class, "postData"]);
+Route::get("/water", [apiController::class, "getWater"]);
+
