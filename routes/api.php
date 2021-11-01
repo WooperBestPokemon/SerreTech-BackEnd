@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\apiController;
@@ -14,11 +15,7 @@ use App\Http\Controllers\API\apiController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::fallback(function (){
-    abort(response()->json('API resource not found',404));
-});
 
-Route::post('/login', [apiController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
@@ -62,3 +59,10 @@ Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDa
 Route::post("/data", [apiController::class, "postData"]);
 Route::get("/water", [apiController::class, "getWater"]);
 
+
+//Unprotected Route
+Route::post('/login', [apiController::class, 'login']);
+
+Route::fallback(function (){
+    abort(response()->json('API resource not found',404));
+});

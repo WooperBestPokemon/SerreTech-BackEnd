@@ -202,7 +202,6 @@ class apiController extends Controller
     
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
-
     public function GetAvgDataZone($idZone, $typedata)
     {
         $datas = [];
@@ -251,6 +250,6 @@ class apiController extends Controller
     
             return response($response, 201);
         }
-
+    //Returning if you need to water the plant or not
+ 
 }
-
