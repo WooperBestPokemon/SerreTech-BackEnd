@@ -26,13 +26,13 @@
                                 @endforeach
                             </select><br>
 
-{{--                        <label>Choisir la serre :</label>--}}
-{{--                            <select required name="idGreenhouse" id="idGreenhouse">--}}
-{{--                                <option value="" disabled selected>Serres</option>--}}
-{{--                                @foreach($greenhouse as $greenhouses)--}}
-{{--                                <option value='{{ $greenhouses->idGreenhouse }}'>{{ $greenhouses->name }} - {{ $greenhouses->description }}</option>--}}
-{{--                                @endforeach--}}
-{{--                            </select><br>--}}
+                        <label>Choisir la serre :</label>
+                            <select required name="idGreenhouse" id="idGreenhouse">
+                               <option value="" disabled selected>Serres</option>
+                               @foreach($greenhouse as $greenhouses)
+                                <option value='{{ $greenhouses->idGreenhouse }}'>{{ $greenhouses->name }} - {{ $greenhouses->description }}</option>
+                                @endforeach
+                            </select><br>
                         <label>Image :</label>
                             <input href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
                             <br>
