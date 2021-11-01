@@ -34,7 +34,7 @@ class gestionController extends Controller
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
                 "typeFood" => $zone->getAttributes()["typeFood"],
-                "idGreenHouse" => $zone->getAttributes()["idGreenhouse"]
+                "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
             ]);
         }
         $sensors = [] ;
