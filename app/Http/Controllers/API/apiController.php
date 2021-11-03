@@ -225,13 +225,12 @@ class apiController extends Controller
         $user = Auth::user();
         try {
             //Getting the ID of the company
-            $company = DB::table('tblSensor')
-                ->join('tblZone','tblSensor.idZone','=','tblZone.idZone')
-                ->join('tblGreenHouse','tblZone.idGreenHouse','=','tblGreenHouse.idGreenHouse')
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->leftjoin('tblSensor','tblZone.idZone','=','tblSensor.idZone')
                 ->select('tblGreenHouse.idCompany')
+                ->where('tblSensor.idSensor','=',$request['sensor'])
                 ->pluck('idCompany');
-
-            $company = $company[0];
 
             if($company == $user['idCompany']){
                 //The captor is owned by the company, so it's good
@@ -258,18 +257,39 @@ class apiController extends Controller
     }
 
     //Returning if you need to water the plant or not
-    public function getWater(Request $request){
-        $idZone = $request['zone'];
-        $zone = Zone::find($idZone);
+    public function getWater(Request $request, $idZone){
 
         //todo - Api call to check how much water the zone need
 
-        $response = [
-            'water' => $zone->water,
-            'quantity' => 100
-        ];
+        $user = Auth::user();
+        try{
+            $zone = Zone::find($idZone);
+            //Getting the ID of the company
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->select('tblGreenHouse.idCompany')
+                ->where('tblZone.idZone','=',$idZone)
+                ->pluck('idCompany');
 
-        return response($response, 201);
+            if($company == $user['idCompany']){
+                //The zone is owned by the company, so it's good
+                $response = [
+                    'water' => $zone->water,
+                    'quantity' => 300
+                ];
+
+                return response($response, 201);
+            }
+            else{
+                //Not owned by the company
+                $response = 'This captor is not owned by the company';
+                return response($response, 401);
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
     }
 
 }
