@@ -131,7 +131,7 @@ class apiController extends Controller
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
                 "typeFood" => $zone->getAttributes()["typeFood"],
-                "idZone" => $zone->getAttributes()["idZone"],
+                "idGreenHouse" => $zone->getAttributes()["idGreenHouse"],
                 "luminosite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'luminosite',false),
                 "humidite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite',false),
                 "humidite_sol" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite sol',false),
@@ -277,7 +277,7 @@ class apiController extends Controller
 
                 $data->data = $request['data'];
                 $data->idSensor = $request['sensor'];
-
+            apiController::Alerte($request['data'],$request['sensor']);
                 $data->save();
 
                 $response = 'Accepted';
