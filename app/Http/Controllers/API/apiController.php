@@ -238,7 +238,7 @@ class apiController extends Controller
 
                 $data->data = $request['data'];
                 $data->idSensor = $request['sensor'];
-
+                
                 $data->save();
 
                 $response = 'Accepted';
