@@ -270,13 +270,19 @@ class apiController extends Controller
                 ->select('tblGreenHouse.idCompany')
                 ->where('tblZone.idZone','=',$idZone)
                 ->pluck('idCompany');
-
             if($company == $user['idCompany']){
                 //The zone is owned by the company, so it's good
                 $response = [
                     'water' => $zone->water,
                     'quantity' => 300
                 ];
+
+                //update the water to false
+                if($zone->water == 0){
+                    $zone->water = 1;
+                    $zone->save();
+                }
+
 
                 return response($response, 201);
             }
