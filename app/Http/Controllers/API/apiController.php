@@ -180,6 +180,7 @@ class apiController extends Controller
             }
 
         }
+
     }
 
     public function GetDataLastWeek($idSensor)
@@ -206,14 +207,18 @@ class apiController extends Controller
 
         $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>=NOW()- INTERVAL 1 YEAR AND idSensor = :idSensor', ['idSensor' => $idSensor]);
 
+
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
 
     public function GetAvgDataGreenhouse($idGreenHouse, $typedata,$json = true)
     {
-
+        $datas = [];
 
         $datas = DB::select('SELECT AVG(tt.data) as data
+
+     
+
         FROM tblData tt
         INNER JOIN
             (SELECT idSensor, MAX(timestamp) as MaxDateTime
@@ -224,14 +229,13 @@ class apiController extends Controller
         (SELECT idSensor FROM tblSensor WHERE typeData = :typedata AND idZone IN
         (SELECT idZone FROM tblZone WHERE idGreenHouse IN
         (SELECT idGreenHouse FROM tblGreenHouse WHERE idGreenHouse = :idGreenHouse)))',
-            ['typedata' => $typedata, 'idGreenHouse' => $idGreenHouse]);
+           ['typedata' => $typedata, 'idGreenHouse' => $idGreenHouse]);
         if($json == true){
             return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
         }
         else{
             return $datas[0]->data;
         }
-
     }
     public function GetAvgDataZone($idZone, $typedata,$json = true)
     {
@@ -255,10 +259,6 @@ class apiController extends Controller
             return $datas[0]->data;
         }
     }
-
-
-    //--Code test jacob
-
     //Posting data in database
     public function postData(Request $request){
         $user = Auth::user();
@@ -271,13 +271,13 @@ class apiController extends Controller
                 ->where('tblSensor.idSensor','=',$request['sensor'])
                 ->pluck('idCompany');
 
+
             if($company[0] == $user['idCompany']){
                 //The captor is owned by the company, so it's good
                 $data = new Data;
 
                 $data->data = $request['data'];
                 $data->idSensor = $request['sensor'];
-
                 $data->save();
 
                 $response = 'Accepted';
@@ -309,7 +309,9 @@ class apiController extends Controller
                 ->select('tblGreenHouse.idCompany')
                 ->where('tblZone.idZone','=',$idZone)
                 ->pluck('idCompany');
+
             if($company[0] == $user['idCompany']){
+
                 //The zone is owned by the company, so it's good
                 $response = [
                     'water' => $zone->water,
