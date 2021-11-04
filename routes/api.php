@@ -62,7 +62,7 @@ Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDa
 
 Route::post("/data", [apiController::class, "postData"]);
 
-Route::get("/water", [apiController::class, "getWater"]);
+Route::get("/water/{idZone}", [apiController::class, "getWater"]);
 
 /*
 |--------------------------------------------------------------------------
