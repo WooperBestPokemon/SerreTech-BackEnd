@@ -35,16 +35,21 @@ class apiController extends Controller
 
     public function ViewGreenHouse()
     {
-        $greenhouses = [];
-        foreach (GreenHouse::all() as $greenhouse) {
+        $user = Auth::user();
+        $greenhouses =[];
+        foreach (GreenHouse::where('idCompany','=',$user->idCompany)->get() as $greenhouse) {
             array_push($greenhouses, [
                 "idGreenHouse" => $greenhouse->getAttributes()["idGreenHouse"],
                 "name" => $greenhouse->getAttributes()["name"],
                 "description" => $greenhouse->getAttributes()["description"],
                 "img" => $greenhouse->getAttributes()["img"],
+                "luminosite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'luminosite',false),
+                "humidite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite',false),
+                "humidite_sol" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite sol',false),
+                "temperature" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'temperature',false),
+
             ]);
         }
-
         return Controller::sendResponse(['GreenHouse' =>$greenhouses], 'Donnée Recuperer');
 
     }
@@ -59,7 +64,11 @@ class apiController extends Controller
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
                 "typeFood" => $zone->getAttributes()["typeFood"],
-                "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
+                "idGreenHouse" => $zone->getAttributes()["idGreenHouse"],
+                "luminosite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'luminosite',false),
+                "humidite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite',false),
+                "humidite_sol" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite sol',false),
+                "temperature" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'temperature',false),
             ]);
         }
         if($zones == null){
@@ -78,7 +87,8 @@ class apiController extends Controller
                 "name" => $sensor->getAttributes()["name"],
                 "description" => $sensor->getAttributes()["description"],
                 "typeData" => $sensor->getAttributes()["typeData"],
-                "idZone" => $sensor->getAttributes()["idZone"]
+                "idZone" => $sensor->getAttributes()["idZone"],
+                "data"=>apiController::GetDataLastDay($sensor->getAttributes()["idSensor"],false),
             ]);
         }
         //if($sensors == null){
@@ -97,6 +107,10 @@ class apiController extends Controller
                 "name" => $greenhouse->getAttributes()["name"],
                 "description" => $greenhouse->getAttributes()["description"],
                 "img" => $greenhouse->getAttributes()["img"],
+                "luminosite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'luminosite',false),
+                "humidite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite',false),
+                "humidite_sol" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite sol',false),
+                "temperature" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'temperature',false),
             ]);
         }
 
@@ -117,7 +131,11 @@ class apiController extends Controller
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
                 "typeFood" => $zone->getAttributes()["typeFood"],
-                "idZone" => $zone->getAttributes()["idZone"]
+                "idZone" => $zone->getAttributes()["idZone"],
+                "luminosite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'luminosite',false),
+                "humidite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite',false),
+                "humidite_sol" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite sol',false),
+                "temperature" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'temperature',false),
             ]);
         }
         if($zones == null){
@@ -136,7 +154,8 @@ class apiController extends Controller
                 "name" => $sensor->getAttributes()["name"],
                 "description" => $sensor->getAttributes()["description"],
                 "typeData" => $sensor->getAttributes()["typeData"],
-                "idZone" => $sensor->getAttributes()["idZone"]
+                "idZone" => $sensor->getAttributes()["idZone"],
+                "data"=>apiController::GetDataLastDay($sensor->getAttributes()["idSensor"],false),
             ]);
         }
         //if($sensors == null){
@@ -146,79 +165,95 @@ class apiController extends Controller
 
     }
 
-    public function GetDataLastDay($idSensor)
+    public function GetDataLastDay($idSensor,$json = true)
     {
         $datas = [];
-        
+
         $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 DAY AND idSensor = :idSensor', ['idSensor' => $idSensor]);
-    
-        return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+
+        if($json == true){
+            return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+        }
+        else{
+            if($datas != null){
+                return $datas[0]->data;
+            }
+
+        }
     }
 
     public function GetDataLastWeek($idSensor)
     {
         $datas = [];
-        
+
         $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 WEEK AND idSensor = :idSensor', ['idSensor' => $idSensor]);
-    
+
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
 
     public function GetDataLastMonth($idSensor)
     {
         $datas = [];
-        
+
         $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 MONTH AND idSensor = :idSensor', ['idSensor' => $idSensor]);
-    
+
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
 
     public function GetDataLastYear($idSensor)
     {
         $datas = [];
-        
-        $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>=
-         NOW()- INTERVAL 1 YEAR AND idSensor = :idSensor', ['idSensor' => $idSensor]);
-    
+
+        $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>=NOW()- INTERVAL 1 YEAR AND idSensor = :idSensor', ['idSensor' => $idSensor]);
+
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
 
-    public function GetAvgDataGreenhouse($idGreenHouse, $typedata)
+    public function GetAvgDataGreenhouse($idGreenHouse, $typedata,$json = true)
     {
-        $datas = [];
-        
-        $datas = DB::select('SELECT AVG(tt.data)
+
+
+        $datas = DB::select('SELECT AVG(tt.data) as data
         FROM tblData tt
         INNER JOIN
             (SELECT idSensor, MAX(timestamp) as MaxDateTime
             FROM tblData
             GROUP BY idSensor) groupedtt
         ON tt.idSensor = groupedtt.idSensor
-        AND tt.timestamp = groupedtt.MaxDateTime WHERE tt.idSensor IN 
-        (SELECT idSensor FROM tblSensor WHERE typeData = :typedata AND idZone IN 
-        (SELECT idZone FROM tblZone WHERE idGreenHouse IN 
-        (SELECT idGreenHouse FROM tblGreenHouse WHERE idGreenHouse = :idGreenHouse)))', 
-        ['typedata' => $typedata, 'idGreenHouse' => $idGreenHouse]);
-    
-        return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+        AND tt.timestamp = groupedtt.MaxDateTime WHERE tt.idSensor IN
+        (SELECT idSensor FROM tblSensor WHERE typeData = :typedata AND idZone IN
+        (SELECT idZone FROM tblZone WHERE idGreenHouse IN
+        (SELECT idGreenHouse FROM tblGreenHouse WHERE idGreenHouse = :idGreenHouse)))',
+            ['typedata' => $typedata, 'idGreenHouse' => $idGreenHouse]);
+        if($json == true){
+            return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+        }
+        else{
+            return $datas[0]->data;
+        }
+
     }
-    public function GetAvgDataZone($idZone, $typedata)
+    public function GetAvgDataZone($idZone, $typedata,$json = true)
     {
         $datas = [];
-        
-        $datas = DB::select('SELECT AVG(tt.data)
+
+        $datas = DB::select('SELECT AVG(tt.data) as data
         FROM tblData tt
         INNER JOIN
             (SELECT idSensor, MAX(timestamp) as MaxDateTime
             FROM tblData
             GROUP BY idSensor) groupedtt
         ON tt.idSensor = groupedtt.idSensor
-        AND tt.timestamp = groupedtt.MaxDateTime WHERE tt.idSensor IN 
-        (SELECT idSensor FROM tblSensor WHERE typeData = :typedata AND idZone IN 
-        (SELECT idZone FROM tblZone WHERE idZone = :idZone))', 
+        AND tt.timestamp = groupedtt.MaxDateTime WHERE tt.idSensor IN
+        (SELECT idSensor FROM tblSensor WHERE typeData = :typedata AND idZone IN
+        (SELECT idZone FROM tblZone WHERE idZone = :idZone))',
         ['typedata' => $typedata, 'idZone' => $idZone]);
-    
-        return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+        if($json == true){
+            return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+        }
+        else{
+            return $datas[0]->data;
+        }
     }
 
 
@@ -226,30 +261,81 @@ class apiController extends Controller
 
     //Posting data in database
     public function postData(Request $request){
-        $data = new Data;
+        $user = Auth::user();
+        try {
+            //Getting the ID of the company
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->leftjoin('tblSensor','tblZone.idZone','=','tblSensor.idZone')
+                ->select('tblGreenHouse.idCompany')
+                ->where('tblSensor.idSensor','=',$request['sensor'])
+                ->pluck('idCompany');
 
-        $data->data = $request['data'];
-        $data->idSensor = $request['sensor'];
+            if($company[0] == $user['idCompany']){
+                //The captor is owned by the company, so it's good
+                $data = new Data;
 
-        $data->save();
-        $response = 'Accepted';
-        return response($response, 201);
+                $data->data = $request['data'];
+                $data->idSensor = $request['sensor'];
+
+                $data->save();
+
+                $response = 'Accepted';
+                return response($response, 201);
+            }
+            else{
+                //Not owned by the company
+                $response = 'This captor is not owned by the company';
+                return response($response, 401);
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
     }
 
-        //Returning if you need to water the plant or not
-        public function getWater(Request $request){
-            $idZone = $request['zone'];
-            $zone = Zone::find($idZone);
-    
-            //todo - Api call to check how much water the zone need
-    
-            $response = [
-                'water' => $zone->water,
-                'quantity' => 100
-            ];
-    
-            return response($response, 201);
-        }
     //Returning if you need to water the plant or not
- 
+    public function getWater(Request $request, $idZone){
+
+        //todo - Api call to check how much water the zone need
+
+        $user = Auth::user();
+        try{
+            $zone = Zone::find($idZone);
+            //Getting the ID of the company
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->select('tblGreenHouse.idCompany')
+                ->where('tblZone.idZone','=',$idZone)
+                ->pluck('idCompany');
+            if($company[0] == $user['idCompany']){
+                //The zone is owned by the company, so it's good
+                $response = [
+                    'water' => $zone->water,
+                    'quantity' => 300
+                ];
+
+                //update the water to false
+                if($zone->water == 0){
+                    $zone->water = 1;
+                    $zone->save();
+                }
+
+
+                return response($response, 201);
+            }
+            else{
+                //Not owned by the company
+                $response = 'This captor is not owned by the company';
+                return response($response, 401);
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
+    }
+    //Returning if you need to water the plant or not
+
 }
