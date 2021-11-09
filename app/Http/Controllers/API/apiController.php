@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\GreenHouse;
 use App\Models\Sensor;
 use App\Models\Zone;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
 use Illuminate\Support\Facades\Auth;
@@ -278,6 +279,7 @@ class apiController extends Controller
 
                 $data->data = $request['data'];
                 $data->idSensor = $request['sensor'];
+                verifyData($data);
                 $data->save();
 
                 $response = 'Accepted';
@@ -294,6 +296,54 @@ class apiController extends Controller
             return response($response, 400);
         }
     }
+
+    // Verify data before post and create a notification if data is too high/too low
+    public function verifyData(Request $request,$data){
+        $user = Auth::user();
+
+        try {
+
+            if($company[0] == $user['idCompany']){
+                // Looking for the sensor if it is the one of temperature
+                $typeData = DB::table('tblSensor')
+                ->select('tblSensor.typeData')
+                ->where('tblSensor.idSensor','=',$request['sensor'])
+                ->pluck('typeData');
+
+                // Verify if data sent is in a correct temperature
+                if($typeData[0] == "temperature"){
+ 
+                    $notification = new Notification();
+
+                    // Look for data if temp is all good
+                    if($data >= 30 || $data <= 20){
+
+                        // Send a notification to DB to trigger an alert
+                        $notification = DB::table('tblNotification')
+                        ->insert('tblNotification')
+                        ->value('temp is too high or too low', '1', '2021-11-08 14h16', '2021-11-08 14h14', '2021-11-08 14h15', '1');
+
+                        $response = 'Accepted';
+                        return response($response, 201);
+                    }
+                    // Cancel or send an update for the alert if everything is good
+                    else{
+
+                        // Send a notification to DB to trigger an alert
+                        $notification = DB::table('tblNotification')
+                        ->insert('tblNotification')
+                        ->value('temp is good', '0', '2021-11-08 14h20', '2021-11-08 14h17', '2021-11-08 14h19', '1');
+                    }
+                    // Cancel the alert if everything is good                    
+                }
+            } 
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
+    }
+
 
     //Returning if you need to water the plant or not
     public function getWater(Request $request, $idZone){
