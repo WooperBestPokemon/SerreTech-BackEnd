@@ -16,10 +16,10 @@ use App\Http\Controllers\API\apiController;
 */
 
 
-//Route::middleware('auth:api')->group(function () {
-  //  Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
-  //  Route::post("/data", [apiController::class, "postData"]);
-//});
+Route::middleware('auth:api')->group(function () {
+    Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
+    Route::post("/data", [apiController::class, "postData"]);
+});
 
 
 Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
