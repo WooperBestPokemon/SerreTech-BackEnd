@@ -309,7 +309,7 @@ class apiController extends Controller
             ->pluck('typeData');
 
             // Verify if data sent is in a correct temperature
-            if($typeData[0] == "temperature"){
+            if($typeData[0] == "humidite"){
 
                 $notification = Notification::find($id);
                 $status = $notification->alerteStatus;
@@ -318,10 +318,10 @@ class apiController extends Controller
                 //Status 1 = idle
 
                 // Look if there is a fire
-                if($data >= 30 || $data <= 20){
+                if($data > 50){
                     // Update the database if something has changed
                     if($status == 1){
-                        $notification->description = 'On Fire';
+                        $notification->description = '7.8/10 too much water -IGN';
                         $notification->alerteStatus = 0;
                         $notification->save();
                     }         
