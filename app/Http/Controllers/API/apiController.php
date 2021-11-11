@@ -298,47 +298,47 @@ class apiController extends Controller
     }
 
     // Verify data before post and create a notification if data is too high/too low
-    public function verifyData(Request $request,$data){
-        $user = Auth::user();
+    public function VerifyData($data){
 
         try {
 
-            if($company[0] == $user['idCompany']){
-                // Looking for the sensor if it is the one of temperature
-                $typeData = DB::table('tblSensor')
-                ->select('tblSensor.typeData')
-                ->where('tblSensor.idSensor','=',$request['sensor'])
-                ->pluck('typeData');
+            // Looking for the sensor if it is the one of temperature
+            $typeData = DB::table('tblSensor')
+            ->select('tblSensor.typeData')
+            ->where('tblSensor.idSensor','=',$data['sensor'])
+            ->pluck('typeData');
 
-                // Verify if data sent is in a correct temperature
-                if($typeData[0] == "temperature"){
- 
-                    $notification = new Notification();
+            // Verify if data sent is in a correct temperature
+            if($typeData[0] == "temperature"){
 
-                    // Look for data if temp is all good
-                    if($data >= 30 || $data <= 20){
+                $notification = Notification::find($id);
+                $status = $notification->alerteStatus;
 
-                        // Send a notification to DB to trigger an alert
-                        $notification = DB::table('tblNotification')
-                        ->insert('tblNotification')
-                        ->value('temp is too high or too low', '1', '2021-11-08 14h16', '2021-11-08 14h14', '2021-11-08 14h15', '1');
+                //Status 0 = On Fire
+                //Status 1 = idle
 
-                        $response = 'Accepted';
-                        return response($response, 201);
-                    }
-                    // Cancel or send an update for the alert if everything is good
-                    else{
-
-                        // Send a notification to DB to trigger an alert
-                        $notification = DB::table('tblNotification')
-                        ->insert('tblNotification')
-                        ->value('temp is good', '0', '2021-11-08 14h20', '2021-11-08 14h17', '2021-11-08 14h19', '1');
-                    }
-                    // Cancel the alert if everything is good                    
+                // Look if there is a fire
+                if($data >= 30 || $data <= 20){
+                    // Update the database if something has changed
+                    if($status == 1){
+                        $notification->description = 'On Fire';
+                        $notification->alerteStatus = 0;
+                        $notification->save();
+                    }         
                 }
+                // No fire
+                else{
+                    //Previously on fire
+                    if($status == 0){
+                        $notification->description = 'Everything is fine :)';
+                        $notification->alerteStatus = 1;
+                        $notification->save();
+                    }
+                }        
             } 
         }
         catch(\Illuminate\Database\QueryException $ex){
+            // Return the exception and the error 
             $response = 'An error occurred';
             return response($response, 400);
         }

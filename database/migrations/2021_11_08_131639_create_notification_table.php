@@ -13,12 +13,11 @@ class CreateNotificationTable extends Migration
      */
     public function up()
     {
-        Schema::create('tblNotification', function (Blueprint $table) {
+        Schema::create('tblnotification', function (Blueprint $table) {
             $table->id('idAlerte')->autoIncrement();
             $table->string('description');
             $table->boolean('alerteStatus');           
             $table->timestamps();
-            $table->date('ended_at')->nullable();
             $table->foreignId('idSensor');
             $table->foreign('idSensor')->references('idSensor')->on('tblSensor')->onDelete('cascade');
         });
