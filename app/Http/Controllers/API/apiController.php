@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\GreenHouse;
 use App\Models\Sensor;
 use App\Models\Zone;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
 use Illuminate\Support\Facades\Auth;
@@ -278,6 +279,7 @@ class apiController extends Controller
 
                 $data->data = $request['data'];
                 $data->idSensor = $request['sensor'];
+                verifyData($data);
                 $data->save();
 
                 $response = 'Accepted';
@@ -294,6 +296,54 @@ class apiController extends Controller
             return response($response, 400);
         }
     }
+
+    // Verify data before post and create a notification if data is too high/too low
+    public function VerifyData($data){
+
+        try {
+
+            // Looking for the sensor if it is the one of temperature
+            $typeData = DB::table('tblSensor')
+            ->select('tblSensor.typeData')
+            ->where('tblSensor.idSensor','=',$data['sensor'])
+            ->pluck('typeData');
+
+            // Verify if data sent is in a correct temperature
+            if($typeData[0] == "humidite"){
+
+                $notification = Notification::find($id);
+                $status = $notification->alerteStatus;
+
+                //Status 0 = On Fire
+                //Status 1 = idle
+
+                // Look if there is a fire
+                if($data > 50){
+                    // Update the database if something has changed
+                    if($status == 1){
+                        $notification->description = '7.8/10 too much water -IGN';
+                        $notification->alerteStatus = 0;
+                        $notification->save();
+                    }         
+                }
+                // No fire
+                else{
+                    //Previously on fire
+                    if($status == 0){
+                        $notification->description = 'Everything is fine :)';
+                        $notification->alerteStatus = 1;
+                        $notification->save();
+                    }
+                }        
+            } 
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            // Return the exception and the error 
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
+    }
+
 
     //Returning if you need to water the plant or not
     public function getWater(Request $request, $idZone){
