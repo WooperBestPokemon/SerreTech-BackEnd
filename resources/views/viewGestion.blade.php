@@ -27,6 +27,7 @@
                             <th>{{ $greenhouses["description"] }}</th>
 {{--                            <th><a href='/serre/{{ $greenhouses["idGreenHouse"] }}'>Detail</a></th>--}}
                             <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
+                            <th><form action="{{route('deletegreenhouse',$greenhouses["idGreenHouse"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                         </tr>
                     @endforeach
                     </table>
@@ -51,6 +52,7 @@
 {{--                            <th>{{ $zones["nameGreenhouse"] }}</th>--}}
 {{--                            <th><a href='/serre/{{ $greenhouses["idGreenHouse"] }}'>Detail</a></th>--}}
                             <th><a href="{{route('editzone',$zones["idZone"])}}">Modifier</a></th>
+                            <th><form action="{{route('deletezone',$zones["idZone"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                         </form>
                         </tr>
                     @endforeach
@@ -74,6 +76,7 @@
                             <th>{{ $sensors["typeData"]  }}</th>
 
                             <th><a href="{{route('editsensor',$sensors["idSensor"])}}">Modifier</a></th>
+                            <th><form action="{{route('deletesensor',$sensors["idSensor"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                         </form>
                         </tr>
                     @endforeach

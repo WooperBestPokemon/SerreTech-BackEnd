@@ -22,7 +22,7 @@ class addSensorController extends Controller
         ]);
         Sensor::create([
             'name'=> $request->input('name'),
-            'idZone'=> 1,
+            'idZone'=> 2,
             'description'=> $request->input('description'),
             'typeData'=> $request->input('typeData'),
             'actif' => 0

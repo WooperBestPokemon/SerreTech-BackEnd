@@ -20,6 +20,8 @@ class AddTest extends TestCase
     /** test */
     public function test_add_zone()
     {
+        $this->withoutExceptionHandling();
+
         $zonecount = Zone::all()->count();
         $user = User::factory()->create();
 
@@ -37,6 +39,8 @@ class AddTest extends TestCase
     /** test */
     public function test_add_sensor()
     {
+        $this->withoutExceptionHandling();
+
         $sensorcount = Sensor::all()->count();
         $user = User::factory()->create();
 
@@ -53,7 +57,9 @@ class AddTest extends TestCase
     /** test */
     public function test_add_greenhouse()
     {
-        $sensorcount = GreenHouse::all()->count();
+        $this->withoutExceptionHandling();
+
+        $greenhousecount = GreenHouse::all()->count();
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)
@@ -63,6 +69,6 @@ class AddTest extends TestCase
                 'description' => 'Je contient des légumes',
             ]);
         $response->assertRedirect();
-        $this->assertCount($sensorcount+1, GreenHouse::all());
+        $this->assertCount($greenhousecount+1, GreenHouse::all());
     }
 }
