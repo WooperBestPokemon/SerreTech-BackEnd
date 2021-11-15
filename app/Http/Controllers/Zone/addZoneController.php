@@ -23,7 +23,7 @@ class addZoneController extends Controller
         Zone::create([
             'name'=> $request->input('name'),
             'typeFood'=>$request->input('typeFood'),
-            'idGreenHouse'=> 2,
+            'idGreenHouse'=> 1,
             'description'=> $request->input('description'),
             'img'=> $request->input('img'),
             'water'=> 0,
