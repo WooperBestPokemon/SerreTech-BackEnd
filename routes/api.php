@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\PiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\apiController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,23 +18,20 @@ use App\Http\Controllers\API\apiController;
 */
 
 
-//Route::middleware('auth:api')->group(function () {
-  //  Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
-  //  Route::post("/data", [apiController::class, "postData"]);
-//});
+Route::middleware('auth:api')->group(function () {
 
+    Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
 
-Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
+    Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
 
-Route::get('/GetSensor/{id}',[apiController::class,'ViewSensor']);
+    Route::get('/GetSensor/{id}',[apiController::class,'ViewSensor']);
 
-Route::get('/SearchGreenhouse/{id}',[apiController::class,'SearchGreenhouse']);
+    Route::get('/SearchGreenhouse/{id}',[apiController::class,'SearchGreenhouse']);
 
-Route::get('/SearchZone/{id}',[apiController::class,'SearchZone']);
+    Route::get('/SearchZone/{id}',[apiController::class,'SearchZone']);
 
-Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
+    Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
 
-Route::get('/SearchAlerte/{id}',[apiController::class,'VerifyData']);
 
 /*
 |--------------------------------------------------------------------------
@@ -40,19 +39,17 @@ Route::get('/SearchAlerte/{id}',[apiController::class,'VerifyData']);
 |--------------------------------------------------------------------------
 */
 
+    Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
 
-Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
+    Route::get('/GetDataLastWeek/{idSensor}',[apiController::class,'GetDataLastWeek']);
 
-Route::get('/GetDataLastWeek/{idSensor}',[apiController::class,'GetDataLastWeek']);
+    Route::get('/GetDataLastMonth/{idSensor}',[apiController::class,'GetDataLastMonth']);
 
-Route::get('/GetDataLastMonth/{idSensor}',[apiController::class,'GetDataLastMonth']);
+    Route::get('/GetDataLastYear/{idSensor}',[apiController::class,'GetDataLastYear']);
 
-Route::get('/GetDataLastYear/{idSensor}',[apiController::class,'GetDataLastYear']);
+    Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::class,'GetAvgDataGreenhouse']);
 
-Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::class,'GetAvgDataGreenhouse']);
-
-Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
-
+    Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
 
 /*
 |--------------------------------------------------------------------------
@@ -60,17 +57,24 @@ Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDa
 |--------------------------------------------------------------------------
 */
 
-Route::post("/data", [apiController::class, "postData"]);
+    Route::post("/data", [PiController::class, "postData"]);
 
-Route::get("/water/{idZone}", [apiController::class, "getWater"]);
+    Route::get('/water/{idZone}', [PiController::class, 'getWater']);
+});
 
 /*
 |--------------------------------------------------------------------------
 | login
 |--------------------------------------------------------------------------
 */
-
+Route::get('/compote', [PiController::class, "testdejonnhytest"]);
 Route::post('/login', [apiController::class, 'login']);
+
+/*
+|--------------------------------------------------------------------------
+| Gestion des erreurs
+|--------------------------------------------------------------------------
+*/
 
 Route::fallback(function (){
     abort(response()->json('API resource not found',404));
