@@ -34,6 +34,11 @@
                                 <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
                             @endif
                             </tr>
+                          <tr>
+                          <th><a href='/serre/{{ $greenhouses["idGreenHouse"] }}'>Detail</a></th>--}}
+                            <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
+                            <th><form action="{{route('deletegreenhouse',$greenhouses["idGreenHouse"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                        </tr>
                     @endforeach
                     </table>
 
@@ -54,7 +59,10 @@
                             <th>{{ $zones["typeFood"] }}</th>
                             @if($users["role"] == 'admin' || $users["permission"] >= '2')
                             <th><a href="{{route('editzone',$zones["idZone"])}}">Modifier</a></th>
+
                             @endif
+                            <th><form action="{{route('deletezone',$zones["idZone"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+
                         </form>
                         </tr>
                     @endforeach
@@ -80,6 +88,7 @@
                             @if($users["role"] == 'admin' || $users["permission"] >= '2')
                             <th><a href="{{route('editsensor',$sensors["idSensor"])}}">Modifier</a></th>
                             @endif
+                            <th><form action="{{route('deletesensor',$sensors["idSensor"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                         </form>
                         </tr>
                     @endforeach
