@@ -33,7 +33,7 @@ class gestionController extends Controller
                 "name" => $zone->getAttributes()["name"],
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
-                "typeFood" => $zone->getAttributes()["typeFood"],
+                "typeFood" => $this->getplant($zone->getAttributes()["typeFood"]),
                 "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
             ]);
         }
@@ -52,4 +52,6 @@ class gestionController extends Controller
 
         return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
     }
+
+
 }

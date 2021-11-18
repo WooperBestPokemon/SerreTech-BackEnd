@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\apiController;
@@ -18,52 +17,56 @@ use App\Http\Controllers\API\apiController;
 
 
 Route::middleware('auth:api')->group(function () {
+
     Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
+
     Route::post("/data", [apiController::class, "postData"]);
 
 
 
-Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
+    Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
 
-Route::get('/GetSensor/{id}',[apiController::class,'ViewSensor']);
+    Route::get('/GetSensor/{id}',[apiController::class,'ViewSensor']);
 
-Route::get('/SearchGreenhouse/{id}',[apiController::class,'SearchGreenhouse']);
+    Route::get('/SearchGreenhouse/{id}',[apiController::class,'SearchGreenhouse']);
 
-Route::get('/SearchZone/{id}',[apiController::class,'SearchZone']);
+    Route::get('/SearchZone/{id}',[apiController::class,'SearchZone']);
 
-Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
+    Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
 
+    Route::get("/GetSensor",[apiController::class,'GetSensors']);
 
-/*
-|--------------------------------------------------------------------------
-| Procedure stockées
-|--------------------------------------------------------------------------
-*/
-
-
-Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
-
-Route::get('/GetDataLastWeek/{idSensor}',[apiController::class,'GetDataLastWeek']);
-
-Route::get('/GetDataLastMonth/{idSensor}',[apiController::class,'GetDataLastMonth']);
-
-Route::get('/GetDataLastYear/{idSensor}',[apiController::class,'GetDataLastYear']);
-
-Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::class,'GetAvgDataGreenhouse']);
-
-Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
+    Route::get("/GetSensorsGreenhouse/{idGreenhouse}",[apiController::class,'GetSensorsGreenhouse']);
+    /*
+    |--------------------------------------------------------------------------
+    | Procedure stockées
+    |--------------------------------------------------------------------------
+    */
 
 
-/*
-|--------------------------------------------------------------------------
-| Route pour les scripts
-|--------------------------------------------------------------------------
-*/
+    Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
 
-Route::post("/data", [apiController::class, "postData"]);
+    Route::get('/GetDataLastWeek/{idSensor}',[apiController::class,'GetDataLastWeek']);
+
+    Route::get('/GetDataLastMonth/{idSensor}',[apiController::class,'GetDataLastMonth']);
+
+    Route::get('/GetDataLastYear/{idSensor}',[apiController::class,'GetDataLastYear']);
+
+    Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::class,'GetAvgDataGreenhouse']);
+
+    Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
 
 
-Route::get('/water/{idZone}', [apiController::class, 'getWater']);
+    /*
+    |--------------------------------------------------------------------------
+    | Route pour les scripts
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post("/data", [apiController::class, "postData"]);
+
+
+    Route::get('/water/{idZone}', [apiController::class, 'getWater']);
 });
 /*
 |--------------------------------------------------------------------------
