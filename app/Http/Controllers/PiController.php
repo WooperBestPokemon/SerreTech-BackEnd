@@ -66,19 +66,20 @@ class PiController extends Controller
     public function VerifyData($data){
         try {
 
+            // Permet de trouver l'id de la plante qui correspond à le typeFood dans la BD
             $veggie = DB::table('tblZone')
                 ->join('tblSensor','tblZone.idZone','=','tblSensor.idZone')
                 ->select('tblZone.typeFood')
                 ->where('tblSensor.idSensor','=',$data['idSensor'])
                 ->pluck('typeFood');
 
-            $url = 'http://apipcst.xyz/api/search/plant/'.$veggie[0];
+            // Va chercher le package contenant les informations de la plante dont on a besoin
+            $url = 'http://apipcst.xyz/api/search/package/'.$veggie[0];
 
+            // Va chercher la plante
             $response = file_get_contents($url);
-            $veggie_data = json_decode($response);
-
-            dd($veggie_data);
-
+            $veggie_data = json_decode($response, true);
+            
             // Looking for the sensor if it is the one of temperature
             $typeData = DB::table('tblSensor')
             ->select('tblSensor.typeData')
@@ -86,125 +87,75 @@ class PiController extends Controller
             ->pluck('typeData');
 
             // Verify if data sent is in a correct humidity (Sensor : 4)
-            //if($typeData[0] == "humidite air"){
-            if($typeData[0] == "luminosity"){
 
-                $notification = Notification::find($data['idSensor']);
-                $status = $notification->alerteStatus;
-
-                //Status 0 = On Fire
-                //Status 1 = idle
-
-                // Look if there is a fire
-                if($data['data'] > 20){
-                    // Update the database if something has changed
-                    if($status == 1){
-                        $notification->description = '7.8/10 too much water -IGN';
-                        $notification->alerteStatus = 0;
-                        $notification->save();
-                    }
-                }
-                // No fire
-                else{
-                    //Previously on fire
-                    if($status == 0){
-                        $notification->description = 'Everything is oki doki :3';
-                        $notification->alerteStatus = 1;
-                        $notification->save();
-                    }
-                }
-            }
-
-            /*
             // Temperature Test
             // Verify if data sent is in a correct temperature (Sensor : 1)
-            elseif($typeData[0] == "temperature"){
+            if($typeData[0] == "temperature"){
 
                 $notification = Notification::find($data['idSensor']);
                 $status = $notification->alerteStatus;
 
-                //Status 0 = On Fire
+                //Status 0 = Problem
                 //Status 1 = idle
 
-                // Look if there is a fire
-                if($data['data'] > 22 && $data['data'] <= 30){
+                // Look if there is a fire or ice
+                if($data['data'] <  $veggie_data["favorableConditions"][0]["min"] || $data['data'] >  $veggie_data["favorableConditions"][0]["max"]){
                     // Update the database if something has changed
-                    if($status == 1){
-                        $notification->description = 'this girl is on fiiiiiiiiiiiiiire';
+                        //Ice
+                    if($data['data'] <  $veggie_data["favorableConditions"][0]["min"]){
+                        $notification->description = 'The air is too cold';
+                        $notification->alerteStatus = 0;
+                        $notification->save();
+                    }
+                    //Fire
+                    else{
+                        $notification->description = 'The air is too hot';
                         $notification->alerteStatus = 0;
                         $notification->save();
                     }
                 }
-                // No fire
+                // No problem
                 else{
-                    //Previously on fire
+                    //Previously problematic
                     if($status == 0){
-                        $notification->description = 'Everything is oki doki :3';
+                        $notification->description = 'Everything is fine';
                         $notification->alerteStatus = 1;
                         $notification->save();
                     }
                 }
             }
-
-
-            //(Sensor : 2)
             elseif($typeData[0] == "humidite sol"){
 
                 $notification = Notification::find($data['idSensor']);
                 $status = $notification->alerteStatus;
 
-                //Status 0 = On Fire
+                //Status 0 = Problem
                 //Status 1 = idle
 
-                // Look if there is a fire
-                if($data['data'] > 22 && $data['data'] <= 30){
-                    // Update the database if something has changed
-                    if($status == 1){
-                        $notification->description = 'Everything is on fiiiiiiiiiiiiiire';
+                if($data['data'] <  $veggie_data["favorableConditions"][1]["min"] || $data['data'] >  $veggie_data["favorableConditions"][1]["max"]){
+                    //Dry
+                    if($data['data'] <  $veggie_data["favorableConditions"][1]["min"]){
+                        $notification->description = 'The ground is too dry';
+                        $notification->alerteStatus = 0;
+                        $notification->save();
+                    }
+                    //Wet
+                    else{
+                        $notification->description = 'The ground is too wet';
                         $notification->alerteStatus = 0;
                         $notification->save();
                     }
                 }
-                // No fire
+                // No problem
                 else{
-                    //Previously on fire
+                    //Previously problematic
                     if($status == 0){
-                        $notification->description = 'Everything is oki doki :3';
+                        $notification->description = 'Everything is fine';
                         $notification->alerteStatus = 1;
                         $notification->save();
                     }
                 }
             }
-
-            // (Sensor : 3)
-            elseif($typeData[0] == "luminosity"){
-
-                $notification = Notification::find($data['idSensor']);
-                $status = $notification->alerteStatus;
-
-                //Status 0 = On Fire
-                //Status 1 = idle
-
-                // Look if there is a fire
-                if($data['data'] > 22 && $data['data'] <= 30){
-                    // Update the database if something has changed
-                    if($status == 1){
-                        $notification->description = 'Everything is on fiiiiiiiiiiiiiire';
-                        $notification->alerteStatus = 0;
-                        $notification->save();
-                    }
-                }
-                // No fire
-                else{
-                    //Previously on fire
-                    if($status == 0){
-                        $notification->description = 'Everything is oki doki :3';
-                        $notification->alerteStatus = 1;
-                        $notification->save();
-                    }
-                }
-            }
-        */
         }
         catch(\Illuminate\Database\QueryException $ex){
             // Return the exception and the error
