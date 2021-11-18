@@ -9,8 +9,8 @@ class Notification extends Model
 {
     use HasFactory;
 
-    protected $table = 'tblNotification';
+    protected $table = 'tblnotification';
     protected $primaryKey = 'idAlerte';
     protected $fillable = [
-        'idAlerte','description','alerteStatus','ended_at','created_at','updated_at','idSensor'];
+        'description','alerteStatus','created_at','updated_at','idSensor'];
 }
