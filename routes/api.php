@@ -1,5 +1,4 @@
 <?php
-
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\PiController;
 use Illuminate\Http\Request;
@@ -21,8 +20,6 @@ use App\Http\Controllers\API\apiController;
 Route::middleware('auth:api')->group(function () {
 
     Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
-    Route::post("/data", [apiController::class, "postData"]);
-
 
     Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
 
@@ -36,12 +33,14 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
 
+    Route::get("/GetSensor",[apiController::class,'GetSensors']);
 
-/*
-|--------------------------------------------------------------------------
-| Procedure stockées
-|--------------------------------------------------------------------------
-*/
+    Route::get("/GetSensorsGreenhouse/{idGreenhouse}",[apiController::class,'GetSensorsGreenhouse']);
+    /*
+    |--------------------------------------------------------------------------
+    | Procedure stockées
+    |--------------------------------------------------------------------------
+    */
 
     Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
 
@@ -55,22 +54,21 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
 
-/*
-|--------------------------------------------------------------------------
-| Route pour les scripts
-|--------------------------------------------------------------------------
-*/
+    /*
+    |--------------------------------------------------------------------------
+    | Route pour les scripts
+    |--------------------------------------------------------------------------
+    */
 
     Route::post("/data", [PiController::class, "postData"]);
 
-    Route::get('/water/{idZone}', [apiController::class, 'getWater']);
+    Route::get('/water/{idZone}', [PiController::class, 'getWater']);
 });
 /*
 |--------------------------------------------------------------------------
 | login
 |--------------------------------------------------------------------------
 */
-Route::get('/verifyData', [PiController::class, "VerifyData"]);
 Route::post('/login', [apiController::class, 'login']);
 
 /*

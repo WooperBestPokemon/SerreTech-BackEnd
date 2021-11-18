@@ -10,6 +10,7 @@ use App\Models\Sensor;
 use App\Models\Zone;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -25,10 +26,12 @@ class apiController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $user = Auth::user();
+
+            Token::where('user_id','=',$user->idProfile)->delete();
             $success['token'] = $user->createToken('MyApp')->accessToken;
             return Controller::sendResponse($success, 'User login successfully.');
         } else {
-            return Controller::sendError('Unauthorised.', ['error' => 'Unauthorised', $request->all()]);
+            return Controller::sendError('Unauthorised.', ['error' => 'Unauthorised', $request->email]);
         }
     }
 
@@ -87,7 +90,6 @@ class apiController extends Controller
                 "description" => $sensor->getAttributes()["description"],
                 "typeData" => $sensor->getAttributes()["typeData"],
                 "idZone" => $sensor->getAttributes()["idZone"],
-                "data"=>apiController::GetDataLastDay($sensor->getAttributes()["idSensor"],false),
             ]);
         }
         //if($sensors == null){
@@ -123,7 +125,7 @@ class apiController extends Controller
     public function SearchZone($id)
     {
         $zones = [] ;
-        foreach(Zone::where('idZone','=',$id)->get() as $zone) {
+        foreach(Zone::find($id) as $zone) {
             array_push($zones, [
                 "idZone" => $zone->getAttributes()["idZone"],
                 "name" => $zone->getAttributes()["name"],
@@ -154,7 +156,7 @@ class apiController extends Controller
                 "description" => $sensor->getAttributes()["description"],
                 "typeData" => $sensor->getAttributes()["typeData"],
                 "idZone" => $sensor->getAttributes()["idZone"],
-                "data"=>apiController::GetDataLastDay($sensor->getAttributes()["idSensor"],false),
+                "data"=>apiController::GetAvgDataSensor($sensor->getAttributes()["idSensor"]),
             ]);
         }
         //if($sensors == null){
@@ -164,29 +166,42 @@ class apiController extends Controller
 
     }
 
-    public function GetDataLastDay($idSensor,$json = true)
+    public function GetDataLastDay($idSensor)
     {
         $datas = [];
+        $datas = DB::table('tblData')
+            ->select('data','timestamp','idSensor')
+            ->where('timestamp', '>=', now()->subDays(1))
+            ->where('timestamp', '<=', now())
+            ->where('idSensor' ,'=',$idSensor)
+            ->pluck('data','timestamp');
 
-        $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 DAY AND idSensor = :idSensor', ['idSensor' => $idSensor]);
-
-        if($json == true){
             return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
-        }
-        else{
-            if($datas != null){
-                return $datas[0]->data;
-            }
-
-        }
 
     }
-
-    public function GetDataLastWeek($idSensor)
+    public function GetAvgDataSensor($idSensor)
     {
         $datas = [];
+        $datas = DB::table('tblData')
+            ->select('data')
+            ->where('timestamp', '>=', now()->subMinutes(30))
+            ->where('timestamp', '<=', now())
+            ->where('idSensor' ,'=',$idSensor)
+            ->average('data');
 
-        $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 WEEK AND idSensor = :idSensor', ['idSensor' => $idSensor]);
+                return $datas;
+    }
+    public function GetDataLastWeek($idSensor)
+    {
+
+        $datas = [];
+        $datas = DB::table('tblData')
+            ->select('data','timestamp','idSensor')
+            ->where('timestamp', '>=', now()->subWeeks(1))
+            ->where('timestamp', '<=', now())
+            ->where('idSensor' ,'=',$idSensor)->get();
+            //->pluck('data','timestamp');
+        //$datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 WEEK AND idSensor = :idSensor', ['idSensor' => $idSensor]);
 
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
@@ -195,7 +210,14 @@ class apiController extends Controller
     {
         $datas = [];
 
-        $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 MONTH AND idSensor = :idSensor', ['idSensor' => $idSensor]);
+
+        $datas = DB::table('tblData')
+            ->select('data','timestamp','idSensor')
+            ->where('timestamp', '>=', now()->subMonths(1))
+            ->where('timestamp', '<=', now())
+            ->where('idSensor' ,'=',$idSensor)->get();
+            //->pluck('data','timestamp');
+        //DB::select('select data, timestamp, idSensor from tblData where timestamp>= NOW()- INTERVAL 1 MONTH AND idSensor = :idSensor', ['idSensor' => $idSensor]);
 
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
     }
@@ -204,7 +226,14 @@ class apiController extends Controller
     {
         $datas = [];
 
-        $datas = DB::select('select data, timestamp, idSensor from tblData where timestamp>=NOW()- INTERVAL 1 YEAR AND idSensor = :idSensor', ['idSensor' => $idSensor]);
+        $datas = DB::table('tblData')
+            ->select('data','timestamp','idSensor')
+            ->where('timestamp', '>=', now()->subYears(1))
+            ->where('timestamp', '<=', now())
+            ->where('idSensor' ,'=',$idSensor)->get();
+            //->pluck('data','timestamp');
+
+            //DB::select('select data, timestamp, idSensor from tblData where timestamp>=NOW()- INTERVAL 1 YEAR AND idSensor = :idSensor', ['idSensor' => $idSensor]);
 
 
         return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
@@ -215,9 +244,6 @@ class apiController extends Controller
         $datas = [];
 
         $datas = DB::select('SELECT AVG(tt.data) as data
-
-
-
         FROM tblData tt
         INNER JOIN
             (SELECT idSensor, MAX(timestamp) as MaxDateTime
@@ -239,7 +265,6 @@ class apiController extends Controller
     public function GetAvgDataZone($idZone, $typedata,$json = true)
     {
         $datas = [];
-
         $datas = DB::select('SELECT AVG(tt.data) as data
         FROM tblData tt
         INNER JOIN
@@ -258,5 +283,50 @@ class apiController extends Controller
             return $datas[0]->data;
         }
     }
+    public function GetSensorsGreenhouse($idGreenhouse){
+        $user = Auth::user();
+        $data = DB::table('tblSensor')
+            ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
+            ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+            ->select('tblSensor.idSensor','tblSensor.name','tblSensor.description','tblSensor.typeData','tblSensor.idZone','tblGreenHouse.idGreenHouse')
+            ->where('idCompany' ,'=',$user->idCompany)
+            ->where('tblGreenHouse.idGreenHouse','=',$idGreenhouse)
+            ->get();
 
+        $sensors = [] ;
+        foreach($data as $sensor) {
+            array_push($sensors, [
+                "idSensor" =>$sensor->idSensor,
+                "name" => $sensor->name,
+                "description" => $sensor->description,
+                "typeData" => $sensor->typeData,
+                "idZone" => $sensor->idZone,
+                "idGreenhouse"=>$sensor->idGreenHouse,
+                "data"=>apiController::GetAvgDataSensor($sensor->idSensor,false),
+            ]);
+        }
+        return Controller::sendResponse(['sensors' => $sensors ], 'Donnée Recuperer');
+    }
+    public function GetSensors(){
+        $user = Auth::user();
+        $data = DB::table('tblSensor')
+            ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
+            ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+            ->select('tblSensor.idSensor','tblSensor.name','tblSensor.description','tblSensor.typeData','tblSensor.idZone')
+            ->where('idCompany' ,'=',$user->idCompany)
+            ->get();
+
+        $sensors = [] ;
+        foreach($data as $sensor) {
+            array_push($sensors, [
+                "idSensor" =>$sensor->idSensor,
+                "name" => $sensor->name,
+                "description" => $sensor->description,
+                "typeData" => $sensor->typeData,
+                "idZone" => $sensor->idZone,
+                "data"=>apiController::GetAvgDataSensor($sensor->idSensor,false),
+            ]);
+        }
+        return Controller::sendResponse(['sensors' => $sensors ], 'Donnée Recuperer');
+    }
 }
