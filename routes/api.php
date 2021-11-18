@@ -70,7 +70,6 @@ Route::middleware('auth:api')->group(function () {
 | login
 |--------------------------------------------------------------------------
 */
-Route::get('/compote', [PiController::class, "testdejonnhytest"]);
 Route::get('/verifyData', [PiController::class, "VerifyData"]);
 Route::post('/login', [apiController::class, 'login']);
 
