@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\PiController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GreenHouse\{addGreenHouseController, deleteGreenHouseController, editGreenhouseController};
@@ -20,6 +21,8 @@ use App\Http\Controllers\gestionController;
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::redirect("/home","/admin");
 
     Route::get('/', function () {return view('welcome');})->name("home");
 
@@ -92,9 +95,10 @@ Route::middleware('auth')->group(function () {
 | Login
 |--------------------------------------------------------------------------
 */
+Route::get('/notification', [PiController::class, "GetNotification"]);
 //
-
-Auth::routes();
-
+//
+//Auth::routes();
+Auth::routes(['register' => false]);
 //Route::get('/home', function (){return redirect("admin");})->name('home2');
 

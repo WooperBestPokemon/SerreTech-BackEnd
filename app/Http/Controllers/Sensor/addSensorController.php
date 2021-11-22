@@ -17,7 +17,6 @@ class addSensorController extends Controller
     public function insert(Request $request){
         $request->validate([
             'name'=>'required|string',
-            'description'=>'required|string',
             'typeData'=>'required'
         ]);
         Sensor::create([
@@ -25,7 +24,7 @@ class addSensorController extends Controller
             'idZone'=> 2,
             'description'=> $request->input('description'),
             'typeData'=> $request->input('typeData'),
-            'actif' => 0
+            'actif' => 1
         ]);
 
         return redirect('/admin');
