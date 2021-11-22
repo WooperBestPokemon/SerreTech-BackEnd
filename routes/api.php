@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\PiController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\PiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\apiController;
@@ -70,8 +70,10 @@ Route::middleware('auth:api')->group(function () {
 | login
 |--------------------------------------------------------------------------
 */
-Route::get('/compote', [PiController::class, "testdejonnhytest"]);
+
 Route::get('/verifyData', [PiController::class, "VerifyData"]);
+Route::get('/notification', [PiController::class, "GetNotification"]);
+
 Route::post('/login', [apiController::class, 'login']);
 
 /*
