@@ -17,7 +17,6 @@ class addSensorController extends Controller
     public function insert(Request $request){
         $request->validate([
             'name'=>'required|string',
-            'description'=>'required|string',
             'typeData'=>'required'
         ]);
         Sensor::create([

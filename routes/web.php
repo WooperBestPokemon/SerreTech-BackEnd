@@ -21,6 +21,8 @@ use App\Http\Controllers\gestionController;
 
 Route::middleware('auth')->group(function () {
 
+    Route::redirect("/home","/admin");
+
     Route::get('/', function () {return view('welcome');})->name("home");
 
     Route::get('/greenhouse', function (){return redirect("home");});
