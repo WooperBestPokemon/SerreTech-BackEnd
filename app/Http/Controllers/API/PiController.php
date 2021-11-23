@@ -92,6 +92,7 @@ class PiController extends Controller
 
             // Look for the latest notification
             $notification = Notification::find($data['idSensor']);
+
             if($notification != null) {
                 $notification = $notification->latest()->first();
                 $status = $notification->alerteStatus;
@@ -102,29 +103,35 @@ class PiController extends Controller
             if($status == 0){
                 if($typeData[0] == "temperature" && ($data['data'] > $veggie_data["favorableConditions"][0]["min"] && $data['data'] < $veggie_data["favorableConditions"][0]["max"])) {
                         $notification->alerteStatus = 1;
+                        $notification->codeErreur = 801;
                         $notification->save();
                 }
                 else if($typeData[0] == "humidite sol" && ($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"])) {
                         $notification->alerteStatus = 1;
+                        $notification->codeErreur = 901;
                         $notification->save();
                 }
             }
             // Temperature Test
             // Verify if data sent is in a correct temperature
             else if($typeData[0] == "temperature"){
-
                 if($data['data'] < $veggie_data["favorableConditions"][0]["min"]){
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
                         "description"=>"The air is too cold",
-                        "alerteStatus"=> 0
+                        "alerteStatus"=> 0,
+                        "codeErreur" => 810
                     ]);
                 }
                 else if($data['data'] > $veggie_data["favorableConditions"][0]["max"]){
+                    //dd($data['data']);
+                    // Erreur dans le create
+                    // A revoir
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
                         "description"=>"The air is too hot",
-                        "alerteStatus"=> 0
+                        "alerteStatus"=> 0,
+                        "codeErreur" => 820
                     ]);
                 }
             }
@@ -138,7 +145,8 @@ class PiController extends Controller
                         Notification::create([
                             "idSensor"=>$data["idSensor"],
                             "description"=>"The ground is too dry",
-                            "alerteStatus"=> 0
+                            "alerteStatus"=> 0,
+                            "codeErreur" => 910
                         ]);
                     }
                     //Wet
@@ -146,7 +154,8 @@ class PiController extends Controller
                         Notification::create([
                             "idSensor"=>$data["idSensor"],
                             "description"=>"The ground is too wet",
-                            "alerteStatus"=> 0
+                            "alerteStatus"=> 0,
+                            "codeErreur" => 920
                         ]);
                     }
                 }
