@@ -6,9 +6,6 @@
                     <img style="width: 200px;" src="https://media.discordapp.net/attachments/481230407933755409/908441532594528376/MicrosoftTeams-image_2.png?width=376&height=423" alt="Logo">
                 </div>
                 <div>
-                @foreach($user as $users)
-                <th>Bonjour : {{ $users["name"] }}</th>
-                @if($users["role"] == 'admin' || $users["permission"] >= '3')
                 <h3>Insertion de zone</h3>
                     <form action = "{{route('addzonePost')}}" method = "post">
                         @csrf
@@ -24,7 +21,7 @@
                             <select required name="typeFood" id="typeFood">
                                 <option value="" disabled selected>Plantes</option>
                                 @foreach($allPlant as $allPlants)
-                                <option value='{{ $allPlants->plantName }}'>{{ $allPlants->plantName }}</option>
+                                <option value='{{ $allPlants->idPlant }}'>{{ $allPlants->plantName }}</option>
                                 @endforeach
                             </select><br>
 
@@ -45,11 +42,6 @@
                 <div>
                 <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
                 </div>
-                @else
-                        <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
-                        <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
-                @endif
-                @endforeach
             </div>
         </div>
     </body>

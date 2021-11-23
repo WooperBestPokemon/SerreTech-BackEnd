@@ -8,7 +8,7 @@
 
     <div>
         <div id="AlertHeader" style='display :flex; justify-content: center; align-content: center;'>
-            <h2>Alerte pour les capteurs</h2>
+            <h2>Alertes pour les capteurs</h2>
         </div>
     </div>
 

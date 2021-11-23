@@ -6,38 +6,21 @@
                     <img style="width: 200px;" src="https://media.discordapp.net/attachments/481230407933755409/908441532594528376/MicrosoftTeams-image_2.png?width=376&height=423" alt="Logo">
                 </div>
                 <div>
-                @foreach($user as $users)
-                <th>Bonjour : {{ $users["name"] }}</th>
-                @if($users["role"] == 'admin' || $users["permission"] >= '1')
                 <h1> GESTION </h1>
 
                     <div style='border:1px solid black;'>
-                        @if($users["role"] == 'admin' || $users["permission"] >= '3')
+
                         <h3>Ajout</h3>
                         <a href="{{route('addgreenhouse')}}" class="btn btn-primary">Ajouter Serre</a> </br>
                         <a href="{{route('addzone')}}" class="btn btn-primary">Ajouter zone</a> </br>
                         <a href="{{route('addsensor')}}" class="btn btn-primary">Ajouter capteur</a> </br>
-                        @endif
 
-                        @if($users["role"] == 'admin' || $users["permission"] >= '1')
-                        <h3>Consultation</h3>
-                        <a href="{{route('adminGestion')}}" class="btn btn-primary">Consulation</a> </br>
-                        @endif
-
-                        @if($users["role"] == 'admin' || $users["permission"] >= '4')
-                        <h3>Esclaves</h3>
-                        <a href="{{route('addEmploye')}}" class="btn btn-primary">Ajouter</a> </br>
-                        <a href="{{route('employe')}}" class="btn btn-primary">Gerer</a> </br>
-                        @endif
 
                     </div>
                 </div>
                 <div>
                 <a style="text-decoration: underline;" href="{{route("home")}}">Acceuil</a>
                 </div>
-                @else
-                        <p>Vous n'avez pas les permissions requises afin d'acceder a ce site</p>
-                @endif
-                @endforeach
+
             </div>
         </div>

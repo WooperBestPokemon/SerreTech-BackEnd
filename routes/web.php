@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\API\PiController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GreenHouse\{addGreenHouseController, deleteGreenHouseController, editGreenhouseController};
 use App\Http\Controllers\Sensor\{addSensorController, deleteSensorController, editSensorController};
 use App\Http\Controllers\Zone\{addZoneController, deleteZoneController, editZoneController};
-use App\Http\Controllers\gestionController;
+use App\Http\Controllers\{gestionController,NotificationController};
 //use App\Http\Controllers\Auth\VerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -95,10 +95,10 @@ Route::middleware('auth')->group(function () {
 | Login
 |--------------------------------------------------------------------------
 */
-Route::get('/notification', [PiController::class, "GetNotification"]);
+Route::get('/notification', [NotificationController::class, "GetNotification"]);
 //
 //
-//Auth::routes();
-Auth::routes(['register' => false]);
+Auth::routes();
+//Auth::routes(['register' => false]);
 //Route::get('/home', function (){return redirect("admin");})->name('home2');
 
