@@ -47,9 +47,6 @@ class gestionController extends Controller
                 "idZone" => $sensor->getAttributes()["idZone"]
             ]);
         }
-
-
-
         return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
     }
 
