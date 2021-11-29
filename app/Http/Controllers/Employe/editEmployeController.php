@@ -1,32 +1,31 @@
 <?php
 
-namespace App\Http\Controllers\GreenHouse;
+namespace App\Http\Controllers\Employe;
 
 use App\Http\Controllers\Controller;
-use App\Models\GreenHouse;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class editGreenhouseController extends Controller
+class editEmployeController extends Controller
 {
     public function index(){
-        return view('addGreenhouse');
+        return view('editEmploye');
     }
 
-    public function update(Request $request, $idGreenhouse) {
+    public function update(Request $request, $idProfile) {
 
-        $data = GreenHouse::find($idGreenhouse);
+        $data = User::find($idProfile);
         $data->name = $request->input('name') ?? $data->name ;
-        $data->description = $request->input('description')??$data->description;
-        $data->img = $request->input('img') ??$data->img;
+        $data->email = $request->input('email')??$data->email;
+        $data->permission = $request->input('permission')??$data->permission;
         $data->save();
 
         return redirect('/admin');
-     }
+    }
 
-     public function __invoke($idGreenhouse){
+    public function __invoke($idProfile){
         $user = Auth::user();
         $idProfile = Auth::id();
         $users = [] ;
@@ -41,6 +40,8 @@ class editGreenhouseController extends Controller
             ]);
         }
 
-        return view('editGreenhouse',GreenHouse::find($idGreenhouse)->getAttributes(),['user' => $users]);
+        $users2 = User::find($idProfile);
+        return view('editEmploye',['user' => $users,'user2' => $users2]);
+        
     }
 }
