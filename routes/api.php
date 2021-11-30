@@ -21,8 +21,6 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
 
-    Route::get('/GetGreenhouse',[apiController::class, 'ViewGreenHouse']);
-
     Route::get('/GetZone/{id}',[apiController::class,'ViewZone']);
 
     Route::get('/GetSensor/{id}',[apiController::class,'ViewSensor']);
@@ -36,6 +34,15 @@ Route::middleware('auth:api')->group(function () {
     Route::get("/GetSensor",[apiController::class,'GetSensors']);
 
     Route::get("/GetSensorsGreenhouse/{idGreenhouse}",[apiController::class,'GetSensorsGreenhouse']);
+
+    Route::get("/GetSensortype/{typeData}",[apiController::class,'GetSensorsType']);
+
+    Route::get("/Getgraph/{typeData}/{idGreenhouse}/{temps}",[apiController::class,'GetGraph']);
+
+    Route::get("/GetgraphMonth/{typeData}/{idGreenhouse}",[apiController::class,'GetGraphMonth']);
+
+    Route::get("/GetgraphYear/{typeData}/{idGreenhouse}",[apiController::class,'GetGraphYear']);
+
     /*
     |--------------------------------------------------------------------------
     | Procedure stockées
