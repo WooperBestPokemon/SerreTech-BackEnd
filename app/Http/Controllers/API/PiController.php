@@ -1,0 +1,211 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
+use App\Models\Data;
+use App\Models\Notification;
+use App\Models\Zone;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Mockery\Matcher\Not;
+use Psy\Util\Json;
+
+class PiController extends Controller
+{
+
+    //Posting data in database
+    public function postData(Request $request){
+        $user = Auth::user();
+
+        try {
+
+            //Getting the ID of the company
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->leftjoin('tblSensor','tblZone.idZone','=','tblSensor.idZone')
+                ->select('tblGreenHouse.idCompany')
+                ->where('tblSensor.idSensor','=',$request['sensor'])
+                ->pluck('idCompany');
+
+            if($company[0] == $user['idCompany']){
+                //The captor is owned by the company, so it's good
+                $data = new Data;
+
+                $data->data = $request['data'];
+                $data->idSensor = $request['sensor'];
+                $this->VerifyData($data);
+                $data->save();
+
+                $response = 'Accepted';
+                return response($response, 201);
+            }
+            else{
+                //Not owned by the company
+                $response = 'This captor is not owned by the company';
+                return response($response, 401);
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
+    }
+
+    // Verify data before post and create a notification if data is too high/too low
+    public function VerifyData($data){
+        try {
+            //Status 0 = Problem
+            //Status 1 = idle
+            $user = Auth::user();
+
+            // Permet de trouver l'id de la plante qui correspond à le typeFood dans la BD
+            $veggie = DB::table('tblZone')
+                ->join('tblSensor', 'tblZone.idZone', '=', 'tblSensor.idZone')
+                ->select('tblZone.typeFood')
+                ->where('tblSensor.idSensor', '=', $data['idSensor'])
+                ->pluck('typeFood');
+
+            // Va chercher le package contenant les informations de la plante dont on a besoin
+            $url = 'http://apipcst.xyz/api/search/package/' . $veggie[0];
+
+            // Va chercher la plante
+            $response = file_get_contents($url);
+            $veggie_data = json_decode($response, true);
+
+            // Find for the sensor if it is the one of temperature
+            $typeData = DB::table('tblSensor')
+                ->select('tblSensor.typeData')
+                ->where('tblSensor.idSensor', '=', $data['idSensor'])
+                ->pluck('typeData');
+
+            // Find for the latest notification
+            $notification = DB::table('tblnotification')
+                ->leftjoin('tblSensor', 'tblSensor.idSensor', '=', 'tblnotification.idSensor')
+                ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
+                ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
+                ->select('tblnotification.idAlerte', 'tblnotification.description', 'tblnotification.alerteStatus', 'tblnotification.codeErreur', 'tblnotification.idSensor', 'tblnotification.created_at', 'tblnotification.updated_at')
+                ->where('tblGreenHouse.idCompany', '=', $user["idCompany"])
+                ->where('tblnotification.alerteStatus', '=', 0)
+                ->where('tblSensor.typeData', '=', $typeData[0])
+                ->orderBy('tblnotification.created_at', 'desc')
+                ->first();
+
+            if($notification != null) {
+                $notification = Notification::find($notification->idAlerte);
+                $status = $notification->alerteStatus;
+            }
+            else{
+                $status = 1;
+            }
+
+            //dd(($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"]));
+
+            if($status == 0){
+                if($typeData[0] == "temperature" && ($data['data'] > $veggie_data["favorableConditions"][0]["min"] && $data['data'] < $veggie_data["favorableConditions"][0]["max"])) {
+                    $notification->alerteStatus = 1;
+                    $notification->save();
+                }
+                elseif($typeData[0] == "humidite sol" && ($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"])) {
+                    $notification->alerteStatus = 1;
+                    $notification->save();
+                }
+            }
+
+            // Temperature Test
+            // Verify if data sent is in a correct temperature
+            elseif($typeData[0] == "temperature"){
+                if($data['data'] < $veggie_data["favorableConditions"][0]["min"]){
+                    Notification::create([
+                        "idSensor"=>$data["idSensor"],
+                        "description"=>"The air is too cold",
+                        "alerteStatus"=> 0,
+                        "codeErreur" => 810
+                    ]);
+                }
+                elseif($data['data'] > $veggie_data["favorableConditions"][0]["max"]){
+                    Notification::create([
+                        "idSensor"=>$data["idSensor"],
+                        "description"=>"The air is too hot",
+                        "alerteStatus"=> 0,
+                        "codeErreur" => 820
+                    ]);
+                }
+            }
+            // Humidity Test
+            // Verify if data sent is in a correct humidity for the ground
+            elseif($typeData[0] == "humidite sol"){
+                    //Dry
+                    if($data['data'] < $veggie_data["favorableConditions"][1]["min"]){
+                        Notification::create([
+                            "idSensor"=>$data["idSensor"],
+                            "description"=>"The ground is too dry",
+                            "alerteStatus"=> 0,
+                            "codeErreur" => 910
+                        ]);
+                    }
+                    //Wet
+                    elseif ($data['data'] > $veggie_data["favorableConditions"][1]["max"]){
+                        Notification::create([
+                            "idSensor"=>$data["idSensor"],
+                            "description"=>"The ground is too wet",
+                            "alerteStatus"=> 0,
+                            "codeErreur" => 920
+                        ]);
+                    }
+                }
+            }
+        catch(\Illuminate\Database\QueryException $ex){
+           // Return the exception and the error
+           $response = 'An error occurred';
+           return response($response, 400);
+       }
+    }
+
+
+    //Returning if you need to water the plant or not
+    public function getWater(Request $request, $idZone){
+
+        //todo - Api call to check how much water the zone need
+
+        $user = Auth::user();
+        try{
+            $zone = Zone::find($idZone);
+            //Getting the ID of the company
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->select('tblGreenHouse.idCompany')
+                ->where('tblZone.idZone','=',$idZone)
+                ->pluck('idCompany');
+
+            if($company[0] == $user['idCompany']){
+
+                //The zone is owned by the company, so it's good
+                $response = [
+                    'water' => $zone->water,
+                    'quantity' => 300
+                ];
+
+                //update the water to false
+                if($zone->water == 0){
+                    $zone->water = 1;
+                    $zone->save();
+                }
+
+
+                return response($response, 201);
+            }
+            else{
+                //Not owned by the company
+                $response = 'This captor is not owned by the company';
+                return response($response, 401);
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
+    }
+    //Returning if you need to water the plant or not
+}

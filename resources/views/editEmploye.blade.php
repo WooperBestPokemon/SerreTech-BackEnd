@@ -8,34 +8,32 @@
                 <div>
                 @foreach($user as $users)
                 <th>Bonjour : {{ $users["name"] }}</th>
-                @if($users["role"] == 'admin' || $users["permission"] >= '2')
-                <h3>Modification de capteur</h3>
+                @if($users["role"] == 'admin' || $users["permission"] >= '4')
+                <h3>Modification d'employé</h3>
 
-                    <form action = "{{route("editsensorPut",$sensors->idSensor)}}" method = "post">
+                    <form action = "{{route("editEmployePut",$user2->idProfile)}}" method = "post">
                         @csrf
                         @method('PUT')
                         <label>Nom : </label>
-                        <input required maxlength='200' type="text" id="name" value='{{ $sensors->name }}' name="name"><br>
+                        <input required maxlength='200' type="text" id="name" value='{{ $user2->name }}' name="name"><br>
 
-                        <label>Description : </label>
-                        <input type="text" maxlength='200' id="description" value='{{ $sensors->description }}' name="description"><br>
+                        <label>Email : </label>
+                        <input type="text" maxlength='200' id="email" value='{{ $user2->email }}' name="email"><br>
+                        
+                        
+                        <label>Permission : </label>
+                        <select required name="permission" id="permission">
+                            <option value="0">Aucun droit</option>
+                            <option value="1">Peut voir les objets</option>
+                            <option value="2">Peut modifier les objets</option>
+                            <option value="3">Peut ajouter/modifier les objets</option>
+                            <option value="4">Peut ajouter/modifier des employés et objets</option>
+                            <option value="5">Admin</option>
+                        </select><br>
 
-                        <label>Type de données : </label>
-                        <input type="text" required maxlength='200' id="typeData" name="typeData"><br>
-
-                        <label>Choisir la zone :</label>
-                            <select required name="idZone" id="idZone">
-                                <option value="{{ $sensors->idZone }}" selected>Zones</option>
-                                @foreach($zone as $zones)
-                                <option value='{{ $zones["idZone"] }}'>{{ $zones["name"] }}</option>
-                                @endforeach
-                            </select>
-                            <br>
                         <input type = 'submit' value = "Modifier"/>
                     </form>
-                </div>
-
-                <div>
+                    <div>
                 <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
                 </div>
                 @else
@@ -43,6 +41,7 @@
                         <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
                 @endif
                 @endforeach
+                </div>
             </div>
         </div>
     </body>

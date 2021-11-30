@@ -1,11 +1,12 @@
 <?php
 
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GreenHouse\{addGreenHouseController, editGreenhouseController};
-use App\Http\Controllers\Sensor\{addSensorController, editSensorController};
-use App\Http\Controllers\Zone\{addZoneController,editZoneController};
-use App\Http\Controllers\gestionController;
+use App\Http\Controllers\GreenHouse\{addGreenHouseController, deleteGreenHouseController, editGreenhouseController};
+use App\Http\Controllers\Sensor\{addSensorController, deleteSensorController, editSensorController};
+use App\Http\Controllers\Zone\{addZoneController, deleteZoneController, editZoneController};
+use App\Http\Controllers\{gestionController,NotificationController};
 //use App\Http\Controllers\Auth\VerificationController;
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,8 @@ use App\Http\Controllers\gestionController;
 
 
 Route::middleware('auth')->group(function () {
+
+    Route::redirect("/home","/admin");
 
     Route::get('/', function () {return view('welcome');})->name("home");
 
@@ -54,6 +57,8 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/admin/greenhouse/{idGreenhouse}/edit',[editGreenhouseController::class,'update'])->name("editgreenhousePut");
 
+    Route::delete('/admin/greenhouse/{idGreenhouse}',deleteGreenhouseController::class)->name("deletegreenhouse");
+
     /*
     |--------------------------------------------------------------------------
     | Admin Zone
@@ -68,6 +73,7 @@ Route::middleware('auth')->group(function () {
 
     Route::put('/admin/zone/{idZone}/edit',[editZoneController::class,'update'])->name("editzonePut");
 
+    Route::delete('/admin/zone/{idZone}',deleteZoneController::class)->name("deletezone");
     /*
     |--------------------------------------------------------------------------
     | Admin Sensors
@@ -80,17 +86,21 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/sensor/{idSensor}/edit' , editSensorController::class)->name("editsensor");
 
+    Route::get('/notification', [NotificationController::class, "GetNotification"]);
+
     Route::put('/admin/sensor/{idSensor}/edit' ,[editSensorController::class,'update'])->name("editsensorPut");
 
+    Route::delete('/admin/sensor/{idSensor}',deleteSensorController::class)->name("deletesensor");
 });
 /*
 |--------------------------------------------------------------------------
 | Login
 |--------------------------------------------------------------------------
 */
+
 //
-
+//
 Auth::routes();
-
+//Auth::routes(['register' => false]);
 //Route::get('/home', function (){return redirect("admin");})->name('home2');
 
