@@ -16,6 +16,7 @@ class addGreenhouseController extends Controller
     public function insert(Request $request) {
     $request->validate([
         'name'=>'required|string',
+        'description'=>'required|string'
         ]);
 
 
