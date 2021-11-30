@@ -372,6 +372,33 @@ class apiController extends Controller
                 "data"=>apiController::GetAvgDataSensor($sensor->idSensor,false),
             ]);
         }
-        return Controller::sendResponse(['sensors' => $sensors ], 'Donnée Recuperer');
+        return Controller::sendResponse(['sensors' => $sensors ], 'Donnees Recuperer');
+    }
+
+    public function GetNotification(){
+        $user = Auth::user();
+
+        $data = DB::table('tblnotification')
+            ->leftjoin('tblSensor', 'tblSensor.idSensor', '=', 'tblnotification.idSensor')
+            ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
+            ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
+            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus', 'tblnotification.codeErreur','tblnotification.idSensor')
+            ->where('tblGreenHouse.idCompany', '=', $user["idCompany"])
+            ->get();
+
+        // Fais un tableau pour recupere les données en json
+        $notification = [];
+
+        foreach ($data as $alerte){
+            array_push($notification, [
+                "idAlerte" => $alerte->idAlerte,
+                "description" => $alerte->description,
+                "alerteStatus" => $alerte->alerteStatus,
+                "codeErreur" => $alerte->codeErreur,
+                "idSensor" => $alerte->idSensor,
+            ]);
+        }
+
+        return Controller::sendResponse(['alerte' => $notification ], 'Donnees Recuperer');
     }
 }

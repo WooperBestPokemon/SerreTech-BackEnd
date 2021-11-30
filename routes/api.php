@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\API\PiController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\apiController;
@@ -36,6 +37,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get("/GetSensor",[apiController::class,'GetSensors']);
 
     Route::get("/GetSensorsGreenhouse/{idGreenhouse}",[apiController::class,'GetSensorsGreenhouse']);
+
     /*
     |--------------------------------------------------------------------------
     | Procedure stockées
@@ -53,6 +55,8 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/GetAvgDataGreenhouse/{idGreenhouse}/{typedata}',[apiController::class,'GetAvgDataGreenhouse']);
 
     Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
+
+    Route::get('/GetNotification', [apiController::class, "GetNotification"]);
 
     /*
     |--------------------------------------------------------------------------

@@ -11,21 +11,17 @@ class NotificationController extends Controller
 {
 
     public function GetNotification(){
-
         // Recupere l'utilisateur qui est logger
         $user = Auth::user();
-
-        // Companie -> Greenhouse -> Zone -> Sensor -> Notification
 
         $data = DB::table('tblnotification')
             ->leftjoin('tblSensor', 'tblSensor.idSensor', '=', 'tblnotification.idSensor')
             ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
             ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
-            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus', 'tblnotification.idSensor')
+            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus', 'tblnotification.codeErreur','tblnotification.idSensor')
             ->where('tblGreenHouse.idCompany', '=', $user["idCompany"])
+            ->orderBy('tblnotification.alerteStatus')
             ->get();
-
-        //dd($data);
 
         // Fais un tableau pour recupere les données en json
         $notification = [];
@@ -35,6 +31,7 @@ class NotificationController extends Controller
                 "idAlerte" => $alerte->idAlerte,
                 "description" => $alerte->description,
                 "alerteStatus" => $alerte->alerteStatus,
+                "codeErreur" => $alerte->codeErreur,
                 "idSensor" => $alerte->idSensor,
             ]);
         }

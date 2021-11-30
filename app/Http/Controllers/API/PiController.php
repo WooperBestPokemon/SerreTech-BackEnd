@@ -14,17 +14,6 @@ use Psy\Util\Json;
 
 class PiController extends Controller
 {
-    // fonction de test
-    public function testdejonnhytest(Request $request){
-        $request['veggie'];
-        $url = 'http://apipcst.xyz/api/searchAll/plant';
-        $response = file_get_contents($url);
-        //$newsData = json_decode($response, true);
-        $test = collect(json_decode($response, true));
-
-        //$test1 = $test->where('id',1)->data;
-        dd($test);
-    }
 
     //Posting data in database
     public function postData(Request $request){
@@ -69,52 +58,64 @@ class PiController extends Controller
         try {
             //Status 0 = Problem
             //Status 1 = idle
+            $user = Auth::user();
 
             // Permet de trouver l'id de la plante qui correspond à le typeFood dans la BD
             $veggie = DB::table('tblZone')
-                ->join('tblSensor','tblZone.idZone','=','tblSensor.idZone')
+                ->join('tblSensor', 'tblZone.idZone', '=', 'tblSensor.idZone')
                 ->select('tblZone.typeFood')
-                ->where('tblSensor.idSensor','=',$data['idSensor'])
+                ->where('tblSensor.idSensor', '=', $data['idSensor'])
                 ->pluck('typeFood');
 
             // Va chercher le package contenant les informations de la plante dont on a besoin
-            $url = 'http://apipcst.xyz/api/search/package/'.$veggie[0];
+            $url = 'http://apipcst.xyz/api/search/package/' . $veggie[0];
 
             // Va chercher la plante
             $response = file_get_contents($url);
             $veggie_data = json_decode($response, true);
 
-            // Looking for the sensor if it is the one of temperature
+            // Find for the sensor if it is the one of temperature
             $typeData = DB::table('tblSensor')
-            ->select('tblSensor.typeData')
-            ->where('tblSensor.idSensor','=',$data['idSensor'])
-            ->pluck('typeData');
+                ->select('tblSensor.typeData')
+                ->where('tblSensor.idSensor', '=', $data['idSensor'])
+                ->pluck('typeData');
 
-            // Look for the latest notification
-            $notification = Notification::find($data['idSensor']);
+            // Find for the latest notification
+            $notification = DB::table('tblnotification')
+                ->leftjoin('tblSensor', 'tblSensor.idSensor', '=', 'tblnotification.idSensor')
+                ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
+                ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
+                ->select('tblnotification.idAlerte', 'tblnotification.description', 'tblnotification.alerteStatus', 'tblnotification.codeErreur', 'tblnotification.idSensor', 'tblnotification.created_at', 'tblnotification.updated_at')
+                ->where('tblGreenHouse.idCompany', '=', $user["idCompany"])
+                ->where('tblnotification.alerteStatus', '=', 0)
+                ->where('tblSensor.typeData', '=', $typeData[0])
+                ->orderBy('tblnotification.created_at', 'desc')
+                ->first();
 
             if($notification != null) {
-                $notification = $notification->latest()->first();
+                $notification = Notification::find($notification->idAlerte);
                 $status = $notification->alerteStatus;
             }
             else{
                 $status = 1;
             }
+
+            //dd(($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"]));
+
             if($status == 0){
                 if($typeData[0] == "temperature" && ($data['data'] > $veggie_data["favorableConditions"][0]["min"] && $data['data'] < $veggie_data["favorableConditions"][0]["max"])) {
-                        $notification->alerteStatus = 1;
-                        $notification->codeErreur = 801;
-                        $notification->save();
+                    $notification->alerteStatus = 1;
+                    $notification->save();
                 }
-                else if($typeData[0] == "humidite sol" && ($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"])) {
-                        $notification->alerteStatus = 1;
-                        $notification->codeErreur = 901;
-                        $notification->save();
+                elseif($typeData[0] == "humidite sol" && ($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"])) {
+                    $notification->alerteStatus = 1;
+                    $notification->save();
                 }
             }
+
             // Temperature Test
             // Verify if data sent is in a correct temperature
-            else if($typeData[0] == "temperature"){
+            elseif($typeData[0] == "temperature"){
                 if($data['data'] < $veggie_data["favorableConditions"][0]["min"]){
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
@@ -123,10 +124,7 @@ class PiController extends Controller
                         "codeErreur" => 810
                     ]);
                 }
-                else if($data['data'] > $veggie_data["favorableConditions"][0]["max"]){
-                    //dd($data['data']);
-                    // Erreur dans le create
-                    // A revoir
+                elseif($data['data'] > $veggie_data["favorableConditions"][0]["max"]){
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
                         "description"=>"The air is too hot",
@@ -137,9 +135,7 @@ class PiController extends Controller
             }
             // Humidity Test
             // Verify if data sent is in a correct humidity for the ground
-            else if($typeData[0] == "humidite sol"){
-
-                if($data['data'] < $veggie_data["favorableConditions"][1]["min"] || $data['data'] > $veggie_data["favorableConditions"][1]["max"]){
+            elseif($typeData[0] == "humidite sol"){
                     //Dry
                     if($data['data'] < $veggie_data["favorableConditions"][1]["min"]){
                         Notification::create([
@@ -150,7 +146,7 @@ class PiController extends Controller
                         ]);
                     }
                     //Wet
-                    else{
+                    elseif ($data['data'] > $veggie_data["favorableConditions"][1]["max"]){
                         Notification::create([
                             "idSensor"=>$data["idSensor"],
                             "description"=>"The ground is too wet",
@@ -160,12 +156,11 @@ class PiController extends Controller
                     }
                 }
             }
-        }
         catch(\Illuminate\Database\QueryException $ex){
-            // Return the exception and the error
-            $response = 'An error occurred';
-            return response($response, 400);
-        }
+           // Return the exception and the error
+           $response = 'An error occurred';
+           return response($response, 400);
+       }
     }
 
 
