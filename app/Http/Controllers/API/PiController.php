@@ -163,7 +163,6 @@ class PiController extends Controller
        }
     }
 
-
     //Returning if you need to water the plant or not
     public function getWater(Request $request, $idZone){
 

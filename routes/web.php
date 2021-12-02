@@ -86,7 +86,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/sensor/{idSensor}/edit' , editSensorController::class)->name("editsensor");
 
-    Route::get('/notification', [NotificationController::class, "GetNotification"]);
+    //Route::get('/notification', [NotificationController::class, "GetNotification"]);
 
     Route::put('/admin/sensor/{idSensor}/edit' ,[editSensorController::class,'update'])->name("editsensorPut");
 

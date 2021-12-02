@@ -14,38 +14,39 @@
                     <div style='border:1px solid black;'>
                         <h3>Consulter</h3>
                         <h5>Gestion des employés</h5>
-                    <table style='border:1px solid black;'>
-                        <tr style="font-weight: bold;">
-                            <th>ID</th>
-                            <th>NOM</th>
-                            <th>Email</th>
-                            <th>Password</th>
-                            <th>Role</th>
-                            <th>Modifier</th>
+                        <table style='border:1px solid black;'>
+                            <tr style="font-weight: bold;">
+                                <th>ID</th>
+                                <th>NOM</th>
+                                <th>Email</th>
+                                <th>Password</th>
+                                <th>Role</th>
+                                <th>Modifier</th>
 
-                            <th></th>
-                        </tr>
-                    @foreach($employe as $employes)
-                        <tr>
-                            <th>{{ $employes["idProfile"] }}</th>
-                            <th>{{ $employes["name"] }}</th>
-                            <th>{{ $employes["email"] }}</th>
-                            <th>**********</th>
-                            <th>{{ $employes["role"] }}</th>
-                            <th><a href="{{route('editEmploye',$employes["idProfile"])}}">Modifier</a></th>
-                        </tr>
-                    @endforeach
-                    </table>
-                </div>
+                                <th></th>
+                            </tr>
+                        @foreach($employe as $employes)
+                            <tr>
+                                <th>{{ $employes["idProfile"] }}</th>
+                                <th>{{ $employes["name"] }}</th>
+                                <th>{{ $employes["email"] }}</th>
+                                <th>**********</th>
+                                <th>{{ $employes["role"] }}</th>
+                                <th><a href="{{route('editEmploye',$employes["idProfile"])}}">Modifier</a></th>
+                            </tr>
+                        @endforeach
+                        </table>
+                    </div>
 
                 <div>
-                <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
+                    <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
                 </div>
-                @else
-                        <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
-                        <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
-                @endif
-                @endforeach
+                    @else
+                            <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
+                            <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
+                    @endif
+                    @endforeach
+                </div>
             </div>
         </div>
     </body>

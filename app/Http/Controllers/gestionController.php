@@ -7,6 +7,7 @@ use App\Models\GreenHouse;
 use App\Models\Sensor;
 use App\Models\Zone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class gestionController extends Controller
@@ -48,10 +49,18 @@ class gestionController extends Controller
             ]);
         }
 
-
-
         return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
     }
 
+    public function getplant($plant){
 
+        $url = 'http://apipcst.xyz/api/search/package/'.$plant;
+
+        $response = file_get_contents($url);
+        $data = json_decode($response,true);
+
+        $plantName = $data['plantName'];
+
+        return $plantName;
+    }
 }
