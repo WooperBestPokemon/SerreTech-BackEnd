@@ -40,7 +40,7 @@ class editGreenhouseController extends Controller
                 "permission" =>$user->getAttributes()["permission"],
             ]);
         }
-
+        
         return view('editGreenhouse',GreenHouse::find($idGreenhouse)->getAttributes(),['user' => $users]);
     }
 }
