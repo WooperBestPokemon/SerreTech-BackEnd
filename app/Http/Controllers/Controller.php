@@ -39,7 +39,6 @@ class Controller extends BaseController
     }
     public function UserVerication($id){
         $user = Auth::user();
-
         $greenhouse = GreenHouse::find($id);
         if($greenhouse == null){
             return true;

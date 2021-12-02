@@ -59,6 +59,7 @@ class CreateDatabaseTable extends Migration
         Schema::table('users', function (Blueprint $table){
             $table->foreign('idCompany')->references('idCompany')->on('tblCompany')->onDelete('cascade');
         });
+
     }
 
 
