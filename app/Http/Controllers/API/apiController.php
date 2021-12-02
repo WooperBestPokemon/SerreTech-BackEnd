@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use App\Models\GreenHouse;
 use App\Models\Sensor;
 use App\Models\Zone;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Laravel\Passport\Token;
 use Psy\Util\Json;
