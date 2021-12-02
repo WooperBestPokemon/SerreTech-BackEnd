@@ -7,8 +7,9 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
-use App\Models\Sensor;
+use App\Models\GreenHouse;
 use App\Models\Zone;
+use Illuminate\Support\Facades\Auth;
 
 
 class Controller extends BaseController
@@ -34,5 +35,19 @@ class Controller extends BaseController
             $response['data'] = $errorMessages;
         }
         return response()->json($response, $code);
+    }
+
+    public function UserVerication($id){
+        $user = Auth::user();
+        $greenhouse = GreenHouse::find($id);
+        if($greenhouse == null){
+            return true;
+        }
+        if($greenhouse->idCompany == $user->idCompany) {
+            return true;
+        }
+        else{
+            return  false;
+        }
     }
 }

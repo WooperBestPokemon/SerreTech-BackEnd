@@ -47,7 +47,6 @@ class gestionController extends Controller
                 "permission" =>$user->getAttributes()["permission"],
             ]);
         }
-
         $greenhouses = [] ;
         foreach(GreenHouse::where('idCompany','=',$users[0]['idCompany'])->get() as $greenhouse) {
             array_push($greenhouses, [
@@ -58,30 +57,26 @@ class gestionController extends Controller
                 "idCompany" => $greenhouse->getAttributes()["idCompany"],
             ]);
         }
-            $zones = [] ;
-
-
-        foreach($greenhouses as $greenhouse){
+        $zones = [] ;
+        foreach ($greenhouses as $greenhouse)
+        {
             foreach(Zone::where('idGreenHouse','=',$greenhouse['idGreenHouse'])->get() as $zone) {
                 array_push($zones, [
                     "idZone"=> $zone->getAttributes()["idZone"],
                     "name" => $zone->getAttributes()["name"],
                     "description" => $zone->getAttributes()["description"],
                     "img" => $zone->getAttributes()["img"],
-                    "typeFood" => $zone->getAttributes()["typeFood"],
+                    "typeFood" => $this->NamePlant($zone->getAttributes()["idZone"]),
                     "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
                 ]);
-        }
-        
-        
+
+            }
         }
         $sensors = [] ;
-
-        foreach($zones as $zone)
-        {
-            foreach(Sensor::where('idZone','=',$zone['idZone'])->get() as $sensor) {
+        foreach($zones as $zone) {
+            foreach (Sensor::where('idZone', '=', $zone['idZone'])->get() as $sensor) {
                 array_push($sensors, [
-                    "idSensor" =>$sensor->getAttributes()["idSensor"],
+                    "idSensor" => $sensor->getAttributes()["idSensor"],
                     "name" => $sensor->getAttributes()["name"],
                     "description" => $sensor->getAttributes()["description"],
                     "typeData" => $sensor->getAttributes()["typeData"],
@@ -90,36 +85,16 @@ class gestionController extends Controller
             }
         }
 
-
-        $zoness = [] ;
-        foreach ($greenhouses as $greenhouse) 
-        {
-            $url = 'http://apipcst.xyz/api/search/package/'.$zone['typeFood'];
-            $response = file_get_contents($url);
-            $data = json_decode($response,true);
-            $plantName = $data['plantName'];
-            /*array_push($zones, [
-                
-            ]);*/
-
-            foreach(Zone::where('idGreenHouse','=',$greenhouse['idGreenHouse'])->get() as $zone) {
-                array_push($zoness, [
-                    "idZone"=> $zone->getAttributes()["idZone"],
-                    "name" => $zone->getAttributes()["name"],
-                    "description" => $zone->getAttributes()["description"],
-                    "img" => $zone->getAttributes()["img"],
-                    "typeFood" => $plantName,
-                    "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
-                ]);
-
-            }           
-        }
-
-
-
-        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zoness, 'sensor' => $sensors, 'user' => $users]);
+        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $users]);
     }
-    
+
+    public function NamePlant($typeFood){
+        $url = 'http://apipcst.xyz/api/search/package/'.$typeFood;
+        $response = file_get_contents($url);
+        $data = json_decode($response,true);
+        $plantName = $data['plantName'];
+        return $plantName;
+    }
     public function employe(){
         $user = Auth::user();
         $idProfile = Auth::id();
@@ -134,7 +109,6 @@ class gestionController extends Controller
                 "permission" =>$user->getAttributes()["permission"],
             ]);
         }
-
         $employes = [] ;
         foreach(User::where('idCompany','=',$users[0]['idCompany'])->get() as $employe) {
             array_push($employes, [
@@ -147,7 +121,6 @@ class gestionController extends Controller
         }
 
         return view('viewEmploye',['user' => $users, 'employe' => $employes]);
-
     }
 
     public function indexWelcome(){
