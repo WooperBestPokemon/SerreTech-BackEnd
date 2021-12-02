@@ -31,7 +31,7 @@ class apiController extends Controller
             $success['token'] = $user->createToken('MyApp')->accessToken;
             return Controller::sendResponse($success, 'User login successfully.');
         } else {
-            return Controller::sendError('Unauthorised.', ['error' => 'Unauthorised', $request->all()]);
+            return Controller::sendError('Unauthorised.', ['error' => 'Unauthorised', $request->email()]);
         }
     }
 
