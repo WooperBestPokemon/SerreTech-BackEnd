@@ -6,9 +6,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8" align="center">
             <div class="card">
-            <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <img style="width: 200px;" src="https://media.discordapp.net/attachments/481230407933755409/908441532594528376/MicrosoftTeams-image_2.png?width=376&height=423" alt="Logo">
-                </div><form method="POST" action="{{ route('login') }}">
+
+                <img style="width: 200px;" src="https://cdn.discordapp.com/attachments/481230407933755409/891021680602910751/Items.png" alt="Logo best team">
+                <form method="POST" action="{{ route('login') }}">
                     @csrf
 
 

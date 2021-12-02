@@ -21,7 +21,7 @@ class CreateDatabaseTable extends Migration
         Schema::create('tblGreenHouse', function (Blueprint $table) {
             $table->id("idGreenHouse")->autoIncrement();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('description');
             $table->string('img')->nullable();
             $table->foreignId('idCompany');
             $table->timestamps();
@@ -30,8 +30,8 @@ class CreateDatabaseTable extends Migration
         Schema::create('tblZone', function (Blueprint $table) {
             $table->id("idZone")->autoIncrement();
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->integer('typeFood');
+            $table->string('description');
+            $table->int('typeFood');
             $table->string('img')->nullable();
             $table->boolean('water')->default(0);
             $table->timestamps();
@@ -41,7 +41,7 @@ class CreateDatabaseTable extends Migration
         Schema::create('tblSensor', function (Blueprint $table) {
             $table->id('idSensor')->autoIncrement();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->string('description');
             $table->string('typeData');
             $table->boolean('actif')->default(1);
             $table->timestamps();

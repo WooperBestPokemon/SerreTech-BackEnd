@@ -8,27 +8,26 @@
                 </div>
 
                 <div>
-                <h3>Modification de serre</h3>
-
-                    <form action = "{{route('editgreenhousePut',$idGreenHouse)}}" method = "post">
+                <h3>Insertion de serres</h3>
+                    <form action = "{{route("addgreenhousePost")}}" method = "post">
                         @csrf
-                        @method('PUT')
+                        @method("POST")
                         <label>Nom : </label>
-                        <input required maxlength='200' type="text" id="name" value='{{ $name}}' name="name"><br>
+                        <input required maxlength='200' type="text" id="name" name="name"><br>
 
                         <label>Description : </label>
-                        <input type="text" maxlength='200' id="description" value='{{ $description }}' name="description"><br>
+                        <input type="text" maxlength='200' id="description" name="description"><br>
+
+
                         <label>Image :</label>
-                            <input value='{{ $img }}' name="img" type="url" placeholder="Url du produit" maxlength='999'>
+                            <input href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
                             <br>
-                            <img style="width: 500px; height: 500px" src="{{ $img }}">
-                            <br>
-                        <input type = 'submit' value = "Modifier greenhouse"/>
+                        <input type = 'submit' value = "Add greenhouse"/>
                     </form>
                 </div>
 
                 <div>
-                <a style="text-decoration: underline;" href="/">Acceuil</a>
+                <a style="text-decoration: underline;" href="{{route("home")}}">Acceuil</a>
                 </div>
 
             </div>

@@ -41,6 +41,19 @@ class NullTest extends TestCase
         $response->assertSessionHasErrors('description');
     }
     /** test */
+    public function test_null_greenhouse_img()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->post(route('addgreenhousePost'), [
+                'name' => 'Les légumes',
+                'img' => '',
+                'description' => 'Je contient des légumes',
+            ]);
+        $response->assertSessionHasErrors('img');
+    }
+    /** test */
     public function test_null_zone_name()
     {
         $user = User::factory()->create();
@@ -81,6 +94,20 @@ class NullTest extends TestCase
                 'img' => 'http://www.mayrand.ca/globalassets/mayrand/catalog-mayrand/fruit-et-legume/40734-tomate-en-serre-15-lb.jpg',
             ]);
         $response->assertSessionHasErrors('description');
+    }
+    /** test */
+    public function test_null_zone_img()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)
+            ->post(route('addzonePost'), [
+                'name' => 'Zone',
+                'typeFood' => 'Tomate',
+                'description' => '',
+                'img' => '',
+            ]);
+        $response->assertSessionHasErrors('img');
     }
     /** test */
     public function test_null_sensor_name()

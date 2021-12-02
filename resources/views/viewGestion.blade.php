@@ -22,7 +22,7 @@
                             <th>ID</th>
                             <th>NOM</th>
                             <th>description</th>
-
+                            <th></th>
                             <th></th>
                         </tr>
                     @foreach($greenhouse as $greenhouses)
@@ -33,11 +33,9 @@
                             @if($users["role"] == 'admin' || $users["permission"] >= '2')
                                 <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
                             @endif
-                            </tr>
-                          <tr>
-                          <th><a href='/serre/{{ $greenhouses["idGreenHouse"] }}'>Detail</a></th>--}}
-                            <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
+                            @if($users["role"] == 'admin')
                             <th><form action="{{route('deletegreenhouse',$greenhouses["idGreenHouse"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                            @endif
                         </tr>
                     @endforeach
                     </table>
@@ -50,6 +48,7 @@
                             <th>description</th>
                             <th>type de plante</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     @foreach($zone as $zones)
                         <tr>
@@ -59,10 +58,10 @@
                             <th>{{ $zones["typeFood"] }}</th>
                             @if($users["role"] == 'admin' || $users["permission"] >= '2')
                             <th><a href="{{route('editzone',$zones["idZone"])}}">Modifier</a></th>
-
                             @endif
+                            @if($users["role"] == 'admin')
                             <th><form action="{{route('deletezone',$zones["idZone"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
-
+                            @endif
                         </form>
                         </tr>
                     @endforeach
@@ -75,7 +74,7 @@
                             <th>NOM</th>
                             <th>description</th>
                             <th>type de données</th>
-
+                            <th></th>
                             <th></th>
                         </tr>
                     @foreach($sensor as $sensors)
@@ -88,7 +87,9 @@
                             @if($users["role"] == 'admin' || $users["permission"] >= '2')
                             <th><a href="{{route('editsensor',$sensors["idSensor"])}}">Modifier</a></th>
                             @endif
+                            @if($users["role"] == 'admin')
                             <th><form action="{{route('deletesensor',$sensors["idSensor"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                            @endif
                         </form>
                         </tr>
                     @endforeach
