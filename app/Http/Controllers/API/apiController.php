@@ -372,6 +372,28 @@ class apiController extends Controller
         }
         return Controller::sendResponse(['sensors' => $sensors ], 'Donnée Recuperer');
     }
+    
+    public function GetSensors(){
+        $user = Auth::user();
+        $data = DB::table('tblSensor')
+            ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
+            ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+            ->select('tblSensor.idSensor','tblSensor.name','tblSensor.description','tblSensor.typeData','tblSensor.idZone')
+            ->where('idCompany' ,'=',$user->idCompany)
+            ->get();
+
+        $sensors = [] ;
+        foreach($data as $sensor) {
+            array_push($sensors, [
+                "idSensor" =>$sensor->idSensor,
+                "name" => $sensor->name,
+                "typeData" => $sensor->typeData,
+                "idZone" => $sensor->idZone,
+                "valeur"=>apiController::GetAvgDataSensor($sensor->idSensor,false),
+            ]);
+        }
+        return Controller::sendResponse(['sensors' => $sensors ], 'Donnée Recuperer');
+    }
 
     public function GetGraph($typeData,$idGreenhouse,$temps){
         if (Controller::UserVerication($idGreenhouse) == true) {
