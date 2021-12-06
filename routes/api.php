@@ -1,9 +1,9 @@
 <?php
-use App\Http\Controllers\API\PiController;
+
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\apiController;
+use App\Http\Controllers\API\{apiController,piController};
 
 /*
 |--------------------------------------------------------------------------
@@ -31,23 +31,26 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/SearchSensor/{id}',[apiController::class,'SearchSensor']);
 
-    Route::get("/GetSensor",[apiController::class,'GetSensors']);
-
     Route::get("/GetSensorsGreenhouse/{idGreenhouse}",[apiController::class,'GetSensorsGreenhouse']);
 
     Route::get("/GetSensortype/{typeData}",[apiController::class,'GetSensorsType']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Graph
+    |--------------------------------------------------------------------------
+    */
 
     Route::get("/Getgraph/{typeData}/{idGreenhouse}/{temps}",[apiController::class,'GetGraph']);
 
     Route::get("/GetgraphMonth/{typeData}/{idGreenhouse}",[apiController::class,'GetGraphMonth']);
 
     Route::get("/GetgraphYear/{typeData}/{idGreenhouse}",[apiController::class,'GetGraphYear']);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Procedure stockées
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Procedure stockées
+        |--------------------------------------------------------------------------
+        */
 
     Route::get('/GetDataLastDay/{idSensor}',[apiController::class,'GetDataLastDay']);
 
@@ -61,6 +64,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/GetAvgDataZone/{idZone}/{typedata}',[apiController::class,'GetAvgDataZone']);
 
+
     /*
     |--------------------------------------------------------------------------
     | Route pour les scripts
@@ -69,7 +73,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post("/data", [PiController::class, "postData"]);
 
-    Route::get('/water/{idZone}', [PiController::class, 'getWater']);
+    Route::get("/water/{idZone}", [PiController::class, "getWater"]);
 });
 /*
 |--------------------------------------------------------------------------
@@ -78,12 +82,6 @@ Route::middleware('auth:api')->group(function () {
 */
 
 Route::post('/login', [apiController::class, 'login']);
-
-/*
-|--------------------------------------------------------------------------
-| Gestion des erreurs
-|--------------------------------------------------------------------------
-*/
 
 Route::fallback(function (){
     abort(response()->json('API resource not found',404));
