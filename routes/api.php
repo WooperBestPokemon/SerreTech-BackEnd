@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get("/GetSensortype/{typeData}",[apiController::class,'GetSensorsType']);
 
+    Route::get('/GetSensor',[apiController::class,'GetSensors']);
     /*
     |--------------------------------------------------------------------------
     | Graph

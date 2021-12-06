@@ -8,33 +8,41 @@
                 <div>
                 @foreach($user as $users)
                 <th>Bonjour : {{ $users["name"] }}</th>
-                @if($users["role"] == 'admin' || $users["permission"] >= '3')
-                <h3>Insertion de serre</h3>
-                    <form action = "{{route("addgreenhousePost")}}" method = "post">
+                @if($users["role"] == 'admin')
+                <h3>Création de la compagnie</h3>
+                    <form action = "{{route("addCompanyPost")}}" method = "post">
                         @csrf
                         @method("POST")
+
+                        <label>Nom de la compagnie : </label>
+                        <input required maxlength='200' type="text" id="nameCompany" name="nameCompany"><br>
+
+                        
+                        <h6>Création du compte admin</h6><br>
+
                         <label>Nom : </label>
                         <input required maxlength='200' type="text" id="name" name="name"><br>
 
-                        <label>Description : </label>
-                        <input type="text" maxlength='200' id="description" name="description"><br>
+                        <label>Email : </label>
+                        <input required type="email" maxlength='200' id="email" name="email"><br>
 
+                        <label>Mot de passe : </label>
+                        <input required maxlength='200' type="text" id="password" name="password"><br>
 
-                        <label>Image :</label>
-                            <input href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
-                            <br>
                         <input type = 'submit' value = "Ajouter"/>
                     </form>
                 </div>
+
                 <div>
                 <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
                 </div>
                 @else
-                    <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
-                   <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</­a>
-                @endif
+                        <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
+                        <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
+                        @endif
                 @endforeach
             </div>
         </div>
     </body>
 </html>
+

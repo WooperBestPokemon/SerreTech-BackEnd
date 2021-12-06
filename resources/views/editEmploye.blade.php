@@ -23,6 +23,7 @@
                         
                         <label>Permission : </label>
                         <select required name="permission" id="permission">
+                            <option value="{{ $user2->permission }}" selected>Permissions</option>
                             <option value="0">Aucun droit</option>
                             <option value="1">Peut voir les objets</option>
                             <option value="2">Peut modifier les objets</option>

@@ -22,7 +22,7 @@
                             <th>Password</th>
                             <th>Role</th>
                             <th>Modifier</th>
-
+                            <th></th>
                             <th></th>
                         </tr>
                     @foreach($employe as $employes)
@@ -33,6 +33,9 @@
                             <th>**********</th>
                             <th>{{ $employes["role"] }}</th>
                             <th><a href="{{route('editEmploye',$employes["idProfile"])}}">Modifier</a></th>
+                            @if($users["role"] == 'admin')
+                            <th><form action="{{route('deleteuser',$employes["idProfile"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                            @endif
                         </tr>
                     @endforeach
                     </table>
