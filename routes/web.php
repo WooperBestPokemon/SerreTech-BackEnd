@@ -96,5 +96,11 @@ Route::middleware('auth')->group(function () {
 
 Auth::routes();
 
+Route::get('/admin/test', gestionController::class)->name("hom1e");
+
 //Route::get('/home', function (){return redirect("admin");})->name('home2');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

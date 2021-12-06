@@ -50,6 +50,6 @@ class gestionController extends Controller
 
 
 
-        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
+        return view('test',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors]);
     }
 }
