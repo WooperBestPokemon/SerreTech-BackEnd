@@ -30,20 +30,6 @@ class editZoneController extends Controller
 
      public function __invoke($idZone){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
-
-
         $idCompany = $user['idCompany'];
 
         $greenhouses = [] ;
@@ -59,10 +45,8 @@ class editZoneController extends Controller
 
         $zones = Zone::find($idZone);
          $url = 'http://apipcst.xyz/api/searchAll/plant ';
-
-
          $response = file_get_contents($url);
          $newsData = json_decode($response);
-        return view('editZone',['greenhouse' => $greenhouses, 'zones' => $zones,'allPlant' => $newsData,'user' => $users]);
+        return view('editZone',['greenhouse' => $greenhouses, 'zones' => $zones,'allPlant' => $newsData,'user' => $user]);
     }
 }

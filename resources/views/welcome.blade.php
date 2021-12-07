@@ -3,14 +3,21 @@
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
-                    <img style="width: 200px;" src="https://cdn.discordapp.com/attachments/481230407933755409/891021680602910751/Items.png" alt="Logo best team">
+                    <img style="width: 200px;" src="https://media.discordapp.net/attachments/481230407933755409/908441532594528376/MicrosoftTeams-image_2.png?width=376&height=423" alt="Logo">
                 </div>
 
                 <br>
-                        <a style="text-decoration: underline;" href="https://pcst.xyz/viewData">Voir donnée tblTest</a>
+                        @foreach($user as $users)
 
-                </br><a href='{{route("admin")}}'> Admin
-                        </a>
+                        <th>Bonjour : {{ $users["name"] }}</th>
+                        </br>
+                        @if($users["role"] == 'admin' || $users["permission"] >= '1')
+                        <a href='{{route("admin")}}'> Admin
+                        </a> </br>
+                        @else
+                        <p>Vous n'avez pas les permissions requises afin d'acceder a ce site</p>
+                        @endif
+                    @endforeach
                     </div>
 
             </div>

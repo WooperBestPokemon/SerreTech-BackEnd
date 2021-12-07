@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\apiController;
+use App\Http\Controllers\API\{apiController,piController};
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +35,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get("/GetSensortype/{typeData}",[apiController::class,'GetSensorsType']);
 
+    Route::get('/GetSensor',[apiController::class,'GetSensors']);
     /*
     |--------------------------------------------------------------------------
     | Graph
@@ -71,9 +72,9 @@ Route::middleware('auth:api')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::post("/data", [apiController::class, "postData"]);
+    Route::post("/data", [PiController::class, "postData"]);
 
-    Route::get("/water/{idZone}", [apiController::class, "getWater"]);
+    Route::get("/water/{idZone}", [PiController::class, "getWater"]);
 });
 /*
 |--------------------------------------------------------------------------

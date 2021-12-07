@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+
 use App\Models\Data;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use App\Models\GreenHouse;
 use App\Models\Sensor;
 use App\Models\Zone;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,10 @@ class apiController extends Controller
                 "name" => $greenhouse->getAttributes()["name"],
                 "description" => $greenhouse->getAttributes()["description"],
                 "img" => $greenhouse->getAttributes()["img"],
+                "luminosite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'luminosite', false),
+                "humidite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite', false),
+                "humidite_sol" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite sol', false),
+                "temperature" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'temperature', false),
             ]);
         }
 
@@ -99,9 +104,12 @@ class apiController extends Controller
                 "name" => $greenhouse->getAttributes()["name"],
                 "description" => $greenhouse->getAttributes()["description"],
                 "img" => $greenhouse->getAttributes()["img"],
+                "luminosite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'luminosite', false),
+                "humidite" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite', false),
+                "humidite_sol" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'humidite sol', false),
+                "temperature" => apiController::GetAvgDataGreenhouse($greenhouse->getAttributes()["idGreenHouse"], 'temperature', false),
             ]);
         }
-
         if($greenhouses == null){
             return Controller::sendError('Server Error', ['error' => 'Greenhouse not found'],500);
         }
@@ -259,15 +267,11 @@ class apiController extends Controller
             $zone = Zone::find($sens->idZone);
             if ($zone != null) {
                 if (Controller::UserVerication($zone->idGreenHouse) == true) {
-
                     $datas = DB::table('tblData')
             ->select('data','timestamp','idSensor')
             ->where('timestamp', '>=', now()->subYears(1))
             ->where('timestamp', '<=', now())
             ->where('idSensor' ,'=',$idSensor)->get();
-                    //->pluck('data','timestamp');
-
-            //DB::select('select data, timestamp, idSensor from tblData where timestamp>=NOW()- INTERVAL 1 YEAR AND idSensor = :idSensor', ['idSensor' => $idSensor]);
                 }
                 else {
                     return Controller::sendError('Access denied', ['error' => 'Access denied'], 401);
@@ -278,22 +282,29 @@ class apiController extends Controller
         return Controller::sendResponse(['valeur' => $datas ], 'Donnée Recuperer');
     }
 
-    public function GetAvgDataGreenhouse($idGreenHouse, $typedata)
+    public function GetAvgDataGreenhouse($idGreenHouse, $typedata,$json = true)
     {
-        $datas = DB::select('SELECT AVG(tt.data)
-        FROM tblData tt
-        INNER JOIN
-            (SELECT idSensor, MAX(timestamp) as MaxDateTime
-            FROM tblData
-            GROUP BY idSensor) groupedtt
-        ON tt.idSensor = groupedtt.idSensor
-        AND tt.timestamp = groupedtt.MaxDateTime WHERE tt.idSensor IN
-        (SELECT idSensor FROM tblSensor WHERE typeData = :typedata AND idZone IN
-        (SELECT idZone FROM tblZone WHERE idGreenHouse IN
-        (SELECT idGreenHouse FROM tblGreenHouse WHERE idGreenHouse = :idGreenHouse)))',
-        ['typedata' => $typedata, 'idGreenHouse' => $idGreenHouse]);
+        if (Controller::UserVerication($idGreenHouse) == true) {
+            $datas = DB::table('tblData')
+                ->leftjoin('tblSensor','tblData.idSensor','=','tblSensor.idSensor')
+                ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
+                ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
+                ->selectRaw('AVG(tblData.data) as valeur')
+                ->where('timestamp', '>=', now()->subMinutes(30))
+                ->where('tblSensor.typeData', '=', $typedata)
+                ->where('tblGreenHouse.idGreenHouse' ,'=',$idGreenHouse)
+                ->get();
+        }
+        else {
+            return Controller::sendError('Access denied', ['error' => 'Access denied'], 401);
+        }
 
-        return Controller::sendResponse(['data' => $datas ], 'Donnée Recuperer');
+        if($json == true){
+            return Controller::sendResponse(['valeur' => $datas ], 'Donnée Recuperer');
+        }
+        else{
+            return $datas[0]->valeur;
+        }
     }
     public function GetAvgDataZone($idZone,$typeData,$json = true)
     {
@@ -372,7 +383,7 @@ class apiController extends Controller
         }
         return Controller::sendResponse(['sensors' => $sensors ], 'Donnée Recuperer');
     }
-    
+
     public function GetSensors(){
         $user = Auth::user();
         $data = DB::table('tblSensor')

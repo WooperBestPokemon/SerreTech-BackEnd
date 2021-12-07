@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class addSensorController extends Controller
 {
-    public function index(){
-        return view('addSensor');
-    }
 
     public function insert(Request $request){
         $request->validate([
@@ -25,7 +22,7 @@ class addSensorController extends Controller
         ]);
         Sensor::create([
             'name'=> $request->input('name'),
-            'idZone'=> 1,
+            'idZone'=> $request->input('idZone'),
             'description'=> $request->input('description'),
             'typeData'=> $request->input('typeData'),
             'actif' => 0
@@ -36,40 +33,23 @@ class addSensorController extends Controller
 
     public function __invoke(){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
         $idCompany = $user['idCompany'];
 
-        $greenhouses = [] ;
-         foreach(GreenHouse::where('idCompany','=',$idCompany)->get() as $data) {
-             array_push($greenhouses, [
-                 "idGreenHouse" => $data->getAttributes()["idGreenHouse"],
-             ]);
-         }
-
-
-
+        $data = DB::table('tblZone')
+            ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+            ->where('idCompany' ,'=',$user->idCompany)
+            ->get();
         $zones = [] ;
-        foreach(Zone::whereIN('idGreenHouse', $greenhouses)->get() as $data2) {
+        foreach($data as $data2) {
             array_push($zones, [
-                "idZone"=> $data2->getAttributes()["idZone"],
-                "name" => $data2->getAttributes()["name"],
-                "description" => $data2->getAttributes()["description"],
-                "img" => $data2->getAttributes()["img"],
-                "typeFood" => $data2->getAttributes()["typeFood"],
-                "idGreenHouse" => $data2->getAttributes()["idGreenHouse"]
+                "idZone"=> $data2->idZone,
+                "name" => $data2->name,
+                "description" => $data2->description,
+                "img" => $data2->img,
+                "typeFood" => $data2->typeFood,
+                "idGreenHouse" => $data2->idGreenHouse
             ]);
         }
-        return view('addSensor',['zone' => $zones, 'user' => $users]);
+        return view('addSensor',['zone' => $zones, 'user' => $user]);
     }
 }

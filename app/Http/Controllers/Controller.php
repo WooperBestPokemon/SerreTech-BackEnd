@@ -15,7 +15,13 @@ use Illuminate\Support\Facades\Auth;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-
+    public function NamePlant($typeFood){
+        $url = 'http://apipcst.xyz/api/search/package/'.$typeFood;
+        $response = file_get_contents($url);
+        $data = json_decode($response,true);
+        $plantName = $data['plantName'];
+        return $plantName;
+    }
     public function sendResponse($result, $message)
     {
         $response = [
