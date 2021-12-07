@@ -8,23 +8,28 @@
                 <div>
 
                 <th>Bonjour : {{ $user->name }}</th>
-                @if($user->role == 'admin' || $user->permission >= '2')
-                <h3>Modification de serre</h3>
-
-                    <form action = "{{route('editgreenhousePut',$idGreenHouse)}}" method = "post">
+                @if($user->role == 'admin')
+                <h3>Création de la compagnie</h3>
+                    <form action = "{{route("addCompanyPost")}}" method = "post">
                         @csrf
-                        @method('PUT')
-                        <label>Nom : </label>
-                        <input required maxlength='200' type="text" id="name" value='{{ $name}}' name="name"><br>
+                        @method("POST")
 
-                        <label>Description : </label>
-                        <input type="text" maxlength='200' id="description" value='{{ $description }}' name="description"><br>
-                        <label>Image :</label>
-                            <input value='{{ $img }}' name="img" type="url" placeholder="Url du produit" maxlength='999'>
-                            <br>
-                            <img style="width: 500px; height: 500px" src="{{ $img }}">
-                            <br>
-                        <input type = 'submit' value = "Modifier"/>
+                        <label>Nom de la compagnie : </label>
+                        <input required maxlength='200' type="text" id="nameCompany" name="nameCompany"><br>
+
+
+                        <h6>Création du compte admin</h6><br>
+
+                        <label>Nom : </label>
+                        <input required maxlength='200' type="text" id="name" name="name"><br>
+
+                        <label>Email : </label>
+                        <input required type="email" maxlength='200' id="email" name="email"><br>
+
+                        <label>Mot de passe : </label>
+                        <input required maxlength='200' type="text" id="password" name="password"><br>
+
+                        <input type = 'submit' value = "Ajouter"/>
                     </form>
                 </div>
 
@@ -34,8 +39,10 @@
                 @else
                         <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
                         <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
-                @endif
+                        @endif
+
             </div>
         </div>
     </body>
 </html>
+

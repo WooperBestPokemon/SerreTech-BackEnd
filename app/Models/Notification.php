@@ -12,5 +12,5 @@ class Notification extends Model
     protected $table = 'tblnotification';
     protected $primaryKey = 'idAlerte';
     protected $fillable = [
-        'description','alerteStatus','codeErreur','created_at','updated_at','idSensor'];
+        'description','alerteStatus','created_at','updated_at','idSensor'];
 }

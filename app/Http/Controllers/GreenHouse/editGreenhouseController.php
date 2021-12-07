@@ -4,8 +4,10 @@ namespace App\Http\Controllers\GreenHouse;
 
 use App\Http\Controllers\Controller;
 use App\Models\GreenHouse;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class editGreenhouseController extends Controller
 {
@@ -25,6 +27,7 @@ class editGreenhouseController extends Controller
      }
 
      public function __invoke($idGreenhouse){
-        return view('editGreenhouse',GreenHouse::find($idGreenhouse)->getAttributes());
+        $users = Auth::user();
+        return view('editGreenhouse',GreenHouse::find($idGreenhouse)->getAttributes(),['user' => $users]);
     }
 }

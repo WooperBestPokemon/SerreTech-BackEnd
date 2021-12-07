@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Sensor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sensor;
+use App\Models\GreenHouse;
+use App\Models\User;
 use App\Models\Zone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class editSensorController extends Controller
 {
@@ -27,15 +30,26 @@ class editSensorController extends Controller
      }
 
      public function __invoke($idSensor){
-
-        $sensors = Sensor::find($idSensor);
+        $user = Auth::user();
+         $data = DB::table('tblZone')
+             ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+             ->where('idCompany' ,'=',$user->idCompany)
+             ->get();
          $zones = [] ;
-         foreach(Zone::all() as $data2) {
+         foreach($data as $data2) {
              array_push($zones, [
-                 "idZone"=> $data2->getAttributes()["idZone"],
-                 "name" => $data2->getAttributes()["name"],
+                 "idZone"=> $data2->idZone,
+                 "name" => $data2->name,
+                 "description" => $data2->description,
+                 "img" => $data2->img,
+                 "typeFood" => $data2->typeFood,
+                 "idGreenHouse" => $data2->idGreenHouse
              ]);
          }
-        return view('editSensor',['sensors' => $sensors, 'zone' => $zones]);
+
+
+
+        $sensors = Sensor::find($idSensor);
+        return view('editSensor',['sensors' => $sensors, 'zone' => $zones, 'user' => $user]);
     }
 }
