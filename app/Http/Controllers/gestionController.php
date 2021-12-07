@@ -15,40 +15,17 @@ class gestionController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
 
 
-        return view('gestion',['user' => $users]);
+
+        return view('gestion',['user' => $user]);
     }
 
     public function __invoke(){
 
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
         $greenhouses = [] ;
-        foreach(GreenHouse::where('idCompany','=',$users[0]['idCompany'])->get() as $greenhouse) {
+        foreach(GreenHouse::where('idCompany','=',$user->idCompany)->get() as $greenhouse) {
             array_push($greenhouses, [
                 "idGreenHouse" => $greenhouse->getAttributes()["idGreenHouse"],
                 "name" => $greenhouse->getAttributes()["name"],
@@ -66,7 +43,7 @@ class gestionController extends Controller
                     "name" => $zone->getAttributes()["name"],
                     "description" => $zone->getAttributes()["description"],
                     "img" => $zone->getAttributes()["img"],
-                    "typeFood" => $this->NamePlant($zone->getAttributes()["idZone"]),
+                    "typeFood" => Controller::NamePlant($zone->getAttributes()["idZone"]),
                     "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
                 ]);
 
@@ -85,16 +62,10 @@ class gestionController extends Controller
             }
         }
 
-        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $users]);
+        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user]);
     }
 
-    public function NamePlant($typeFood){
-        $url = 'http://apipcst.xyz/api/search/package/'.$typeFood;
-        $response = file_get_contents($url);
-        $data = json_decode($response,true);
-        $plantName = $data['plantName'];
-        return $plantName;
-    }
+
     public function employe(){
         $user = Auth::user();
         $idProfile = Auth::id();

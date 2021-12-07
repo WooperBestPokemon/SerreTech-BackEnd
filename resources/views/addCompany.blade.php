@@ -6,9 +6,9 @@
                     <img style="width: 200px;" src="https://media.discordapp.net/attachments/481230407933755409/908441532594528376/MicrosoftTeams-image_2.png?width=376&height=423" alt="Logo">
                 </div>
                 <div>
-                @foreach($user as $users)
-                <th>Bonjour : {{ $users["name"] }}</th>
-                @if($users["role"] == 'admin')
+
+                <th>Bonjour : {{ $user->name }}</th>
+                @if($user->role == 'admin')
                 <h3>Création de la compagnie</h3>
                     <form action = "{{route("addCompanyPost")}}" method = "post">
                         @csrf
@@ -17,7 +17,7 @@
                         <label>Nom de la compagnie : </label>
                         <input required maxlength='200' type="text" id="nameCompany" name="nameCompany"><br>
 
-                        
+
                         <h6>Création du compte admin</h6><br>
 
                         <label>Nom : </label>
@@ -40,7 +40,7 @@
                         <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
                         <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
                         @endif
-                @endforeach
+
             </div>
         </div>
     </body>

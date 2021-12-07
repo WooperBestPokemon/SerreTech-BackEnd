@@ -13,20 +13,7 @@ class addEmployeController extends Controller
 {
     public function index(){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
-
-        return view('addEmploye',['user' => $users]);
+        return view('addEmploye',['user' => $user]);
     }
 
     public function insert(Request $request) {

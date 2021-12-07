@@ -6,14 +6,11 @@
                     <img style="width: 200px;" src="https://media.discordapp.net/attachments/481230407933755409/908441532594528376/MicrosoftTeams-image_2.png?width=376&height=423" alt="Logo">
                 </div>
                 <div>
-                @foreach($user as $users)
-                <th>Bonjour : {{ $users["name"] }}</th>
-                @if($users["role"] == 'admin' || $users["permission"] >= '1')
+
+                <th>Bonjour : {{ $user->name }}</th>
+                @if($user->role == 'admin' || $user->permission >= '1')
                 <h1> GESTION </h1>
 
-
-                    @foreach($user as $users)
-                    <th>Bonjour : {{ $users["name"] }}</th>
                     <div style='border:1px solid black;'>
                         <h3>Consulter</h3>
                         <h5>Tableau des serres</h5>
@@ -30,10 +27,10 @@
                             <th>{{ $greenhouses["idGreenHouse"] }}</th>
                             <th>{{ $greenhouses["name"] }}</th>
                             <th>{{ $greenhouses["description"] }}</th>
-                            @if($users["role"] == 'admin' || $users["permission"] >= '2')
+                            @if($user->role == 'admin' || $users["permission"] >= '2')
                                 <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
                             @endif
-                            @if($users["role"] == 'admin')
+                            @if($user->role == 'admin')
                             <th><form action="{{route('deletegreenhouse',$greenhouses["idGreenHouse"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                             @endif
                         </tr>
@@ -56,10 +53,10 @@
                             <th>{{ $zones["name"] }}</th>
                             <th>{{ $zones["description"] }}</th>
                             <th>{{ $zones["typeFood"] }}</th>
-                            @if($users["role"] == 'admin' || $users["permission"] >= '2')
+                            @if($user->role == 'admin' || $user->permission >= '2')
                             <th><a href="{{route('editzone',$zones["idZone"])}}">Modifier</a></th>
                             @endif
-                            @if($users["role"] == 'admin')
+                            @if($user->role == 'admin')
                             <th><form action="{{route('deletezone',$zones["idZone"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                             @endif
                         </form>
@@ -84,10 +81,10 @@
                             <th>{{ $sensors["description"]  }}</th>
                             <th>{{ $sensors["typeData"]  }}</th>
 
-                            @if($users["role"] == 'admin' || $users["permission"] >= '2')
+                            @if($user->role == 'admin' || $user->permission >= '2')
                             <th><a href="{{route('editsensor',$sensors["idSensor"])}}">Modifier</a></th>
                             @endif
-                            @if($users["role"] == 'admin')
+                            @if($user->role == 'admin')
                             <th><form action="{{route('deletesensor',$sensors["idSensor"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
                             @endif
                         </form>
@@ -95,20 +92,17 @@
                     @endforeach
                     </table>
 
-
-                    @endforeach
-
                     </div>
                 </div>
-
+            <br>
                 <div>
-                <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
+                    <a style="text-decoration: underline;" href="{{route("admin")}}">Acceuil</a>
                 </div>
                 @else
                         <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
                         <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</a>
                 @endif
-                @endforeach
+
             </div>
         </div>
     </body>

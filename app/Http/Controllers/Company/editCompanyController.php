@@ -27,21 +27,10 @@ class editEmployeController extends Controller
 
     public function __invoke($idProfile){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
+
 
         $users2 = User::find($idProfile);
-        return view('editEmploye',['user' => $users,'user2' => $users2]);
-        
+        return view('editEmploye',['user' => $user,'user2' => $users2]);
+
     }
 }

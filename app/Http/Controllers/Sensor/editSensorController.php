@@ -31,37 +31,25 @@ class editSensorController extends Controller
 
      public function __invoke($idSensor){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
-        $idCompany = $user['idCompany'];
-
-        $greenhouses = [] ;
-         foreach(GreenHouse::where('idCompany','=',$idCompany)->get() as $data) {
-             array_push($greenhouses, [
-                 "idGreenHouse" => $data->getAttributes()["idGreenHouse"],
+         $data = DB::table('tblZone')
+             ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+             ->where('idCompany' ,'=',$user->idCompany)
+             ->get();
+         $zones = [] ;
+         foreach($data as $data2) {
+             array_push($zones, [
+                 "idZone"=> $data2->idZone,
+                 "name" => $data2->name,
+                 "description" => $data2->description,
+                 "img" => $data2->img,
+                 "typeFood" => $data2->typeFood,
+                 "idGreenHouse" => $data2->idGreenHouse
              ]);
          }
 
 
 
         $sensors = Sensor::find($idSensor);
-         $zones = [] ;
-         foreach(Zone::where('idGreenHouse','=',$greenhouses)->get() as $data2) {
-             array_push($zones, [
-                 "idZone"=> $data2->getAttributes()["idZone"],
-                 "name" => $data2->getAttributes()["name"],
-             ]);
-         }
-        return view('editSensor',['sensors' => $sensors, 'zone' => $zones, 'user' => $users]);
+        return view('editSensor',['sensors' => $sensors, 'zone' => $zones, 'user' => $user]);
     }
 }
