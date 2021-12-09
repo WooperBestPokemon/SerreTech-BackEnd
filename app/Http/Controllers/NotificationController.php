@@ -21,7 +21,7 @@ class NotificationController extends Controller
             ->leftjoin('tblSensor', 'tblSensor.idSensor', '=', 'tblnotification.idSensor')
             ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
             ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
-            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus', 'tblnotification.idSensor')
+            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus', 'tblnotification.idSensor','tblnotification.codeErreur')
             ->where('tblGreenHouse.idCompany', '=', $user["idCompany"])
             ->get();
 
@@ -36,6 +36,7 @@ class NotificationController extends Controller
                 "description" => $alerte->description,
                 "alerteStatus" => $alerte->alerteStatus,
                 "idSensor" => $alerte->idSensor,
+                "codeErreur" => $alerte->codeErreur,
             ]);
         }
         //dd($notification);
