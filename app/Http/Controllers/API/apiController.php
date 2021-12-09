@@ -65,7 +65,7 @@ class apiController extends Controller
                 "name" => $zone->getAttributes()["name"],
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
-                "typeFood" => Controller::NamePlant($zone->getAttributes()["idZone"]),
+                "typeFood" => Controller::NamePlant($zone->getAttributes()["typeFood"]),
                 "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
             ]);
         }
@@ -129,7 +129,7 @@ class apiController extends Controller
                         "name" => $zone->getAttributes()["name"],
                         "description" => $zone->getAttributes()["description"],
                         "img" => $zone->getAttributes()["img"],
-                        "typeFood" => Controller::NamePlant($zone->getAttributes()["idZone"]),
+                        "typeFood" => Controller::NamePlant($zone->getAttributes()["typeFood"]),
                         "idGreenHouse" => $zone->getAttributes()["idGreenHouse"],
                         "luminosite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'luminosite', false),
                         "humidite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite', false),

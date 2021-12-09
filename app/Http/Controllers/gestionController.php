@@ -43,7 +43,7 @@ class gestionController extends Controller
                     "name" => $zone->getAttributes()["name"],
                     "description" => $zone->getAttributes()["description"],
                     "img" => $zone->getAttributes()["img"],
-                    "typeFood" => Controller::NamePlant($zone->getAttributes()["idZone"]),
+                    "typeFood" => Controller::NamePlant($zone->getAttributes()["typeFood"]),
                     "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
                 ]);
 
