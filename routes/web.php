@@ -23,15 +23,15 @@ use App\Http\Controllers\Employe\{addEmployeController, deleteEmployeController,
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/', function () {return view('welcome');})->name("home");
-
-    Route::get('/greenhouse', function (){return redirect("home");});
-
-    Route::get('/greenhouse/{idGreenhouse}')->name("dtlGreenHouse");
-
-    Route::get("/zone/{idZone}")->name("dtlZones");
-
-    Route::get("/greenhouse/{idGreenhouse}/listsensor")->name("listsensor");
+//    Route::get('/', function () {return view('welcome');})->name("home");
+//
+//    Route::get('/greenhouse', function (){return redirect("home");});
+//
+//    Route::get('/greenhouse/{idGreenhouse}')->name("dtlGreenHouse");
+//
+//    Route::get("/zone/{idZone}")->name("dtlZones");
+//
+//    Route::get("/greenhouse/{idGreenhouse}/listsensor")->name("listsensor");
 
     /*
     |--------------------------------------------------------------------------
@@ -119,6 +119,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post("/addCompagn13/add",[addCompanyController::class,'insert'])->name("addCompanyPost");
 
+    Route::get('/home', function (){return redirect("admin");})->name('home2');
+
+    Route::get('/', function (){return redirect("admin");})->name('home');
 });
 /*
 |--------------------------------------------------------------------------
@@ -129,5 +132,5 @@ Route::middleware('auth')->group(function () {
 
 Auth::routes();
 
-//Route::get('/home', function (){return redirect("admin");})->name('home2');
+
 
