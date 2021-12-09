@@ -65,7 +65,7 @@ class apiController extends Controller
                 "name" => $zone->getAttributes()["name"],
                 "description" => $zone->getAttributes()["description"],
                 "img" => $zone->getAttributes()["img"],
-                "typeFood" => $zone->getAttributes()["typeFood"],
+                "typeFood" => Controller::NamePlant($zone->getAttributes()["idZone"]),
                 "idGreenHouse" => $zone->getAttributes()["idGreenHouse"]
             ]);
         }
@@ -129,7 +129,7 @@ class apiController extends Controller
                         "name" => $zone->getAttributes()["name"],
                         "description" => $zone->getAttributes()["description"],
                         "img" => $zone->getAttributes()["img"],
-                        "typeFood" => $zone->getAttributes()["typeFood"],
+                        "typeFood" => Controller::NamePlant($zone->getAttributes()["idZone"]),
                         "idGreenHouse" => $zone->getAttributes()["idGreenHouse"],
                         "luminosite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'luminosite', false),
                         "humidite" => apiController::GetAvgDataZone($zone->getAttributes()["idZone"], 'humidite', false),
@@ -416,14 +416,14 @@ class apiController extends Controller
                 ->leftjoin('tblSensor', 'tblData.idSensor', '=', 'tblSensor.idSensor')
                 ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
                 ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
-                ->select('tblData.data', 'tblData.timestamp')
+                ->select('tblData.data as valeur', 'tblData.timestamp as Temps')
                 ->where('idCompany', '=', $user->idCompany)
                 ->where('timestamp', '>=', $temp)
                 ->where('tblSensor.typeData', '=', $typeData)
                 ->where('tblGreenHouse.idGreenHouse', '=', $idGreenhouse)
-                ->orderBy('tblData.timestamp')
-                ->pluck('tblData.data', 'tblData.timestamp');
-            return Controller::sendResponse(['valeur' => $data], 'Donnée Recuperer');
+                ->orderBy('tblData.timestamp')->get();
+
+            return Controller::sendResponse(['donnee' => $data], 'Donnée Recuperer');
         }
         else {
                 return Controller::sendError('Access denied', ['error' => 'Access denied'], 401);
@@ -433,43 +433,73 @@ class apiController extends Controller
     public function GetGraphYear($typeData,$idGreenhouse){
 
         $user = Auth::user();
-
+        $data2 = [];
         if (Controller::UserVerication($idGreenhouse) == true) {
             $data = DB::table('tblData')
                 ->leftjoin('tblSensor','tblData.idSensor','=','tblSensor.idSensor')
                 ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
                 ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
-                ->selectRaw('AVG(tblData.data) as valeur,MONTH(timestamp) as mois')
+                ->selectRaw('AVG(tblData.data) as Valeur,MONTH(timestamp) as Temps')
                 ->where('idCompany' ,'=',$user->idCompany)
                 ->where('timestamp', '>=', now()->subYears(1))
                 ->where('tblSensor.typeData','=',$typeData)
                 ->where('tblGreenHouse.idGreenHouse' ,'=',$idGreenhouse)
-                ->groupBy('mois')->get();
+                ->groupBy('Temps')->get();
+            foreach($data as $d) {
+                array_push($data2, [
+                    "valeur" => $d->Valeur,
+                    "Temps" => apiController::selectMonth($d->Temps)
+                ]);
+            }
         }
         else {
             return Controller::sendError('Access denied', ['error' => 'Access denied'], 401);
         }
-        return Controller::sendResponse(['valeur' => $data ], 'Donnée Recuperer');
+        return Controller::sendResponse(['valeur' => $data2 ], 'Donnée Recuperer');
+    }
+    public function selectMonth($month){
+        switch ($month){
+            case 1 : return "Janvier";
+            case 2 : return "Fevrier";
+            case 3 : return "Mars";
+            case 4 : return "Avril";
+            case 5 : return "Mai";
+            case 6 : return "Juin";
+            case 7 : return "Juillet";
+            case 8 : return "Aout";
+            case 9 : return "Septembre";
+            case 10 : return "Octobre";
+            case 11 : return "Novembre";
+            case 12 : return "Decembre";
+            default : return  "Bug";
+        }
     }
     public function GetGraphMonth($typeData,$idGreenhouse){
 
         $user = Auth::user();
+        $data2 = [];
         if (Controller::UserVerication($idGreenhouse) == true) {
         $data = DB::table('tblData')
             ->leftjoin('tblSensor','tblData.idSensor','=','tblSensor.idSensor')
             ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
             ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
-            ->selectRaw('AVG(tblData.data) as Valeur,DAY(timestamp) as Jour')
+            ->selectRaw('AVG(tblData.data) as Valeur,DAY(timestamp) as Temps')
             ->where('idCompany' ,'=',$user->idCompany)
             ->where('timestamp', '>=', now()->subMonths(1))
             ->where('tblSensor.typeData','=',$typeData)
             ->where('tblGreenHouse.idGreenHouse' ,'=',$idGreenhouse)
-            ->groupBy('Jour')->get();
+            ->groupBy('Temps')->get();
+            foreach($data as $d) {
+                array_push($data2, [
+                    "valeur" => $d->Valeur,
+                    "Temps" => "Jour ".$d->Temps
+                ]);
+            }
         }
         else
         {
         return Controller::sendError('Access denied', ['error' => 'Access denied'], 401);
         }
-        return Controller::sendResponse(['valeur' => $data ], 'Donnée Recuperer');
+        return Controller::sendResponse(['valeur' => $data2 ], 'Donnée Recuperer');
     }
 }

@@ -7,7 +7,7 @@
                 </div>
 
                 <br>
-                        @foreach($user as $users)
+                        
 
                         <th>Bonjour : {{ $users["name"] }}</th>
                         </br>
