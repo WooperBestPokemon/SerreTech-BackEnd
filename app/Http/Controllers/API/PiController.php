@@ -14,18 +14,6 @@ use Psy\Util\Json;
 
 class PiController extends Controller
 {
-    // fonction de test
-    public function testdejonnhytest(Request $request){
-        $request['veggie'];
-        $url = 'http://apipcst.xyz/api/searchAll/plant';
-        $response = file_get_contents($url);
-        //$newsData = json_decode($response, true);
-        $test = collect(json_decode($response, true));
-
-        //$test1 = $test->where('id',1)->data;
-        dd($test);
-    }
-
     //Posting data in database
     public function postData(Request $request){
         $user = Auth::user();
@@ -163,8 +151,6 @@ class PiController extends Controller
     //Returning if you need to water the plant or not
     public function getWater(Request $request, $idZone){
 
-        //todo - Api call to check how much water the zone need
-
         $user = Auth::user();
         try{
             $zone = Zone::find($idZone);
@@ -203,5 +189,36 @@ class PiController extends Controller
             return response($response, 400);
         }
     }
-    //Returning if you need to water the plant or not
+    public function setWater(Request $request, $idZone){
+
+        $user = Auth::user();
+        try{
+            $zone = Zone::find($idZone);
+            //Getting the ID of the company
+            $company = DB::table('tblGreenHouse')
+                ->leftjoin('tblZone','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+                ->select('tblGreenHouse.idCompany')
+                ->where('tblZone.idZone','=',$idZone)
+                ->pluck('idCompany');
+
+            if($company[0] == $user['idCompany']){
+
+                //update the water to true
+                $zone->water = 0;
+                $zone->save();
+
+
+                return response('Accepted', 201);
+            }
+            else{
+                //Not owned by the company
+                $response = 'This zone is not owned by the company';
+                return response($response, 401);
+            }
+        }
+        catch(\Illuminate\Database\QueryException $ex){
+            $response = 'An error occurred';
+            return response($response, 400);
+        }
+    }
 }
