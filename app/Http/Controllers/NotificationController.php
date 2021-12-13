@@ -21,8 +21,9 @@ class NotificationController extends Controller
             ->leftjoin('tblSensor', 'tblSensor.idSensor', '=', 'tblnotification.idSensor')
             ->leftjoin('tblZone', 'tblZone.idZone', '=', 'tblSensor.idZone')
             ->leftjoin('tblGreenHouse', 'tblGreenHouse.idGreenHouse', '=', 'tblZone.idGreenHouse')
-            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus','tblnotification.codeErreur', 'tblnotification.idSensor')
+            ->select('tblnotification.idAlerte','tblnotification.description','tblnotification.alerteStatus','tblnotification.codeErreur', 'tblnotification.idSensor','tblnotification.created_at','tblnotification.updated_at')
             ->where('tblGreenHouse.idCompany', '=', $user["idCompany"])
+            ->orderBy('tblnotification.alerteStatus')
             ->get();
 
         //dd($data);
@@ -36,12 +37,20 @@ class NotificationController extends Controller
                 "description" => $alerte->description,
                 "alerteStatus" => $alerte->alerteStatus,
                 "codeErreur" => $alerte->codeErreur,
-                "idSensor" => $alerte->idSensor
-
+                "idSensor" => $alerte->idSensor,
+                "create"=> $alerte->created_at,
+                "terminer"=> $this::end($alerte->created_at,$alerte->updated_at),
             ]);
         }
         //dd($notification);
         return view('viewNotification',["notification" => $notification]);
     }
-
+    public  function end($debut,$fin){
+        if($debut == $fin){
+            return null;
+        }
+        else {
+            return  $fin;
+        }
+    }
 }

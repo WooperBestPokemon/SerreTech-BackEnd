@@ -97,14 +97,14 @@ class PiController extends Controller
                 $status = 1;
             }
             if($status == 0){
-                if($typeData[0] == "temperature" && ($data['data'] > $veggie_data["favorableConditions"][0]["min"] && $data['data'] < $veggie_data["favorableConditions"][0]["max"])) {
+                if($typeData[0] == "temperature" && ($data['data'] >= $veggie_data["favorableConditions"][0]["min"] && $data['data'] <= $veggie_data["favorableConditions"][0]["max"])) {
                     $notification->alerteStatus = 1;
-                    $notification->codeErreur = 801;
+//                    $notification->codeErreur = 801;
                     $notification->save();
                 }
-                else if($typeData[0] == "humidite sol" && ($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"])) {
+                else if($typeData[0] == "humidite sol" && ($data['data'] >= $veggie_data["favorableConditions"][1]["min"] && $data['data'] <= $veggie_data["favorableConditions"][1]["max"])) {
                     $notification->alerteStatus = 1;
-                    $notification->codeErreur = 901;
+//                  $notification->codeErreur = 901;
                     $notification->save();
                 }
             }

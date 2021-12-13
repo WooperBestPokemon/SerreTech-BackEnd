@@ -24,6 +24,8 @@
                 <th style='border: 1px solid black;'>Statut de l'alerte</th>
                 <th style='border: 1px solid black;'>Code d'erreur</th>
                 <th style='border: 1px solid black;'>Id Capteurs</th>
+                <th style='border: 1px solid black;'>Debut</th>
+                <th style='border: 1px solid black;'>Fin</th>
             </tr>
             @foreach($notification as $notifications)
                 <tr>
@@ -31,6 +33,8 @@
                     <td class="alerteStatus" style='text-align: center' > {{ $notifications["alerteStatus"] }} </td>
                     <td style='text-align: center'> {{ $notifications["codeErreur"] }} </td>
                     <td style='text-align: center'> {{ $notifications["idSensor"] }} </td>
+                    <td style='text-align: center'> {{ $notifications["create"] }} </td>
+                    <td style='text-align: center'> {{ $notifications["terminer"] }} </td>
                 </tr>
             @endforeach
         </table>
