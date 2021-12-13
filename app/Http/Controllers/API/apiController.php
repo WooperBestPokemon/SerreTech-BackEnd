@@ -12,6 +12,7 @@ use App\Models\Zone;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\Token;
@@ -353,6 +354,7 @@ class apiController extends Controller
                     "idZone" => $sensor->idZone,
                     "idGreenhouse" => $sensor->idGreenHouse,
                     "valeur" => apiController::GetAvgDataSensor($sensor->idSensor, false),
+                    "Notification" => apiController::GetNotificationSensor($sensor->idSensor)
                 ]);
             }
             if ($sensors == null) {
@@ -423,7 +425,7 @@ class apiController extends Controller
                 ->where('tblGreenHouse.idGreenHouse', '=', $idGreenhouse)
                 ->orderBy('tblData.timestamp')->get();
 
-            return Controller::sendResponse(['donnee' => $data], 'Donnée Recuperer');
+            return Controller::sendResponse(['valeur' => $data], 'Donnée Recuperer');
         }
         else {
                 return Controller::sendError('Access denied', ['error' => 'Access denied'], 401);
@@ -502,4 +504,22 @@ class apiController extends Controller
         }
         return Controller::sendResponse(['valeur' => $data2 ], 'Donnée Recuperer');
     }
+    public function GetNotificationSensor($idSensor){
+
+        $notifs = DB::table("tblnotification")
+            ->select('tblnotification.idSensor','tblnotification.description' , 'tblnotification.codeErreur' , 'tblnotification.alerteStatus')
+            ->where('tblnotification.idSensor' ,'=' , $idSensor)
+            ->where('tblnotification.alerteStatus' , '=', true)->get();
+        $Notifications = [];
+        foreach ($notifs as $notif) {
+            array_push($Notifications, [
+                "idSensor" => $notif->idSensor,
+                "description" => $notif->description,
+                "codeErreur" => $notif->codeErreur,
+                "alerteStatus" => $notif->alerteStatus,
+                ]);
+            }
+        return $Notifications;
+    }
 }
+

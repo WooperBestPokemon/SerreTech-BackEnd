@@ -3,9 +3,9 @@
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\{apiController,piController};
+use App\Http\Controllers\API\{apiController,PiController};
 
-/*
+/*3
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------

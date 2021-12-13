@@ -15,16 +15,6 @@ use Psy\Util\Json;
 class PiController extends Controller
 {
     // fonction de test
-    public function testdejonnhytest(Request $request){
-        $request['veggie'];
-        $url = 'http://apipcst.xyz/api/searchAll/plant';
-        $response = file_get_contents($url);
-        //$newsData = json_decode($response, true);
-        $test = collect(json_decode($response, true));
-
-        //$test1 = $test->where('id',1)->data;
-        dd($test);
-    }
 
     //Posting data in database
     public function postData(Request $request){
@@ -86,12 +76,13 @@ class PiController extends Controller
 
             // Looking for the sensor if it is the one of temperature
             $typeData = DB::table('tblSensor')
-            ->select('tblSensor.typeData')
-            ->where('tblSensor.idSensor','=',$data['idSensor'])
-            ->pluck('typeData');
+                ->select('tblSensor.typeData')
+                ->where('tblSensor.idSensor','=',$data['idSensor'])
+                ->pluck('typeData');
 
             // Look for the latest notification
             $notification = Notification::find($data['idSensor']);
+
             if($notification != null) {
                 $notification = $notification->latest()->first();
                 $status = $notification->alerteStatus;
@@ -101,30 +92,37 @@ class PiController extends Controller
             }
             if($status == 0){
                 if($typeData[0] == "temperature" && ($data['data'] > $veggie_data["favorableConditions"][0]["min"] && $data['data'] < $veggie_data["favorableConditions"][0]["max"])) {
-                        $notification->alerteStatus = 1;
-                        $notification->save();
+                    $notification->alerteStatus = 1;
+                    $notification->codeErreur = 801;
+                    $notification->save();
                 }
                 else if($typeData[0] == "humidite sol" && ($data['data'] > $veggie_data["favorableConditions"][1]["min"] && $data['data'] < $veggie_data["favorableConditions"][1]["max"])) {
-                        $notification->alerteStatus = 1;
-                        $notification->save();
+                    $notification->alerteStatus = 1;
+                    $notification->codeErreur = 901;
+                    $notification->save();
                 }
             }
             // Temperature Test
             // Verify if data sent is in a correct temperature
+            //Codes : 800 - 801 - 802 - 900 - 901 - 902
             else if($typeData[0] == "temperature"){
-
                 if($data['data'] < $veggie_data["favorableConditions"][0]["min"]){
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
-                        "description"=>"The air is too cold",
-                        "alerteStatus"=> 0
+                        "description"=>"The air is too cold", // man's not hot
+                        "alerteStatus"=> 0,
+                        "codeErreur" => 810
                     ]);
                 }
                 else if($data['data'] > $veggie_data["favorableConditions"][0]["max"]){
+                    //dd($data['data']);
+                    // Erreur dans le create --- WHY U NO WORK?!
+                    // A revoir
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
                         "description"=>"The air is too hot",
-                        "alerteStatus"=> 0
+                        "alerteStatus"=> 0,
+                        "codeErreur" => 820
                     ]);
                 }
             }
@@ -138,7 +136,8 @@ class PiController extends Controller
                         Notification::create([
                             "idSensor"=>$data["idSensor"],
                             "description"=>"The ground is too dry",
-                            "alerteStatus"=> 0
+                            "alerteStatus"=> 0,
+                            "codeErreur" => 910
                         ]);
                     }
                     //Wet
@@ -146,7 +145,8 @@ class PiController extends Controller
                         Notification::create([
                             "idSensor"=>$data["idSensor"],
                             "description"=>"The ground is too wet",
-                            "alerteStatus"=> 0
+                            "alerteStatus"=> 0,
+                            "codeErreur" => 920
                         ]);
                     }
                 }
@@ -174,7 +174,6 @@ class PiController extends Controller
                 ->select('tblGreenHouse.idCompany')
                 ->where('tblZone.idZone','=',$idZone)
                 ->pluck('idCompany');
-
             if($company[0] == $user['idCompany']){
 
                 //The zone is owned by the company, so it's good
