@@ -3,9 +3,9 @@
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\{apiController,piController};
+use App\Http\Controllers\API\{apiController,PiController};
 
-/*
+/*3
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
@@ -75,6 +75,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post("/data", [PiController::class, "postData"]);
 
     Route::get("/water/{idZone}", [PiController::class, "getWater"]);
+    Route::put("/water/{idZone}", [PiController::class, "setWater"]);
 });
 /*
 |--------------------------------------------------------------------------
