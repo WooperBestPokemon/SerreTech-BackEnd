@@ -75,6 +75,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post("/data", [PiController::class, "postData"]);
 
     Route::get("/water/{idZone}", [PiController::class, "getWater"]);
+    Route::put("/water/{idZone}", [PiController::class, "setWater"]);
 });
 /*
 |--------------------------------------------------------------------------
