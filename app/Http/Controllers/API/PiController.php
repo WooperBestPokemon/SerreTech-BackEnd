@@ -83,19 +83,22 @@ class PiController extends Controller
                 ->select('tblnotification.idAlerte')
                 ->where('tblnotification.idSensor', '=', $data['idSensor'])
                 ->orderByDesc('tblnotification.idAlerte')
-                ->pluck('idAlerte');;
+                ->pluck('idAlerte');
 
             //dd($notification[0]);
 
-            $notification = Notification::find($notification[0]);
-
-            if($notification != null) {
+            if(sizeof($notification) == 0){
+                $status = 1;
+            }
+            else if($notification != null) {
+                $notification = Notification::find($notification[0]);
                 $notification = $notification->latest()->first();
                 $status = $notification->alerteStatus;
             }
             else{
                 $status = 1;
             }
+            
             if($status == 0){
                 if($typeData[0] == "temperature" && ($data['data'] >= $veggie_data["favorableConditions"][0]["min"] && $data['data'] <= $veggie_data["favorableConditions"][0]["max"])) {
                     $notification->alerteStatus = 1;
