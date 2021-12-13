@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Zone;
 use App\Http\Controllers\Controller;
 use App\Models\GreenHouse;
 use App\Models\Zone;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class editZoneController extends Controller
 {
@@ -27,22 +29,24 @@ class editZoneController extends Controller
      }
 
      public function __invoke($idZone){
+        $user = Auth::user();
+        $idCompany = $user['idCompany'];
 
-         $greenhouses = [] ;
-         foreach(GreenHouse::all() as $data) {
+        $greenhouses = [] ;
+         foreach(GreenHouse::where('idCompany','=',$idCompany)->get() as $data) {
              array_push($greenhouses, [
                  "idGreenHouse" => $data->getAttributes()["idGreenHouse"],
                  "name" => $data->getAttributes()["name"],
                  "description" => $data->getAttributes()["description"],
                  "img" => $data->getAttributes()["img"],
+                 "idCompany" => $data->getAttributes()["idCompany"],
              ]);
          }
+
         $zones = Zone::find($idZone);
          $url = 'http://apipcst.xyz/api/searchAll/plant ';
-
-
          $response = file_get_contents($url);
          $newsData = json_decode($response);
-        return view('editZone',['greenhouse' => $greenhouses, 'zones' => $zones,'allPlant' => $newsData]);
+        return view('editZone',['greenhouse' => $greenhouses, 'zones' => $zones,'allPlant' => $newsData,'user' => $user]);
     }
 }

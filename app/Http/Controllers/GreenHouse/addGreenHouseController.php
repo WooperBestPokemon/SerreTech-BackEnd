@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\GreenHouse;
 
 use App\Models\GreenHouse;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class addGreenhouseController extends Controller
 {
     public function index(){
-        return view('addGreenhouse');
+        $user = Auth::user();
+
+        return view('addGreenhouse',['user' => $user]);
     }
 
     public function insert(Request $request) {
@@ -33,7 +38,7 @@ class addGreenhouseController extends Controller
 
      public function __invoke(){
 
-
-        return view('addGreenhouse');
+        $user = Auth::user();
+        return view('addGreenhouse',['user' => $user]);
     }
 }
