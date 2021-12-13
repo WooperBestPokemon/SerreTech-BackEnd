@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <link rel="stylesheet" href="mystyle.css">
     <div style='display :flex; justify-content: center; align-content: center;'>
@@ -14,7 +15,8 @@
             <h2>Alertes pour les capteurs</h2>
         </div>
     </div>
-
+    </head>
+<html>
     <div id="Notification" style='display :flex; justify-content: center; align-content: center;'>
         <table style='border: 1px solid black;'>
             <tr>
@@ -26,7 +28,6 @@
             @foreach($notification as $notifications)
                 <tr>
                     <td style='text-align: center'> {{ $notifications["description"] }} </td>
-                    <td style='text-align: center'> {{ $notifications["alerteStatus"] }} </td>
                     <td class="alerteStatus" style='text-align: center' > {{ $notifications["alerteStatus"] }} </td>
                     <td style='text-align: center'> {{ $notifications["codeErreur"] }} </td>
                     <td style='text-align: center'> {{ $notifications["idSensor"] }} </td>
@@ -36,10 +37,8 @@
     </div>
 </body>
 
-<footer>
-    <div id="footer" style='display :flex; justify-content: center; align-content: center;'>
-        <p>CEGEP SERRE TECH</p>
-    </div>
+
+</div>
 </footer>
 </html>
 

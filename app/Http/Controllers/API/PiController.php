@@ -79,7 +79,15 @@ class PiController extends Controller
                 ->pluck('typeData');
 
             // Look for the latest notification
-            $notification = Notification::find($data['idSensor']);
+            $notification = DB::table('tblnotification')
+                ->select('tblnotification.idAlerte')
+                ->where('tblnotification.idSensor', '=', $data['idSensor'])
+                ->orderByDesc('tblnotification.idAlerte')
+                ->pluck('idAlerte');;
+
+            //dd($notification[0]);
+
+            $notification = Notification::find($notification[0]);
 
             if($notification != null) {
                 $notification = $notification->latest()->first();
@@ -107,7 +115,8 @@ class PiController extends Controller
                 if($data['data'] < $veggie_data["favorableConditions"][0]["min"]){
                     Notification::create([
                         "idSensor"=>$data["idSensor"],
-                        "description"=>"The air is too cold", // man's not hot
+                        "description"=>"The air is too cold",
+
                         "alerteStatus"=> 0,
                         "codeErreur" => 810
                     ]);
@@ -156,7 +165,6 @@ class PiController extends Controller
             return response($response, 400);
         }
     }
-
 
     //Returning if you need to water the plant or not
     public function getWater(Request $request, $idZone){

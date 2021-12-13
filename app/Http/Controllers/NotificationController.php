@@ -36,7 +36,8 @@ class NotificationController extends Controller
                 "description" => $alerte->description,
                 "alerteStatus" => $alerte->alerteStatus,
                 "codeErreur" => $alerte->codeErreur,
-                "idSensor" => $alerte->idSensor,
+                "idSensor" => $alerte->idSensor
+
             ]);
         }
         //dd($notification);

@@ -16,7 +16,7 @@ class CreateNotificationTable extends Migration
         Schema::create('tblnotification', function (Blueprint $table) {
             $table->id('idAlerte')->autoIncrement();
             $table->string('description');
-            $table->boolean('alerteStatus');   
+            $table->boolean('alerteStatus');
             $table->integer('codeErreur');
             $table->timestamps();
             $table->foreignId('idSensor');
