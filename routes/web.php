@@ -86,6 +86,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/sensor/{idSensor}/edit' , editSensorController::class)->name("editsensor");
 
+    Route::get('/notification', [NotificationController::class, "GetNotification"]);
+
     Route::put('/admin/sensor/{idSensor}/edit' ,[editSensorController::class,'update'])->name("editsensorPut");
 
     Route::delete('/admin/sensor/delete/{idSensor}',deleteSensorController::class)->name("deletesensor");
@@ -107,13 +109,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/admin/employe/{idProfile}/edit',[editEmployeController::class,'update'])->name("editEmployePut");
 
     Route::delete('/admin/employe/delete/{idUser}',deleteEmployeController::class)->name("deleteuser");
-
-    Route::get('/notification', [NotificationController::class, "GetNotification"]);
-
-
-
-
-
 
     Route::get("/addCompagn13", addCompanyController::class)->name("addCompany");
 
