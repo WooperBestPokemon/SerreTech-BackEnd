@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->timestamps();
             $table->string('role')->default("user");
             $table->foreignId('idCompany');
+            $table->string('permission');
         });
     }
 
@@ -34,7 +35,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-
         Schema::dropIfExists('users');
     }
 }

@@ -10,50 +10,57 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Models\GreenHouse;
 use App\Models\Zone;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    public function NamePlant($typeFood){
-        $url = 'http://apipcst.xyz/api/search/package/'.$typeFood;
+
+    public function NamePlant($typeFood)
+    {
+        $url = 'http://apipcst.xyz/api/search/package/' . $typeFood;
         $response = file_get_contents($url);
-        $data = json_decode($response,true);
+        $data = json_decode($response, true);
         $plantName = $data['plantName'];
         return $plantName;
     }
+
     public function sendResponse($result, $message)
     {
         $response = [
             'success' => true,
-            'data'    => $result,
+            'data' => $result,
             'message' => $message,
         ];
         return response()->json($response, 200);
     }
+
     public function sendError($error, $errorMessages = [], $code = 404)
     {
         $response = [
             'success' => false,
             'message' => $error,
         ];
-        if(!empty($errorMessages)){
+        if (!empty($errorMessages)) {
             $response['data'] = $errorMessages;
         }
         return response()->json($response, $code);
     }
 
-    public function UserVerication($id){
+    public function UserVerication($id)
+    {
         $user = Auth::user();
         $greenhouse = GreenHouse::find($id);
-        if($greenhouse == null){
+        if ($greenhouse == null) {
             return true;
         }
-        if($greenhouse->idCompany == $user->idCompany) {
+        if ($greenhouse->idCompany == $user->idCompany) {
             return true;
-        }
-        else{
-            return  false;
+        } else {
+            return false;
         }
     }
 }
+
+
