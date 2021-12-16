@@ -9,7 +9,7 @@
                 @foreach($user as $users)
                 <th>Bonjour : {{ $users["name"] }}</th>
                 @endforeach
-                
+
                 <h5>Tableau de la serre</h5>
                 <table style='border:1px solid black;'>
                         <tr style="font-weight: bold;">
@@ -38,7 +38,7 @@
                             <th>Détails</th>
                         </tr>
                     @foreach($zone as $zones)
-                        <tr>
+                        <tr scope="row">
                             <th>{{ $zones->idZone }}</th>
                             <th>{{ $zones->name }}</th>
                             <th>{{ $zones->description }}</th>

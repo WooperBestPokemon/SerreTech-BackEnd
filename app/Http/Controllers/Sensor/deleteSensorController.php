@@ -12,6 +12,6 @@ class deleteSensorController extends Controller
         $data = Sensor::findorFail($idSensor);
         $data->delete();
 
-        return redirect('/admin/gestion');
+        return redirect('/admin/sensor/list');
     }
 }

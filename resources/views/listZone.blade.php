@@ -125,57 +125,59 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group">
-                    @if($user->role == 'admin' || $user->permission >= '3')
-                        <h3>Informations de la nouvelle serre</h3>
-                        <form action = "{{route("addgreenhousePost")}}" method = "post">
-                            @csrf
-                            @method("POST")
-                            <label>Nom : </label>
-                            <input class="form-control" required maxlength='200' type="text" id="name" name="name"><br>
-
-                            <label>Description : </label>
-                            <input class="form-control" type="text" maxlength='200' id="description" name="description"><br>
-
-
-                            <label>Image :</label>
-                            <input class="form-control" href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
-                            <br>
-                            <input class="btn btn-default" type='submit' value="Ajouter"/>
-                        </form>
+                    <div>
+                        <h3>Liste des zones</h3>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Type de plante</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
+                            </tr>
+                            </thead>
+                            @foreach($zone as $zones)
+                                <tr scope="row">
+                                    <th>{{ $zones["name"] }}</th>
+                                    <th>{{ $zones["description"] }}</th>
+                                    <th>{{ $zones["typeFood"] }}</th>
+                                    @if($user->role == 'admin' || $user->permission >= '2')
+                                        <th><a href="{{route('editzone',$zones["idZone"])}}">Modifier</a></th>
+                                    @endif
+                                    @if($user->role == 'admin')
+                                        <th><form action="{{route('deletezone',$zones["idZone"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-danger" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                                        @endif
+                                </tr>
+                            @endforeach
+                        </table>
                     </div>
                 </div>
-                @else
-                    <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
-                    <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</­a>
-                @endif
+            </div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+
+                                </a>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Cegep Serre-Tech</a>
+                    </p>
                 </div>
-            </div>
+            </footer>
+
         </div>
-
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
-                <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Cegep Serre-Tech</a>
-                </p>
-            </div>
-        </footer>
-
     </div>
-</div>
-@else
-    <p>Vous n'avez pas les permissions requises afin d'acceder a ce site</p>
+    @else
+        <p>Vous n'avez pas les permissions requises afin d'acceder a ce site</p>
 @endif
 
 </body>
@@ -190,4 +192,3 @@
 <!--  Notifications Plugin    -->
 <script src="{{asset('assets/js/bootstrap-notify.js')}}"></script>
 </html>
-

@@ -39,7 +39,7 @@ class NotificationController extends Controller
             ]);
         }
         //dd($notification);
-        return view('viewNotification',["notification" => $notification]);
+        return view('gestion',["notification" => $notification, 'user' => $user]);
     }
 
 }

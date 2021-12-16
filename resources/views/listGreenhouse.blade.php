@@ -125,30 +125,30 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="form-group">
-                    @if($user->role == 'admin' || $user->permission >= '3')
-                        <h3>Informations de la nouvelle serre</h3>
-                        <form action = "{{route("addgreenhousePost")}}" method = "post">
-                            @csrf
-                            @method("POST")
-                            <label>Nom : </label>
-                            <input class="form-control" required maxlength='200' type="text" id="name" name="name"><br>
-
-                            <label>Description : </label>
-                            <input class="form-control" type="text" maxlength='200' id="description" name="description"><br>
-
-
-                            <label>Image :</label>
-                            <input class="form-control" href="#" name="img" type="url" placeholder="Url du produit" maxlength='999'>
-                            <br>
-                            <input class="btn btn-default" type='submit' value="Ajouter"/>
-                        </form>
-                    </div>
-                </div>
-                @else
-                    <p>Vous n'avez pas les permissions requises afin d'acceder a cette page</p>
-                    <a style="text-decoration: underline;" href="{{route("admin")}}">Retour a l'acceuil</­a>
-                @endif
+                    <div>
+                                <h3>Liste des serres</h3>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col"></th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                    </thead>
+                                    @foreach($greenhouse as $greenhouses)
+                                        <tr scope="row">
+                                            <th>{{ $greenhouses["name"] }}</th>
+                                            <th>{{ $greenhouses["description"] }}</th>
+                                            @if($user->role == 'admin' || $users["permission"] >= '2')
+                                                <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
+                                            @endif
+                                            @if($user->role == 'admin')
+                                                <th><form action="{{route('deletegreenhouse',$greenhouses["idGreenHouse"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-danger" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                </table>
                 </div>
             </div>
         </div>
@@ -190,4 +190,3 @@
 <!--  Notifications Plugin    -->
 <script src="{{asset('assets/js/bootstrap-notify.js')}}"></script>
 </html>
-

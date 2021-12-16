@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\GreenHouse;
 use App\Models\Sensor;
 use App\Models\Zone;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
-class gestionController extends Controller
+class viewSensor extends Controller
 {
     public function index(){
         $user = Auth::user();
@@ -62,42 +60,6 @@ class gestionController extends Controller
             }
         }
 
-        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user]);
-    }
-
-
-    public function employe(){
-        $user = Auth::user();
-        $employes = [] ;
-        foreach(User::where('idCompany','=',$user->idCompany)->get() as $employe) {
-            array_push($employes, [
-                "idProfile" =>$employe->getAttributes()["idProfile"],
-                "name" =>$employe->getAttributes()["name"],
-                "email" =>$employe->getAttributes()["email"],
-                "role" =>$employe->getAttributes()["role"],
-                "idCompany" =>$employe->getAttributes()["idCompany"],
-            ]);
-        }
-
-        return view('viewEmploye',['user' => $user, 'employe' => $employes]);
-    }
-
-    public function indexWelcome(){
-        $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"]
-            ]);
-        }
-
-
-        return view('welcome',['user' => $users]);
+        return view('listSensor',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user]);
     }
 }

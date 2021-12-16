@@ -5,7 +5,7 @@
     <link rel="icon" type="image/png" href="{{asset('assets/img/favicon.ico')}}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Light Bootstrap Dashboard by Creative Tim</title>
+    <title>Cegep Serre-Tech Admin Panel</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
@@ -40,39 +40,42 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <img src="{{asset('assets/img/logo1.png')}}" class="img-fluid" alt="Responsive image" style="padding-left:85px">
+                <img src="{{asset('assets/img/logo1.png')}}" class="img-fluid" alt="Responsive image" style="padding-left:85px"></br>
+                <label style="padding-left:80px; font-weight:normal;">{{ $user->name }}</label>
             </div>
-
+            @if($user->role == 'admin' || $user->permission >= '1')
             <ul class="nav">
                 <li class="active">
-                    <a href="dashboard.html">
-                        <i class="pe-7s-monitor"></i>
-                        <p>Dashboard</p>
+                    <a href="{{route("admin")}}">
+                    <i class="pe-7s-monitor"></i>
+                    <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="dashboard.html">
-                        <i class="pe-7s-leaf"></i>
-                        <p>Serres</p>
+                    <a href="{{route("adminGreenHouse")}}">
+                    <i class="pe-7s-leaf"></i>
+                    <p>Serres</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="dashboard.html">
-                        <i class="pe-7s-ticket"></i>
-                        <p>Zones</p>
+                    <a href="{{route("adminZone")}}">
+                    <i class="pe-7s-ticket"></i>
+                    <p>Zones</p>
                     </a>
                 </li>
                 <li class="active">
-                    <a href="dashboard.html">
-                        <i class="pe-7s-usb"></i>
-                        <p>Capteurs</p>
+                    <a href="{{route("adminSensor")}}">
+                    <i class="pe-7s-usb"></i>
+                    <p>Capteurs</p>
                     </a>
                 </li>
+                @if( $user->role == 'admin' || $users->permission >= '4')
                 <li class="active">
-                    <a href="dashboard.html">
+                    <a href="{{route('employe')}}">
                         <i class="pe-7s-users"></i>
                         <p>Gestion utilisateurs</p>
                     </a>
+                    @endif
                 </li>
 
             </ul>
@@ -89,9 +92,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <button type="button" class="btn btn-default btn-sml btn-round" href="#"><i class="pe-7s-leaf"></i> Ajouter Serre</button>
-                    <button type="button" class="btn btn-default btn-sml btn-round" href="#"><i class="pe-7s-ticket"></i> Ajouter Zone</button>
-                    <button type="button" class="btn btn-default btn-sml btn-round" href="#"><i class="pe-7s-usb"></i> Ajouter Capteur</button>
+                    @if( $user->role == 'admin' ||$users->permission >= '3')
+                    <button type="button" class="btn btn-info btn-sml btn-round"><i class="pe-7s-leaf"></i><a  href="{{route('addgreenhouse')}}"> Ajouter Serre</a></button>
+                    <button type="button" class="btn btn-info btn-sml btn-round"><i class="pe-7s-ticket"></i><a  href="{{route('addzone')}}"> Ajouter Zone</a></button>
+                    <button type="button" class="btn btn-info btn-sml btn-round"><i class="pe-7s-usb"></i><a  href="{{route('addsensor')}}"> Ajouter Capteur</a></button>
+                    @endif
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -109,9 +114,7 @@
                                 <a class="dropdown-item" href="#">Another notification</a>
                             </ul>
                         <li>
-                            <a href="">
-                                Log out
-                            </a>
+                            @include('layouts.logout')
                         </li>
                     </ul>
                 </div>
@@ -122,51 +125,61 @@
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <table class="table">
-                        <tr style="font-weight: bold;">
-                            <th>ID</th>
-                            <th>NOM</th>
-                            <th>description</th>
-
-                            <th></th>
-                        </tr>
-                        @foreach($greenhouse as $greenhouses)
+                    <div>
+                        <h3>Liste des capteurs</h3>
+                        <table class="table table-hover">
+                            <thead>
                             <tr>
-                                <th>{{ $greenhouses["idGreenHouse"] }}</th>
-                                <th>{{ $greenhouses["name"] }}</th>
-                                <th>{{ $greenhouses["description"] }}</th>
-                                {{--                            <th><a href='/serre/{{ $greenhouses["idGreenHouse"] }}'>Detail</a></th>--}}
-                                <th><a href="{{route('editgreenhouse',$greenhouses["idGreenHouse"])}}">Modifier</a></th>
-                                <th><form action="{{route('deletegreenhouse',$greenhouses["idGreenHouse"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-default" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Type de données</th>
+                                <th scope="col"></th>
+                                <th scope="col"></th>
                             </tr>
-                        @endforeach
-                    </table>
+                            </thead>
+                            @foreach($sensor as $sensors)
+                                <tr>
+                                    <th>{{ $sensors["name"] }}</th>
+                                    <th>{{ $sensors["description"]  }}</th>
+                                    <th>{{ $sensors["typeData"]  }}</th>
+
+                                    @if($user->role == 'admin' || $user->permission >= '2')
+                                        <th><a href="{{route('editsensor',$sensors["idSensor"])}}">Modifier</a></th>
+                                    @endif
+                                    @if($user->role == 'admin')
+                                        <th><form action="{{route('deletesensor',$sensors["idSensor"])}}" method="post" onclick="return confirm('Êtes-vous sur?')"><input class="btn btn-danger" type="submit" value="Effacer" /> @method('delete') @csrf </form></th>
+                                        @endif
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                 </div>
             </div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a href="#">
+
+                                </a>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
+                        &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Cegep Serre-Tech</a>
+                    </p>
+                </div>
+            </footer>
+
         </div>
-
-
-        <footer class="footer">
-            <div class="container-fluid">
-                <nav class="pull-left">
-                    <ul>
-                        <li>
-                            <a href="#">
-
-                            </a>
-                        </li>
-
-                    </ul>
-                </nav>
-                <p class="copyright pull-right">
-                    &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Cegep Serre-Tech</a>
-                </p>
-            </div>
-        </footer>
-
     </div>
-</div>
-
+    @else
+    <p>Vous n'avez pas les permissions requises afin d'acceder a ce site</p>
+    @endif
 
 </body>
 
