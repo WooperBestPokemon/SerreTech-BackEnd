@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GreenHouse\{addGreenHouseController, deleteGreenHouseController, editGreenhouseController};
 use App\Http\Controllers\Sensor\{addSensorController, deleteSensorController, editSensorController};
 use App\Http\Controllers\Zone\{addZoneController, deleteZoneController,editZoneController};
-use App\Http\Controllers\{gestionController,NotificationController};
+use App\Http\Controllers\{gestionController, NotificationController, viewGreenhouse, viewSensor, viewZone};
 use App\Http\Controllers\Company\addCompanyController;
 use App\Http\Controllers\Employe\{addEmployeController, deleteEmployeController,editEmployeController};
 //use App\Http\Controllers\Auth\VerificationController;
@@ -39,9 +39,15 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get("/admin",[gestionController::class, 'index'])->name("admin");
+    Route::get("/admin",[NotificationController::class, "GetNotification"])->name("admin");
 
     Route::get("/admin/gestion",gestionController::class)->name("adminGestion");
+
+    Route::get("/admin/greenhouse/list",viewGreenhouse::class)->name("adminGreenHouse");
+
+    Route::get("/admin/zone/list",viewZone::class)->name("adminZone");
+
+    Route::get("/admin/sensor/list",viewSensor::class)->name("adminSensor");
     /*x
     |--------------------------------------------------------------------------
     | Admin Greenhouse
@@ -117,6 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', function (){return redirect("admin");})->name('home2');
 
     Route::get('/', function (){return redirect("admin");})->name('home');
+
 });
 /*
 |--------------------------------------------------------------------------
@@ -126,6 +133,4 @@ Route::middleware('auth')->group(function () {
 //
 
 Auth::routes();
-
-
 

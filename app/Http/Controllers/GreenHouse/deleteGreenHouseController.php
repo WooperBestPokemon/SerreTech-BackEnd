@@ -12,6 +12,6 @@ class deleteGreenHouseController extends Controller
         $data = GreenHouse::findorFail($idGreenhouse);
         $data->delete();
 
-        return redirect('/admin/gestion');
+        return redirect('/admin/greenhouse/list');
     }
 }

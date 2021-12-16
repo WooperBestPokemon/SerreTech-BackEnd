@@ -7,7 +7,7 @@
         <div class="col-md-8" align="center">
             <div class="card">
 
-                <img style="width: 200px;" src="https://cdn.discordapp.com/attachments/481230407933755409/891021680602910751/Items.png" alt="Logo best team">
+                <img style="width: 200px;" src="{{asset('assets/img/logologin.png')}}" alt="Logo best team">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
 

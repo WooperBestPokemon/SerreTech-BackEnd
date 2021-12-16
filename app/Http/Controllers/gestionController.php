@@ -68,20 +68,8 @@ class gestionController extends Controller
 
     public function employe(){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
         $employes = [] ;
-        foreach(User::where('idCompany','=',$users[0]['idCompany'])->get() as $employe) {
+        foreach(User::where('idCompany','=',$user->idCompany)->get() as $employe) {
             array_push($employes, [
                 "idProfile" =>$employe->getAttributes()["idProfile"],
                 "name" =>$employe->getAttributes()["name"],
@@ -91,7 +79,7 @@ class gestionController extends Controller
             ]);
         }
 
-        return view('viewEmploye',['user' => $users, 'employe' => $employes]);
+        return view('viewEmploye',['user' => $user, 'employe' => $employes]);
     }
 
     public function indexWelcome(){
