@@ -31,7 +31,7 @@ class CreateDatabaseTable extends Migration
             $table->id("idZone")->autoIncrement();
             $table->string('name');
             $table->string('description');
-            $table->int('typeFood');
+            $table->integer('typeFood');
             $table->string('img')->nullable();
             $table->boolean('water')->default(0);
             $table->timestamps();
