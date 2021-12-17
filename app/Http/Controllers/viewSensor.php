@@ -59,7 +59,7 @@ class viewSensor extends Controller
                 ]);
             }
         }
-
-        return view('listSensor',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('listSensor',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

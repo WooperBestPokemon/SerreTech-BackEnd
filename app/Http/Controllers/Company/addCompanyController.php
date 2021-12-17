@@ -54,6 +54,7 @@ class addCompanyController extends Controller
             'idCompany'=> $idCompanys,
 
         ]);
+
         return redirect('/admin');
 
      }

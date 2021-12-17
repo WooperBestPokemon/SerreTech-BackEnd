@@ -14,8 +14,8 @@ class addGreenhouseController extends Controller
 {
     public function index(){
         $user = Auth::user();
-
-        return view('addGreenhouse',['user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('addGreenhouse',['user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 
     public function insert(Request $request) {
@@ -39,6 +39,7 @@ class addGreenhouseController extends Controller
      public function __invoke(){
 
         $user = Auth::user();
-        return view('addGreenhouse',['user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('addGreenhouse',['user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

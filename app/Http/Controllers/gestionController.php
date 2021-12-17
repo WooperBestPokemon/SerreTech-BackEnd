@@ -61,8 +61,8 @@ class gestionController extends Controller
                 ]);
             }
         }
-
-        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 
 
@@ -78,8 +78,8 @@ class gestionController extends Controller
                 "idCompany" =>$employe->getAttributes()["idCompany"],
             ]);
         }
-
-        return view('viewEmploye',['user' => $user, 'employe' => $employes]);
+        $notif = Controller::getActiveNotification();
+        return view('viewEmploye',['user' => $user, 'employe' => $employes, "notif" => $notif,"notifCount" => count($notif)]);
     }
 
     public function indexWelcome(){

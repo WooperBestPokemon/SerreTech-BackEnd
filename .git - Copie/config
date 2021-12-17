@@ -1,0 +1,34 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/WooperBestPokemon/SerreTech-BackEnd.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[branch "UAT"]
+	remote = origin
+	merge = refs/heads/UAT
+[branch "75-V2"]
+	remote = origin
+	merge = refs/heads/75-V2
+[branch "43-Login"]
+	remote = origin
+	merge = refs/heads/43-Login
+[branch "88-APIController"]
+	remote = origin
+	merge = refs/heads/88-APIController
+[branch "bugFix"]
+	remote = origin
+	merge = refs/heads/bugFix
+[branch "88-APIToken"]
+	remote = origin
+	merge = refs/heads/88-APIToken
+[branch "jerometest2"]
+	remote = origin
+	merge = refs/heads/jerometest2

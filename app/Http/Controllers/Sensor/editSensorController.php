@@ -50,6 +50,7 @@ class editSensorController extends Controller
 
 
         $sensors = Sensor::find($idSensor);
-        return view('editSensor',['sensors' => $sensors, 'zone' => $zones, 'user' => $user]);
+         $notif = Controller::getActiveNotification();
+        return view('editSensor',['sensors' => $sensors, 'zone' => $zones, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

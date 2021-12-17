@@ -439,7 +439,7 @@ input:focus {
 }
 
 .sidebar[data-image]:after, .sidebar.has-image:after {
-    background-image:url("http://localhost/GreenHouseTech-BackEnd/public/assets/img/sidebarleaf.png");
+    background-image:url("sidebarleaf.png");
 }
 
 .sidebar[data-color="blue"]:after {

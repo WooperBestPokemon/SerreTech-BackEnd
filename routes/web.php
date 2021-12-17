@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::get("/admin",[NotificationController::class, "GetNotification"])->name("admin");
+    Route::get("/admin",NotificationController::class)->name("admin");
 
     Route::get("/admin/gestion",gestionController::class)->name("adminGestion");
 
@@ -106,11 +106,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get("/admin/employe",[gestionController::class, 'employe'])->name("employe");
 
-    Route::get("/admin/employe/add",[addEmployeController::class,'index'])->name("addEmploye");
+    Route::get("/admin/employe/add",addEmployeController::class)->name("addEmploye");
 
     Route::post("/admin/employe/add",[addEmployeController::class,'insert'])->name("addEmployePost");
 
-    Route::get('/admin/employe/{idProfile}/edit' , [editEmployeController::class,'__invoke'])->name("editEmploye");
+    Route::get('/admin/employe/{idProfile}/edit' , editEmployeController::class)->name("editEmploye");
 
     Route::put('/admin/employe/{idProfile}/edit',[editEmployeController::class,'update'])->name("editEmployePut");
 

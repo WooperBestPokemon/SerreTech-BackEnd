@@ -52,7 +52,8 @@ class addZoneController extends Controller
         $url = 'http://apipcst.xyz/api/searchAll/plant ';
         $response = file_get_contents($url);
         $newsData = json_decode($response);
-        return view('addZone',['allPlant' => $newsData, 'user' => $user, 'greenhouse' => $greenhouses]);
+        $notif = Controller::getActiveNotification();
+        return view('addZone',['allPlant' => $newsData, 'user' => $user, 'greenhouse' => $greenhouses, "notif" => $notif,"notifCount" => count($notif)]);
     }
 
 

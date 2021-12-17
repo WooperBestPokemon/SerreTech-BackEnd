@@ -46,6 +46,7 @@ class viewZone extends Controller
 
             }
         }
-        return view('listZone',['greenhouse' => $greenhouses, 'zone' => $zones, 'user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('listZone',['greenhouse' => $greenhouses, 'zone' => $zones, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

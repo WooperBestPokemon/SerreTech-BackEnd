@@ -1,0 +1,90 @@
+0000000000000000000000000000000000000000 bf71d8457205235c5ac47943eecf3d07dddfd627 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1632140660 -0400	clone: from https://github.com/WooperBestPokemon/SerreTech-BackEnd.git
+bf71d8457205235c5ac47943eecf3d07dddfd627 8cc56275a077490207e12e1ab9a89bf7474ab4cb Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1632145676 -0400	checkout: moving from main to UAT
+8cc56275a077490207e12e1ab9a89bf7474ab4cb 7c848264f1c7904d57fe7fde3ace1ff940b7edb3 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633113833 -0400	commit: 76,75-Model,Controller-V2
+7c848264f1c7904d57fe7fde3ace1ff940b7edb3 7c848264f1c7904d57fe7fde3ace1ff940b7edb3 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633113952 -0400	checkout: moving from UAT to 75-V2
+7c848264f1c7904d57fe7fde3ace1ff940b7edb3 7c848264f1c7904d57fe7fde3ace1ff940b7edb3 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633114013 -0400	checkout: moving from 75-V2 to UAT
+7c848264f1c7904d57fe7fde3ace1ff940b7edb3 8ff9219c4c8b5a7db64fc1bb3f5ba2c5691c96bf Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633114225 -0400	commit: .env
+8ff9219c4c8b5a7db64fc1bb3f5ba2c5691c96bf 7c848264f1c7904d57fe7fde3ace1ff940b7edb3 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633114248 -0400	checkout: moving from UAT to 75-V2
+7c848264f1c7904d57fe7fde3ace1ff940b7edb3 50cd953e4639152b7438d979cdf361bfdeb1054c Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633114421 -0400	commit: .env
+50cd953e4639152b7438d979cdf361bfdeb1054c efeb4977d22aae658e59ce66d6819477acfbf462 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633114488 -0400	commit: .env
+efeb4977d22aae658e59ce66d6819477acfbf462 330f7b5b0a0e76845b8ca5352bf39fd959656b35 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633356690 -0400	pull: Fast-forward
+330f7b5b0a0e76845b8ca5352bf39fd959656b35 330f7b5b0a0e76845b8ca5352bf39fd959656b35 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1633368364 -0400	checkout: moving from 75-V2 to 43-Login
+330f7b5b0a0e76845b8ca5352bf39fd959656b35 2e2964b77ed6e400a456163a4490004ce1f613f0 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634566016 -0400	commit: 43-Login
+2e2964b77ed6e400a456163a4490004ce1f613f0 de192146b374a3e63840fddaab898da612c4919b Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634566389 -0400	commit: 43-Login
+de192146b374a3e63840fddaab898da612c4919b 52f3e5e4b4b953700d99d8670b0f070ce3b7404c Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634578637 -0400	commit: API
+52f3e5e4b4b953700d99d8670b0f070ce3b7404c 8ff9219c4c8b5a7db64fc1bb3f5ba2c5691c96bf Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634578648 -0400	checkout: moving from 43-Login to UAT
+8ff9219c4c8b5a7db64fc1bb3f5ba2c5691c96bf f32b4932b331a27f02c9825805bf7bd8f0406df9 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634578661 -0400	pull: Merge made by the 'recursive' strategy.
+f32b4932b331a27f02c9825805bf7bd8f0406df9 f32b4932b331a27f02c9825805bf7bd8f0406df9 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634578863 -0400	checkout: moving from UAT to 88-APIController
+f32b4932b331a27f02c9825805bf7bd8f0406df9 49f4b96c3927584aa4bfcd334a0c9c9b69d82455 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1634840902 -0400	commit: Api greenhouse et zones
+49f4b96c3927584aa4bfcd334a0c9c9b69d82455 99a928bb6261ede40a045f0860fb39c121f84ceb Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635773463 -0400	commit: Api controller
+99a928bb6261ede40a045f0860fb39c121f84ceb 30c6ebdf31058c0e00ade4683046ce8ef269c717 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635773732 -0400	commit: Api Test env
+30c6ebdf31058c0e00ade4683046ce8ef269c717 f32b4932b331a27f02c9825805bf7bd8f0406df9 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635774697 -0400	checkout: moving from 88-APIController to UAT
+f32b4932b331a27f02c9825805bf7bd8f0406df9 cc38000bb1e316ce9591919a07b7d05606c6f651 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635774711 -0400	pull: Fast-forward
+cc38000bb1e316ce9591919a07b7d05606c6f651 2d8116b1658af74b35fe803adebbfac3b3c02e32 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635775189 -0400	commit: Bug Fix
+2d8116b1658af74b35fe803adebbfac3b3c02e32 2d8116b1658af74b35fe803adebbfac3b3c02e32 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635775252 -0400	checkout: moving from UAT to bugFix
+2d8116b1658af74b35fe803adebbfac3b3c02e32 2d8116b1658af74b35fe803adebbfac3b3c02e32 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635775530 -0400	checkout: moving from bugFix to Uat
+2d8116b1658af74b35fe803adebbfac3b3c02e32 2d8116b1658af74b35fe803adebbfac3b3c02e32 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635775541 -0400	checkout: moving from Uat to UAT
+2d8116b1658af74b35fe803adebbfac3b3c02e32 2d8116b1658af74b35fe803adebbfac3b3c02e32 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1635775598 -0400	checkout: moving from UAT to 88-APIToken
+2d8116b1658af74b35fe803adebbfac3b3c02e32 dedb89eb2a9b90ed65d37ab89f9b25e8ce2f0fad Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1636055850 -0400	commit: Ajout Moyenne Capteur, Zone, Serre
+dedb89eb2a9b90ed65d37ab89f9b25e8ce2f0fad a41cd326308860183cc599214346905490498928 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1636061032 -0400	commit: Ajout Moyenne Capteur, Zone, Serre
+a41cd326308860183cc599214346905490498928 cd5b0cb8fe635e2a4b684d2ade46e446571c0869 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1636061186 -0400	commit (merge): Ajout Moyenne Capteur, Zone, Serre
+cd5b0cb8fe635e2a4b684d2ade46e446571c0869 a3feba3ed2e62387c7d9148e8d2620d64b676f17 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637271068 -0500	commit: Mise a jour API
+a3feba3ed2e62387c7d9148e8d2620d64b676f17 2d8116b1658af74b35fe803adebbfac3b3c02e32 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637272748 -0500	checkout: moving from 88-APIToken to UAT
+2d8116b1658af74b35fe803adebbfac3b3c02e32 5ebaf5deb30814912675b9d9d515ae7be9065ec6 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637272759 -0500	pull: Fast-forward
+5ebaf5deb30814912675b9d9d515ae7be9065ec6 a3feba3ed2e62387c7d9148e8d2620d64b676f17 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637272804 -0500	checkout: moving from UAT to 88-APIToken
+a3feba3ed2e62387c7d9148e8d2620d64b676f17 5ebaf5deb30814912675b9d9d515ae7be9065ec6 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637272954 -0500	merge UAT: Fast-forward
+5ebaf5deb30814912675b9d9d515ae7be9065ec6 862c8affe8ba60aaf775763d6bae68cfe3a5cb49 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637587770 -0500	commit: Mise a jour API
+862c8affe8ba60aaf775763d6bae68cfe3a5cb49 d1c79ccfca471b1423666ea12b61f4353e2c96a1 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637694711 -0500	commit: Mise a jour API
+d1c79ccfca471b1423666ea12b61f4353e2c96a1 5ebaf5deb30814912675b9d9d515ae7be9065ec6 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637694765 -0500	checkout: moving from 88-APIToken to UAT
+5ebaf5deb30814912675b9d9d515ae7be9065ec6 ac9d2a23df7dc73435cdd8e79a94ac078b4084c8 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637695033 -0500	pull: Fast-forward
+ac9d2a23df7dc73435cdd8e79a94ac078b4084c8 d1c79ccfca471b1423666ea12b61f4353e2c96a1 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637695058 -0500	checkout: moving from UAT to 88-APIToken
+d1c79ccfca471b1423666ea12b61f4353e2c96a1 eb3f097411c3693d49ad0ff8a7f826b59552fe2b Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1637695066 -0500	merge UAT: Merge made by the 'recursive' strategy.
+eb3f097411c3693d49ad0ff8a7f826b59552fe2b 2f01887bdd00f2031caf5a11fd73c231294924b5 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638303035 -0500	commit: Ajout graph et fix probléme moyenne
+2f01887bdd00f2031caf5a11fd73c231294924b5 ac9d2a23df7dc73435cdd8e79a94ac078b4084c8 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638476228 -0500	checkout: moving from 88-APIToken to UAT
+ac9d2a23df7dc73435cdd8e79a94ac078b4084c8 6d44ad94ec56f814a25967bdddf37d1672ae6358 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638476265 -0500	pull: Fast-forward
+6d44ad94ec56f814a25967bdddf37d1672ae6358 befe8a084ad1cb38c6d2dc77ef2d9ac3993a6d43 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638478245 -0500	checkout: moving from UAT to jerometest2
+befe8a084ad1cb38c6d2dc77ef2d9ac3993a6d43 4f8ad30877ef256804c7da23c64011889b43dba7 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638479768 -0500	commit (merge): Bug Fix Merge
+4f8ad30877ef256804c7da23c64011889b43dba7 043b480084564e50b18933e0d1275b4370951659 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480227 -0500	commit: Bug Fix Merge
+043b480084564e50b18933e0d1275b4370951659 6d44ad94ec56f814a25967bdddf37d1672ae6358 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480238 -0500	checkout: moving from jerometest2 to UAT
+6d44ad94ec56f814a25967bdddf37d1672ae6358 043b480084564e50b18933e0d1275b4370951659 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480339 -0500	checkout: moving from UAT to jerometest2
+043b480084564e50b18933e0d1275b4370951659 9d510fa1daf0108049866ed62dcf9e400d9b502f Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480527 -0500	commit: Bug Fix Merge
+9d510fa1daf0108049866ed62dcf9e400d9b502f 6d44ad94ec56f814a25967bdddf37d1672ae6358 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480565 -0500	checkout: moving from jerometest2 to UAT
+6d44ad94ec56f814a25967bdddf37d1672ae6358 2f01887bdd00f2031caf5a11fd73c231294924b5 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480843 -0500	checkout: moving from UAT to 88-APIToken
+2f01887bdd00f2031caf5a11fd73c231294924b5 9d510fa1daf0108049866ed62dcf9e400d9b502f Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638480881 -0500	checkout: moving from 88-APIToken to jerometest2
+9d510fa1daf0108049866ed62dcf9e400d9b502f 30c6ebdf31058c0e00ade4683046ce8ef269c717 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638481043 -0500	checkout: moving from jerometest2 to 88-APIController
+30c6ebdf31058c0e00ade4683046ce8ef269c717 2f01887bdd00f2031caf5a11fd73c231294924b5 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638481080 -0500	checkout: moving from 88-APIController to 88-APIToken
+2f01887bdd00f2031caf5a11fd73c231294924b5 1ee89c06d7db88646f13231d8a0fc1a0837a6c98 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638481589 -0500	commit: API
+1ee89c06d7db88646f13231d8a0fc1a0837a6c98 9d510fa1daf0108049866ed62dcf9e400d9b502f Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638481676 -0500	checkout: moving from 88-APIToken to jerometest2
+9d510fa1daf0108049866ed62dcf9e400d9b502f 8d7dd986e65fa0ef4e5ae8943120add8e5fe4d51 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638482114 -0500	commit: Bug Fix Merge
+8d7dd986e65fa0ef4e5ae8943120add8e5fe4d51 6d44ad94ec56f814a25967bdddf37d1672ae6358 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638482151 -0500	checkout: moving from jerometest2 to UAT
+6d44ad94ec56f814a25967bdddf37d1672ae6358 8d7dd986e65fa0ef4e5ae8943120add8e5fe4d51 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638482187 -0500	checkout: moving from UAT to jerometest2
+8d7dd986e65fa0ef4e5ae8943120add8e5fe4d51 ab180af984a57b05e1bf78724b4402aeb6440bb5 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638482209 -0500	commit: Bug Fix Merge
+ab180af984a57b05e1bf78724b4402aeb6440bb5 1a628b4d9e10f45296be41226795515ca8b27416 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638482507 -0500	commit: Bug Fix Merge
+1a628b4d9e10f45296be41226795515ca8b27416 ac7af00fb605b55559a9dac85851f4128297fa2e Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638484099 -0500	commit: Bug Fix Merge
+ac7af00fb605b55559a9dac85851f4128297fa2e 518730c00fc5e865de870e9e74d72aab5bb64e27 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638484196 -0500	commit: Bug Fix Merge
+518730c00fc5e865de870e9e74d72aab5bb64e27 6d44ad94ec56f814a25967bdddf37d1672ae6358 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638484247 -0500	checkout: moving from jerometest2 to UAT
+6d44ad94ec56f814a25967bdddf37d1672ae6358 91c97074d3f12860f0e57bdcb919312232f14e90 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638484365 -0500	pull: Fast-forward
+91c97074d3f12860f0e57bdcb919312232f14e90 782c8cdb8655bf22f2146235c43146e9b9fa2b96 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638485071 -0500	commit: API CHANGE
+782c8cdb8655bf22f2146235c43146e9b9fa2b96 1ee89c06d7db88646f13231d8a0fc1a0837a6c98 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638485085 -0500	checkout: moving from UAT to 88-APIToken
+1ee89c06d7db88646f13231d8a0fc1a0837a6c98 6894fe74b8e4dfc05abd446db1e3f07b9471963f Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638798895 -0500	commit (merge): 88-ApicToken
+6894fe74b8e4dfc05abd446db1e3f07b9471963f cd6f95d60ab563e469ddb20de45490f5a9c2788e Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638801406 -0500	commit: Fix bug merge
+cd6f95d60ab563e469ddb20de45490f5a9c2788e a2588d8b80cad859398467c1e916f5a8131377b4 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1638894569 -0500	commit: Mise en prod
+a2588d8b80cad859398467c1e916f5a8131377b4 6a40f29264e99a8f8c59e6927382eef9804c66d5 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639075170 -0500	commit: Bug fix
+6a40f29264e99a8f8c59e6927382eef9804c66d5 782c8cdb8655bf22f2146235c43146e9b9fa2b96 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639075202 -0500	checkout: moving from 88-APIToken to UAT
+782c8cdb8655bf22f2146235c43146e9b9fa2b96 bbea4ca19906dfa923de35fff09be1353bfaafbc Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639075296 -0500	pull: Fast-forward
+bbea4ca19906dfa923de35fff09be1353bfaafbc 6a40f29264e99a8f8c59e6927382eef9804c66d5 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639075331 -0500	checkout: moving from UAT to 88-APIToken
+6a40f29264e99a8f8c59e6927382eef9804c66d5 bbea4ca19906dfa923de35fff09be1353bfaafbc Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639075358 -0500	merge UAT: Fast-forward
+bbea4ca19906dfa923de35fff09be1353bfaafbc 3647f66768ce7077acb8659180858be5a1785369 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639077063 -0500	commit: Bug FIX
+3647f66768ce7077acb8659180858be5a1785369 4c093ed13f4c901b41e5c7a2c393dd938a31576b Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639077358 -0500	commit: Bug FIX
+4c093ed13f4c901b41e5c7a2c393dd938a31576b cbeffa15fccfadda458c3f58e9f3d726111aab46 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639077393 -0500	pull: Merge made by the 'recursive' strategy.
+cbeffa15fccfadda458c3f58e9f3d726111aab46 bbea4ca19906dfa923de35fff09be1353bfaafbc Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639077451 -0500	checkout: moving from 88-APIToken to UAT
+bbea4ca19906dfa923de35fff09be1353bfaafbc 5d6afb8b0badee742daabbdae50ee69a580156f9 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639077462 -0500	pull: Fast-forward
+5d6afb8b0badee742daabbdae50ee69a580156f9 33f44dda3c2cfdf19612cfce4a29791e67434209 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639079042 -0500	commit: Bug Fix
+33f44dda3c2cfdf19612cfce4a29791e67434209 bb5900fcb11a7c4b83cf42595f0618216f335dd3 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639079189 -0500	commit: Bug Fix
+bb5900fcb11a7c4b83cf42595f0618216f335dd3 1748674977b402a9736e852f548b375c52e6d5a2 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639402128 -0500	commit: Bug Fix
+1748674977b402a9736e852f548b375c52e6d5a2 2158a956a755c7a163140da446349c93db52cc5c Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639402589 -0500	commit (merge): Bug Fix
+2158a956a755c7a163140da446349c93db52cc5c 18ba6b2bfbf0e2cdf4552b4f77e983c0a0d5f527 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639409301 -0500	commit: Bug Fix
+18ba6b2bfbf0e2cdf4552b4f77e983c0a0d5f527 a4c0a2c4f0c1d1a0d8ac5fe88031108b192fecbc Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639409319 -0500	pull: Merge made by the 'recursive' strategy.
+a4c0a2c4f0c1d1a0d8ac5fe88031108b192fecbc 33bdff90242b7422f8d1f198d88bba920c9e4bf4 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639413283 -0500	commit: Bug Fix
+33bdff90242b7422f8d1f198d88bba920c9e4bf4 99c496fba2e2a76f91802caf7a5769c3a24a99c0 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639417115 -0500	commit: Bug FIx
+99c496fba2e2a76f91802caf7a5769c3a24a99c0 bf01538b4d169e2e95ab603a806b0c9bafbf6965 Mathieu Bienvenu <1930528@etu.cegepjonquiere.ca> 1639687246 -0500	pull: Fast-forward

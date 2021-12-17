@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\Hash;
 
 class addEmployeController extends Controller
 {
-    public function index(){
+    public function __invoke(){
         $user = Auth::user();
-        return view('addEmploye',['user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('addEmploye',['user' => $user,"notif" => $notif,"notifCount" => count($notif)]);
     }
 
     public function insert(Request $request) {
@@ -38,9 +39,4 @@ class addEmployeController extends Controller
 
      }
 
-     public function __invoke(){
-
-
-        return view('addEmploye');
-    }
 }

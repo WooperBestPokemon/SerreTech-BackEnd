@@ -61,6 +61,27 @@ class Controller extends BaseController
             return false;
         }
     }
+    public function getActiveNotification(){
+        $user = Auth::user();
+        $notifs = DB::table("tblnotification")
+            ->leftjoin('tblSensor','tblnotification.idSensor','=','tblSensor.idSensor')
+            ->leftjoin('tblZone','tblZone.idZone','=','tblSensor.idZone')
+            ->leftjoin('tblGreenHouse','tblGreenHouse.idGreenHouse','=','tblZone.idGreenHouse')
+            ->select('tblnotification.idSensor','tblnotification.description' , 'tblnotification.codeErreur' , 'tblnotification.alerteStatus')
+            ->where('idCompany' ,'=',$user->idCompany)
+            ->where('alerteStatus' , '=', 0)->get();
+
+        $Notifications = [];
+        foreach ($notifs as $notif) {
+            array_push($Notifications, [
+                "idSensor" => $notif->idSensor,
+                "description" => $notif->description,
+                "codeErreur" => $notif->codeErreur,
+                "alerteStatus" => $notif->alerteStatus,
+            ]);
+        }
+        return $Notifications;
+    }
 }
 
 

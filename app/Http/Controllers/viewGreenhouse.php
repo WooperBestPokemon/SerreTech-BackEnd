@@ -30,6 +30,7 @@ class viewGreenhouse extends Controller
                 "idCompany" => $greenhouse->getAttributes()["idCompany"],
             ]);
         }
-        return view('listGreenhouse',['greenhouse' => $greenhouses, 'user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('listGreenhouse',['greenhouse' => $greenhouses, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }
