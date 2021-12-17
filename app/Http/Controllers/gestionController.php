@@ -61,27 +61,15 @@ class gestionController extends Controller
                 ]);
             }
         }
-
-        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('viewGestion',['greenhouse' => $greenhouses, 'zone' => $zones, 'sensor' => $sensors, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 
 
     public function employe(){
         $user = Auth::user();
-        $idProfile = Auth::id();
-        $users = [] ;
-        foreach(User::where('idProfile','=',$idProfile)->get() as $user) {
-            array_push($users, [
-                "idProfile" =>$user->getAttributes()["idProfile"],
-                "name" =>$user->getAttributes()["name"],
-                "email" =>$user->getAttributes()["email"],
-                "role" =>$user->getAttributes()["role"],
-                "idCompany" =>$user->getAttributes()["idCompany"],
-                "permission" =>$user->getAttributes()["permission"],
-            ]);
-        }
         $employes = [] ;
-        foreach(User::where('idCompany','=',$users[0]['idCompany'])->get() as $employe) {
+        foreach(User::where('idCompany','=',$user->idCompany)->get() as $employe) {
             array_push($employes, [
                 "idProfile" =>$employe->getAttributes()["idProfile"],
                 "name" =>$employe->getAttributes()["name"],
@@ -90,8 +78,8 @@ class gestionController extends Controller
                 "idCompany" =>$employe->getAttributes()["idCompany"],
             ]);
         }
-
-        return view('viewEmploye',['user' => $users, 'employe' => $employes]);
+        $notif = Controller::getActiveNotification();
+        return view('viewEmploye',['user' => $user, 'employe' => $employes, "notif" => $notif,"notifCount" => count($notif)]);
     }
 
     public function indexWelcome(){

@@ -47,6 +47,7 @@ class editZoneController extends Controller
          $url = 'http://apipcst.xyz/api/searchAll/plant ';
          $response = file_get_contents($url);
          $newsData = json_decode($response);
-        return view('editZone',['greenhouse' => $greenhouses, 'zones' => $zones,'allPlant' => $newsData,'user' => $user]);
+         $notif = Controller::getActiveNotification();
+        return view('editZone',['greenhouse' => $greenhouses, 'zones' => $zones,'allPlant' => $newsData,'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

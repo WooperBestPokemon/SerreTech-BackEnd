@@ -28,7 +28,8 @@ class editEmployeController extends Controller
     public function __invoke($idProfile){
         $users = Auth::user();
         $users2 = User::find($idProfile);
-        return view('editEmploye',['user' => $users,'user2' => $users2]);
+        $notif = Controller::getActiveNotification();
+        return view('editEmploye',['user' => $users,'user2' => $users2,"notif" => $notif,"notifCount" => count($notif)]);
 
     }
 }

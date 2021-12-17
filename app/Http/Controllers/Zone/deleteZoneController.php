@@ -12,6 +12,6 @@ class deleteZoneController extends Controller
         $data = Zone::findorFail($idZone);
         $data->delete();
 
-        return redirect('/admin/gestion');
+        return redirect('/admin/zone/list');
     }
 }

@@ -50,6 +50,7 @@ class addSensorController extends Controller
                 "idGreenHouse" => $data2->idGreenHouse
             ]);
         }
-        return view('addSensor',['zone' => $zones, 'user' => $user]);
+        $notif = Controller::getActiveNotification();
+        return view('addSensor',['zone' => $zones, 'user' => $user, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

@@ -28,6 +28,7 @@ class editGreenhouseController extends Controller
 
      public function __invoke($idGreenhouse){
         $users = Auth::user();
-        return view('editGreenhouse',GreenHouse::find($idGreenhouse)->getAttributes(),['user' => $users]);
+         $notif = Controller::getActiveNotification();
+        return view('editGreenhouse',GreenHouse::find($idGreenhouse)->getAttributes(),['user' => $users, "notif" => $notif,"notifCount" => count($notif)]);
     }
 }

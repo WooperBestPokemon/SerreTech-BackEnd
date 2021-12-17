@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Notification;
 use Illuminate\Http\Request;
+//use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class NotificationController extends Controller
 {
-
-    public function GetNotification(){
+    public function __invoke(){
 
         // Recupere l'utilisateur qui est logger
         $user = Auth::user();
@@ -42,8 +43,9 @@ class NotificationController extends Controller
                 "terminer"=> $this::end($alerte->created_at,$alerte->updated_at),
             ]);
         }
+        $notif = Controller::getActiveNotification();
         //dd($notification);
-        return view('viewNotification',["notification" => $notification]);
+        return view('gestion',["notification" => $notification, 'user' => $user, "notif" => $notif,"notifCount" => count($notif) ]);
     }
     public  function end($debut,$fin){
         if($debut == $fin){

@@ -98,7 +98,7 @@ class PiController extends Controller
             else{
                 $status = 1;
             }
-            
+
             if($status == 0){
                 if($typeData[0] == "temperature" && ($data['data'] >= $veggie_data["favorableConditions"][0]["min"] && $data['data'] <= $veggie_data["favorableConditions"][0]["max"])) {
                     $notification->alerteStatus = 1;
