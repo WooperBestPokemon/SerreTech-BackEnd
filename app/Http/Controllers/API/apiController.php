@@ -509,7 +509,7 @@ class apiController extends Controller
         $notifs = DB::table("tblnotification")
             ->select('tblnotification.idSensor','tblnotification.description' , 'tblnotification.codeErreur' , 'tblnotification.alerteStatus')
             ->where('tblnotification.idSensor' ,'=' , $idSensor)
-            ->where('tblnotification.alerteStatus' , '=', true)->get();
+            ->where('tblnotification.alerteStatus' , '=', false)->get();
         $Notifications = [];
         foreach ($notifs as $notif) {
             array_push($Notifications, [
